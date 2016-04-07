@@ -1,0 +1,342 @@
+﻿<UserControl x:Class="VisualProgrammer.DesignerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:controls="clr-namespace:VisualProgrammer.Controls"
+             xmlns:views="clr-namespace:VisualProgrammer.Views"
+             xmlns:viewsDesigner="clr-namespace:VisualProgrammer.Views.Designer"
+             xmlns:viewsToolbox="clr-namespace:VisualProgrammer.Views.Toolbox"
+             xmlns:viewmodel="clr-namespace:VisualProgrammer.ViewModels"
+             xmlns:viewmodelDesigner="clr-namespace:VisualProgrammer.ViewModels.Designer"
+             xmlns:viewmodelToolbox="clr-namespace:VisualProgrammer.ViewModels.Toolbox"
+             xmlns:adorners="clr-namespace:VisualProgrammer.Controls.Adorners"
+             xmlns:utils="clr-namespace:VisualProgrammer.Utilities"
+             xmlns:converter="clr-namespace:VisualProgrammer.Utilities.Converter"
+             xmlns:dropdown="clr-namespace:VisualProgrammer.Controls.Dropdowns"
+             xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             MinHeight="450"
+             MinWidth="750"
+             >
+
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+
+            <!--
+            Defien the visual style for the ToolboxItems
+            -->
+
+            <DataTemplate 
+                DataType="{x:Type viewmodelToolbox:ToolboxItemViewModel}">
+
+                <Image Source="{Binding ImageSource}"/>
+
+            </DataTemplate>
+
+            <!-- 
+            Define the visual style for a 'ConnectorItem'.
+            -->
+            <Style 
+                TargetType="{x:Type viewsDesigner:ConnectorItem}"
+                >
+                <!-- 
+                Data-binding for the connector hotspot.
+                ConnectorItem automatically computes its center points and assings this value
+                to the 'Hotspot' property.  This data-binding then 'pushes' the value into the application
+                view-model.
+                -->
+                <Setter 
+                    Property="Hotspot"
+                    Value="{Binding Hotspot, Mode=OneWayToSource}"
+                    />
+
+                <!-- The visual template. -->
+                <Setter 
+                    Property="Template"
+                    >
+                    <Setter.Value>
+                        <ControlTemplate 
+                            TargetType="{x:Type viewsDesigner:ConnectorItem}"
+                            >
+                            <!-- The visual for the connector. -->
+                            <Rectangle
+                                Fill="{StaticResource connectorBackgroundBrush}"
+                                />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- 
+            Data-template for ConectionViewModel.
+            
+            Note that the 'Start' and 'End' of the arrow are bound to 'SourceConnectorHotspot' and 'DestConnectorHotspot' in 
+            the view-model.
+
+            In this sample a curved arrow represents connections between nodes.
+            -->
+            <DataTemplate
+                DataType="{x:Type viewmodelDesigner:ConnectionViewModel}"
+                >
+
+                <!-- The connection is represented by a curved arrow. -->
+                <controls:ConnectionLink
+                        LineColor="{StaticResource connectionBrush}"
+                        LineThickness="2"
+                        Points="{Binding Points}"
+                        Opacity="{Binding Opacity}"
+                        Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}"
+                        />
+            </DataTemplate>
+
+            <!-- Define a data-template for the 'NodeViewModel' class. -->
+            <DataTemplate
+                DataType="{x:Type viewmodelDesigner:ServoMoveNodeViewModel}"
+                >
+
+                <Canvas Height="154" Width="160" Opacity="{Binding Opacity}" Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}">
+                    <Image Width="128" Height="128" Source="Resources/Images/servomove-node.png" Canvas.Left="16" Canvas.Top="13"/>
+
+                    <!-- Servo Number -->
+                    <adorners:AdornedControl
+                            Width="25"
+                            Height="20"
+                            Data="{Binding Servo, Mode=TwoWay}"
+                            Canvas.Left="40"
+                            Canvas.Top="120"
+                            >
+
+                        <controls:PropertyEditor
+                            Width="{Binding Path=Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
+                            Height="{Binding Path=Height, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
+                            Text="{Binding Path=Data, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl} }, Converter={StaticResource stringToServoNumberConverter}, Mode=OneWay}"/>
+
+                        <adorners:AdornedControl.AdornerContent>
+                            <dropdown:SelectionDropDown
+                                            Margin="-20,20,0,0"/>
+                        </adorners:AdornedControl.AdornerContent>
+
+                    </adorners:AdornedControl>
+
+                    <!-- Servo Degrees -->
+                    <adorners:AdornedControl
+                            Width="45"
+                            Height="20"
+                            Data="{Binding Degrees, Mode=TwoWay}"
+                            Canvas.Left="75"
+                            Canvas.Top="120"
+                            >
+
+                        <controls:PropertyEditor
+                            Width="{Binding Path=Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
+                            Height="{Binding Path=Height, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
+                            Text="{Binding Path=Data, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl} }, Converter={StaticResource stringToDegreesConverter}, Mode=OneWay}"/>
+
+                        <adorners:AdornedControl.AdornerContent>
+                            <dropdown:SliderDropDown
+                                            Margin="8,20,0,0"/>
+                        </adorners:AdornedControl.AdornerContent>
+
+                    </adorners:AdornedControl>
+
+                    <Grid SizeChanged="Node_SizeChanged">
+                        <Grid Margin="0,0"
+                                    >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="28" />
+                                <ColumnDefinition Width="93" />
+                                <ColumnDefinition Width="35" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="58" />
+                                <!-- spacer -->
+                                <RowDefinition Height="33" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Displays the node's input connectors. -->
+                            <ContentControl
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Content="{Binding InputConnector}"
+                    ContentTemplate="{StaticResource inputConnectorTemplate}"
+                    Focusable="False"
+                    IsHitTestVisible="False"
+                    />
+
+                            <!-- Displays the node's output connectors. -->
+                            <ContentControl
+                    Grid.Column="3"
+                    Grid.Row="1"
+                    Content="{Binding OutputConnector}"
+                    ContentTemplate="{StaticResource outputConnectorTemplate}"
+                    Focusable="False"
+                    />
+                        </Grid>
+                    </Grid>
+                </Canvas>
+            </DataTemplate>
+
+            <DataTemplate
+                DataType="{x:Type viewmodelDesigner:UARTSendNodeViewModel}">
+                <!-- This rectangle is the main visual for the node. -->
+                <Canvas Height="154" Width="160" Opacity="{Binding Opacity}" Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}">
+                    <Image Width="128" Height="128" Source="Resources/Images/UARTsend-node.png" Canvas.Left="16" Canvas.Top="13"/>
+
+                    <adorners:AdornedControl
+                            Width="80"
+                            Height="20"
+                            Data="{Binding Message, Mode=TwoWay}"
+                            Canvas.Left="40"
+                            Canvas.Top="120"
+                            >
+
+                        <controls:PropertyEditor
+                            Width="{Binding Path=Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
+                            Height="{Binding Path=Height, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
+                            Text="{Binding Path=Data, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl} }}"/>
+
+                        <adorners:AdornedControl.AdornerContent>
+                            <dropdown:MultiLineDropDown
+                                            Margin="-10,20,0,0"/>
+                        </adorners:AdornedControl.AdornerContent>
+
+                    </adorners:AdornedControl>
+
+                    <Grid SizeChanged="Node_SizeChanged">
+                        <Grid Margin="0,0"
+                                    >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="28" />
+                                <ColumnDefinition Width="93" />
+                                <ColumnDefinition Width="35" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="58" />
+                                <!-- spacer -->
+                                <RowDefinition Height="33" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Displays the node's input connectors. -->
+                            <ContentControl
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            Content="{Binding InputConnector}"
+                            ContentTemplate="{StaticResource inputConnectorTemplate}"
+                            Focusable="False"
+                            IsHitTestVisible="False"
+                            />
+
+                            <!-- Displays the node's output connectors. -->
+                            <ContentControl
+                            Grid.Column="3"
+                            Grid.Row="1"
+                            Content="{Binding OutputConnector}"
+                            ContentTemplate="{StaticResource outputConnectorTemplate}"
+                            Focusable="False"
+                            />
+                        </Grid>
+
+
+
+                    </Grid>
+                </Canvas>
+            </DataTemplate>
+
+            <!-- Define a data-template for the 'NodeViewModel' class. -->
+            <DataTemplate
+                DataType="{x:Type viewmodelDesigner:StartNodeViewModel}"
+                >
+                <!-- This rectangle is the main visual for the node. -->
+                <Grid Height="154" Width="160" Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}">
+                    <Image Width="128" Height="128" Source="Resources/Images/start-node.png" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+
+                    <!-- The margin has been selected so that the selection rect nicely covers the entire node. -->
+
+                    <Grid SizeChanged="Node_SizeChanged">
+                        <Grid Margin="0,0"
+                                    >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="28" />
+                                <ColumnDefinition Width="93" />
+                                <ColumnDefinition Width="35" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="58" />
+                                <!-- spacer -->
+                                <RowDefinition Height="33" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Displays the node's output connectors. -->
+                            <ContentControl
+                                    Grid.Column="2"
+                                    Grid.Row="1"
+                                    Content="{Binding OutputConnector}"
+                                    ContentTemplate="{StaticResource outputConnectorTemplate}"
+                                    Focusable="False"
+                                    />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
+
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <viewmodel:DesignerControlViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        
+        <ScrollViewer
+            
+            CanContentScroll="True"
+            VerticalScrollBarVisibility="Visible"
+            HorizontalScrollBarVisibility="Visible"
+            Focusable="False"
+            >
+
+            <Grid MinWidth="{Binding ContentWidth}" MinHeight="{Binding ContentWidth}">
+
+                <viewsDesigner:DesignerView
+                    x:Name="designerControl"
+                    
+                    NodesSource="{Binding Designer.Nodes}"
+                    ConnectionsSource="{Binding Designer.Connections}"
+                    TemperaryNodesSource="{Binding Designer.TemperaryNodes}"
+                    
+                    ConnectionDragStarted="designerControl_ConnectionDragStarted"
+                    ConnectionDragging="designerControl_ConnectionDragging"
+                    ConnectionDragCompleted="designerControl_ConnectionDragCompleted"
+                    
+                    NodeDragStarted="designerControl_NodeDragStarted"
+                    NodeDragging="designerControl_NodeDragging"
+                    NodeDragCompleted="designerControl_NodeDragCompleted"
+                    MouseEnter="designerControl_MouseEnter"
+                    />
+
+                <!--
+                        This Canvas and Border are used as a very simple way to render a drag rectangle that the user
+                        uses to specify an area to zoom in on.
+                        -->
+            </Grid>
+        </ScrollViewer>
+
+        <viewsToolbox:ToolboxView
+            x:Name="toolboxView"
+            Grid.Row="1"
+            ToolsSource="{Binding Toolbox.Tools}"
+            ToolboxItemDragStarted="ToolboxView_ItemDragStarted"
+            ToolboxItemDropped="ToolboxView_ItemDropped"
+            />
+
+    </Grid>
+</UserControl>
