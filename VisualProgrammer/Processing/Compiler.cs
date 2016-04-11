@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using VisualProgrammer.Processing.Commands.Compiler;
 using VisualProgrammer.Processing.Commands.Shell;
 using VisualProgrammer.Actions;
+using VisualProgrammer.Utilities.Logger;
+using VisualProgrammer.Enums;
 
 namespace VisualProgrammer.Processing
 {
@@ -15,42 +17,86 @@ namespace VisualProgrammer.Processing
         private List<string> dependencyDir = new List<string>();
         private List<string> dependencyName = new List<string>();
 
-        private ICommandShell commandShell;
         private ICompilerCommand compilerCommand;
 
-        public Compiler(List<IRobotAction> tasks, ICommandShell shell, ICompilerCommand compiler)
+        private CompileLogger _logger;
+
+        public Compiler(List<IRobotAction> tasks, ICompilerCommand compiler, CompileLogger logger)
         { 
             //Set the dependencies
             SetUpDependencies(tasks);
-            commandShell = shell;
             compilerCommand = compiler;
+            _logger = logger;
         }
 
-        public void Execute(string outputFile)
+        public bool Execute(string outputFile)
         {
-            //Set up command prompt window (should be invisible for user)
-            commandShell.Open();
-
-            //Create needed dependency directory
-            commandShell.Execute("mkdir .dep");
-
-            //Execute command for main file
-            commandShell.Execute(compilerCommand.GetCompilerCommand(outputFile, "", dependencyDir.ToArray()));
-
-            //For each dependency execute the needed command
-            for (int i = 0; i < dependencyDir.Count; i++)
+            try
             {
-                commandShell.Execute(compilerCommand.GetCompilerCommand(dependencyName[i], dependencyDir[i], dependencyDir.ToArray()));
-            }
-            
-            //Link the files together
-            commandShell.Execute(compilerCommand.GetLinkCommand(outputFile, "", dependencyDir.ToArray(), dependencyName.ToArray()));
-            
-            //Create a .hex file from linked .elf file
-            commandShell.Execute(compilerCommand.GetHexCopyCommand(outputFile, ""));
-            //Close command prompt window
+                _logger.WriteInfo("Creating dependency folder...");
+                //Create needed dependency directory
+                CommandShell.Execute("mkdir .dep");
 
-            commandShell.Close();
+                _logger.WriteInfo("Compiling main C-file...");
+
+                //Execute command for main file
+                CommandShell.Execute(compilerCommand.GetCompilerCommand(outputFile, "", dependencyDir.ToArray()));
+
+                _logger.WriteInfo("Compiling dependency files:");
+
+                //For each dependency execute the needed command
+                for (int i = 0; i < dependencyDir.Count; i++)
+                {
+                    _logger.WriteInfo(" * Compiling " + dependencyDir[i] + "/" + dependencyName[i]);
+                    CommandShell.Execute(compilerCommand.GetCompilerCommand(dependencyName[i], dependencyDir[i], dependencyDir.ToArray()));
+                }
+
+                _logger.WriteInfo("Linking compiled files...");
+                //Link the files together
+                CommandShell.Execute(compilerCommand.GetLinkCommand(outputFile, "", dependencyDir.ToArray(), dependencyName.ToArray()));
+
+                _logger.WriteInfo("Generating .hex file...");
+                //Create a .hex file from linked .elf file
+                CommandShell.Execute(compilerCommand.GetHexCopyCommand(outputFile, ""));
+
+                _logger.WriteInfo("Compiling complete");
+                //No exceptions, everything went as planed
+                return true;
+            }
+            catch(InvalidOperationException e)
+            {
+                _logger.WriteError(e.Message);
+                _logger.SetStatus(StatusType.Error);
+                //Failed to finish
+                return false;
+            }
+            catch (Exception)
+            {
+                _logger.WriteError("Compiler experienced unknown error!");
+                _logger.SetStatus(StatusType.Error);
+                //Failed to finish
+                return false;
+            }
+        }
+
+        public void CleanUp()
+        {
+            try
+            {
+                _logger.WriteInfo("Performing cleanup...");
+
+                CommandShell.Execute("rm -rf .dep");
+
+                _logger.WriteInfo("Removed .dep folder with dependency files");
+            }
+            catch(InvalidOperationException e)
+            {
+                _logger.WriteWarning(e.Message);
+            }
+            catch(Exception)
+            {
+                _logger.WriteWarning("Clean up process experienced unknown error!");
+            }
         }
 
         private void SetUpDependencies(List<IRobotAction> tasks)

@@ -4,51 +4,42 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VisualProgrammer.Utilities.Logger;
 
 namespace VisualProgrammer.Processing.Commands.Shell
 {
-    public class CommandShell : ICommandShell
+    public class CommandShell
     {
-        private Process cmdProcess;
 
-        public CommandShell() { }
-
-        public void Open() 
+        public static void Execute(string command) 
         {
-            if (cmdProcess == null)
-            {
-                cmdProcess = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.CreateNoWindow = true;
-                startInfo.FileName = "cmd.exe";
-                startInfo.UseShellExecute = false;
-                startInfo.RedirectStandardInput = true;
-                startInfo.RedirectStandardOutput = true;
-                startInfo.RedirectStandardError = true;
-                startInfo.WorkingDirectory = Environment.CurrentDirectory;
-                cmdProcess.StartInfo = startInfo;
-                cmdProcess.Start();
-            }
-        }
+            Process cmdProcess = new Process();
 
-        public void Execute(string command) 
-        {
-            if (cmdProcess != null)
-            {
-                Debug.WriteLine(command);
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.CreateNoWindow = true;
+            startInfo.UseShellExecute = false;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C " + command;
 
-                cmdProcess.StandardInput.WriteLine(command);
-                cmdProcess.StandardInput.Flush();
-            }
-        }
+            startInfo.RedirectStandardError = true;
+            startInfo.RedirectStandardInput = true;
+            startInfo.RedirectStandardOutput = true;
 
-        public void Close() 
-        {
-            if (cmdProcess != null)
+            startInfo.WorkingDirectory = Environment.CurrentDirectory;
+
+            cmdProcess.StartInfo = startInfo;
+
+            cmdProcess.Start();
+
+            //Wait for possible errors
+            string error = cmdProcess.StandardError.ReadToEnd();
+
+            cmdProcess.WaitForExit(5000);
+
+            if (!String.IsNullOrEmpty(error))
             {
-                cmdProcess.CloseMainWindow();
-                cmdProcess.Close();
-                cmdProcess = null;
+                //Trigger a execpetion to signal error to caller
+                throw new InvalidOperationException(error);
             }
         }
     }

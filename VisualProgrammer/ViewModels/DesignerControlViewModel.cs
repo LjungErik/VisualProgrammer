@@ -310,28 +310,13 @@ namespace VisualProgrammer.ViewModels
 
             //Remove 
             this.Designer.Nodes.Remove(node);
+
+            //Remove as startnode 
+            if(node is StartNodeViewModel)
+            {
+                this.Designer.StartNode = null;
+            }
         }
-
-        /// <summary>
-        /// Build the virtual program
-        /// </summary>
-        public bool PerformBuild()
-        {
-            List<IRobotAction> actions = ModelCollector.GetModels(this.Designer.StartNode);
-
-            Parser parser = new Parser(new FileWriter());
-            parser.GenrateCode(actions, "Testname.c");
-
-            Compiler compiler = new Compiler(actions,
-                            new CommandShell(), 
-                            new CompilerCommand());
-
-            compiler.Execute("Testname");
-
-
-            return false;
-        }
-
 
         #region Private Methods
 
@@ -376,14 +361,24 @@ namespace VisualProgrammer.ViewModels
 
         internal void ToolboxItemDragStarted(ToolboxItemViewModel tool)
         {
+
             //Get the node corresponding to the clicked tool
             NodeViewModel node = tool.GetNode();
             node.X = 0;
             node.Y = 0;
 
-            //Set the currently Active node (generates its size 
-            //for use later in DesignerViewMouseEnter)
-            this.Designer.NewActiveNode = node;
+            if (node is StartNodeViewModel && this.Designer.StartNode == null)
+            {
+                //Only set a startnode as active if no current
+                //startnode exists
+                this.Designer.NewActiveNode = node;
+            }
+            else if(!(node is StartNodeViewModel))
+            {
+                //Set the currently Active node (generates its size 
+                //for use later in DesignerViewMouseEnter)
+                this.Designer.NewActiveNode = node;
+            }
         }
 
         internal void ToolboxItemDropped()
@@ -402,6 +397,13 @@ namespace VisualProgrammer.ViewModels
                 this.Designer.NewActiveNode.IsPressed = true;
 
                 this.Designer.Nodes.Add(this.Designer.NewActiveNode);
+
+                //Check if the current node is a start node
+                if(this.Designer.NewActiveNode is StartNodeViewModel)
+                {
+                    //Set as the current start node
+                    this.Designer.StartNode = (StartNodeViewModel)this.Designer.NewActiveNode;
+                }
 
                 this.Designer.NewActiveNode = null;
             }

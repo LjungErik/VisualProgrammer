@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using VisualProgrammer.Processing.File;
 using VisualProgrammer.Actions;
+using VisualProgrammer.Utilities.Logger;
+using VisualProgrammer.Enums;
 
 namespace VisualProgrammer.Processing
 {
@@ -17,7 +19,9 @@ namespace VisualProgrammer.Processing
 
         private IFileWriter _fileWriter;
 
-        public Parser(IFileWriter fileWriter)
+        private CompileLogger _logger;
+
+        public Parser(IFileWriter fileWriter, CompileLogger logger)
         { 
             dependencies = new List<string>();
             preConditions = new List<string>();
@@ -25,34 +29,46 @@ namespace VisualProgrammer.Processing
             taskCalls = new List<string>();
 
             _fileWriter = fileWriter;
+            _logger = logger;
         }
 
-        public void GenrateCode(List<IRobotAction> tasks, string outputFile)
+        public void GenrateCode(List<IRobotAction> actions, string outputFile)
         {
             //Open the writer on the correect file
             _fileWriter.Open(outputFile);
 
-            foreach (var task in tasks)
+            _logger.WriteInfo("Begin parsing of robot actions...");
+
+            foreach (var action in actions)
             {
-                switch (task.GetActionType())
+                switch (action.GetActionType())
                 {
                     case "ServoMove":
-                        ServoMoveAction move = (ServoMoveAction)task;
+                        ServoMoveAction move = (ServoMoveAction)action;
                         AddDependency("#include \"ServoExtended.h\"");
                         AddPreCondition("StartServo();");
                         AddTaskCall(String.Format("MoveDegrees({0},{1});", move.Servo, move.Degrees));
                         AddPostCondition("StopServo();");
                         break;
                     case "UARTSend":
-                        UARTSendAction send = (UARTSendAction)task;
+                        UARTSendAction send = (UARTSendAction)action;
                         AddDependency("#include \"UARTLib.h\"");
                         AddPreCondition("InitUART();");
                         AddTaskCall(String.Format("Write(\"{0}\");", send.Message));
                         break;
+                    default:
+                        _logger.WriteError("Invalid action type, " + action.GetActionType());
+                        _logger.SetStatus(StatusType.Error);
+                        break;
                 }
             }
 
+            _logger.WriteInfo("Generating appropriate C-file...");
+
             WriteData(_fileWriter);
+
+            _logger.WriteInfo("C-file generated");
+
             //Dispose of the writer
             _fileWriter.Dispose();
             ClearLists();
