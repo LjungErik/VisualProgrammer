@@ -31,6 +31,7 @@ namespace VisualProgrammer.ViewModels.Toolbox
         {
             toolboxItem = new ImpObservableCollection<ToolboxItemViewModel>();
 
+            toolboxItem.Add(new StartToolboxItemViewModel());
             toolboxItem.Add(new ServoMoveToolboxItemViewModel());
             toolboxItem.Add(new UARTSendToolboxItemViewModel());
         }

@@ -6,6 +6,7 @@
     xmlns:dropdown="clr-namespace:VisualProgrammer.Controls.Dropdowns"
     >
     
+    <!-- Converters as static resources -->
     <BooleanToVisibilityConverter
         x:Key="booleanToVisibilityConverter" 
         />
@@ -20,6 +21,22 @@
     
     <converter:StringToServoNumberConverter
         x:Key="stringToServoNumberConverter"
+        />
+    
+    <converter:WriteTypeToColorConverter
+        x:Key="writeTypeToColorConverter"
+        />
+    
+    <converter:StatusTypeToColorConverter
+        x:Key="statusTypeToColorConverter"
+        />
+    
+    <converter:StatusTypeToStatusStringConverter
+        x:Key="statusTypeToStatusStringConverter"
+        />
+    
+    <converter:StatusTypeToBooleanConverter
+        x:Key="statusTypeToBooleanConverter"
         />
  
     <!-- The border brush for nodes. -->

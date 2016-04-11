@@ -31,20 +31,20 @@ namespace VisualProgrammer.Views.Designer
         public static readonly DependencyProperty HotspotProperty =
             DependencyProperty.Register("Hotspot", typeof(Point), typeof(ConnectorItem));
 
-        internal static readonly DependencyProperty ParentDesignerViewProperty =
+        public static readonly DependencyProperty ParentDesignerViewProperty =
             DependencyProperty.Register("ParentDesignerView", typeof(DesignerView), typeof(ConnectorItem),
                 new FrameworkPropertyMetadata(ParentDesignerView_PropertyChanged));
 
-        internal static readonly DependencyProperty ParentNodeItemProperty =
+        public static readonly DependencyProperty ParentNodeItemProperty =
             DependencyProperty.Register("ParentNodeItem", typeof(NodeItem), typeof(ConnectorItem));
 
-        internal static readonly RoutedEvent ConnectorDragStartedEvent =
+        public static readonly RoutedEvent ConnectorDragStartedEvent =
             EventManager.RegisterRoutedEvent("ConnectorDragStarted", RoutingStrategy.Bubble, typeof(ConnectorItemDragStartedEventHandler), typeof(ConnectorItem));
 
-        internal static readonly RoutedEvent ConnectorDraggingEvent =
+        public static readonly RoutedEvent ConnectorDraggingEvent =
             EventManager.RegisterRoutedEvent("ConnectorDragging", RoutingStrategy.Bubble, typeof(ConnectorItemDraggingEventHandler), typeof(ConnectorItem));
 
-        internal static readonly RoutedEvent ConnectorDragCompletedEvent =
+        public static readonly RoutedEvent ConnectorDragCompletedEvent =
             EventManager.RegisterRoutedEvent("ConnectorDragCompleted", RoutingStrategy.Bubble, typeof(ConnectorItemDragCompletedEventHandler), typeof(ConnectorItem));
 
         #endregion Dependency Property/Event Definitions
@@ -101,7 +101,7 @@ namespace VisualProgrammer.Views.Designer
         /// <summary>
         /// Reference to the data-bound parent DesignerView.
         /// </summary>
-        internal DesignerView ParentDesignerView
+        public DesignerView ParentDesignerView
         {
             get
             {
@@ -117,7 +117,7 @@ namespace VisualProgrammer.Views.Designer
         /// <summary>
         /// Reference to the data-bound parent NodeItem.
         /// </summary>
-        internal NodeItem ParentNodeItem
+        public NodeItem ParentNodeItem
         {
             get
             {

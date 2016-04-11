@@ -206,6 +206,10 @@ namespace VisualProgrammer
         private void buildBtnClicked(object sender, RoutedEventArgs e)
         {
             //TODO: Add code for building the real code
+            //Open compiler status window with the provided startnode
+            CompilerStatusWindow compileStatusWindow = new CompilerStatusWindow(this.ViewModel.Designer.StartNode);
+            compileStatusWindow.Owner = Window.GetWindow(this);
+            compileStatusWindow.ShowDialog();
         }
     }
 }

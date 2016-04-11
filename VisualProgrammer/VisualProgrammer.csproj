@@ -7,7 +7,7 @@
     <ProjectGuid>{3079C3C0-9CD2-41BE-BE99-F9D105ED54B6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VisualProgrammer.Processing</RootNamespace>
+    <RootNamespace>VisualProgrammer</RootNamespace>
     <AssemblyName>VisualProgrammer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -63,14 +63,24 @@
     <Compile Include="Controls\Dropdowns\SelectionDropDown.cs" />
     <Compile Include="Controls\Dropdowns\SliderDropDown.cs" />
     <Compile Include="Controls\PropertyEditor.cs" />
+    <Compile Include="Enums\StatusType.cs" />
+    <Compile Include="Enums\WriteType.cs" />
+    <Compile Include="Processing\Builder.cs" />
     <Compile Include="Utilities\AbstractModelBase.cs" />
     <Compile Include="Utilities\CollectionItemsChangedEventArgs.cs" />
+    <Compile Include="Utilities\Converter\StatusTypeToBooleanConverter.cs" />
+    <Compile Include="Utilities\Converter\StatusTypeToColorConverter.cs" />
+    <Compile Include="Utilities\Converter\StatusTypeToStatusStringConverter.cs" />
+    <Compile Include="Utilities\Converter\WriteTypeToColorConverter.cs" />
     <Compile Include="Utilities\ImpObservableCollection.cs" />
     <Compile Include="Utilities\Converter\InvertedBooleanToVisibilityConverter.cs" />
+    <Compile Include="Utilities\Logger\CompileLogger.cs" />
     <Compile Include="Utilities\ModelCollector.cs" />
     <Compile Include="Utilities\Converter\StringToDegreesConverter.cs" />
     <Compile Include="Utilities\Converter\StringToServoNumberConverter.cs" />
     <Compile Include="Utilities\WpfUtils.cs" />
+    <Compile Include="ViewModels\CompilerStatusViewModel.cs" />
+    <Compile Include="ViewModels\CompilerStatus\LogProgressViewModel.cs" />
     <Compile Include="ViewModels\DesignerControlViewModel.cs" />
     <Compile Include="ViewModels\Designer\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\Designer\ConnectorType.cs" />
@@ -78,8 +88,11 @@
     <Compile Include="ViewModels\Designer\DesignerViewModel.cs" />
     <Compile Include="ViewModels\Designer\NodeViewModel.cs" />
     <Compile Include="ViewModels\Designer\ServoMoveNodeViewModel.cs" />
+    <Compile Include="ViewModels\CompilerStatus\LogOutputViewModel.cs" />
+    <Compile Include="ViewModels\CompilerStatus\LogViewModel.cs" />
     <Compile Include="ViewModels\Toolbox\ServoMoveToolboxItemViewModel.cs" />
     <Compile Include="ViewModels\Designer\StartNodeViewModel.cs" />
+    <Compile Include="ViewModels\Toolbox\StartToolboxItemViewModel.cs" />
     <Compile Include="ViewModels\Toolbox\ToolboxItemViewModel.cs" />
     <Compile Include="ViewModels\Toolbox\ToolboxViewModel.cs" />
     <Compile Include="ViewModels\Designer\UARTSendNodeViewModel.cs" />
@@ -87,6 +100,7 @@
     <Compile Include="DesignerControl.xaml.cs">
       <DependentUpon>DesignerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CompilerStatus\LogOutputView.cs" />
     <Compile Include="Views\Designer\ConnectionDragEvents.cs" />
     <Compile Include="Views\Designer\ConnectorItem.cs" />
     <Compile Include="Views\Designer\ConnectorItemDragEvents.cs" />
@@ -101,6 +115,9 @@
     <Compile Include="Views\Toolbox\ToolboxItemControl.cs" />
     <Compile Include="Views\Toolbox\ToolboxItemEvents.cs" />
     <Compile Include="Views\Toolbox\ToolboxView.cs" />
+    <Compile Include="ComplierStatusWindow.xaml.cs">
+      <DependentUpon>ComplierStatusWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -115,7 +132,6 @@
     <Compile Include="Processing\Commands\Compiler\CompilerCommand.cs" />
     <Compile Include="Processing\Commands\Compiler\ICompilerCommand.cs" />
     <Compile Include="Processing\Commands\Shell\CommandShell.cs" />
-    <Compile Include="Processing\Commands\Shell\ICommandShell.cs" />
     <Compile Include="Processing\Compiler.cs" />
     <Compile Include="Processing\File\FileWriter.cs" />
     <Compile Include="Processing\File\IFileWriter.cs" />
@@ -133,6 +149,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="DesignerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComplierStatusWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

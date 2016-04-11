@@ -3,6 +3,7 @@
     xmlns:views="clr-namespace:VisualProgrammer.Views"
     xmlns:viewsDesigner="clr-namespace:VisualProgrammer.Views.Designer"
     xmlns:viewsToolbox="clr-namespace:VisualProgrammer.Views.Toolbox"
+    xmlns:viewsCompiler="clr-namespace:VisualProgrammer.Views.CompilerStatus"
     xmlns:controls="clr-namespace:VisualProgrammer.Controls"
     xmlns:adorners="clr-namespace:VisualProgrammer.Controls.Adorners"
     xmlns:dropdown="clr-namespace:VisualProgrammer.Controls.Dropdowns"
@@ -282,7 +283,6 @@
                         >
                         <Grid>
                             <viewsToolbox:ToolboxItemsControl
-                            x:Name="PART_ToolboxItemsControl"
                             ItemsSource="{TemplateBinding Tools}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -309,6 +309,48 @@
             </Setter.Value>
         </Setter>
         
+    </Style>
+    
+    <!--
+    CompilerStatus view Style
+    -->
+    <Style
+        TargetType="{x:Type viewsCompiler:LogOutputView}">
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type viewsCompiler:LogOutputView}">
+                    <Grid>
+                        <Border BorderBrush="LightGray" BorderThickness="2">
+                            <ScrollViewer
+                                x:Name="PART_ScrollViewer"
+                            
+                                CanContentScroll="True"
+                                VerticalScrollBarVisibility="Auto"
+                                HorizontalScrollBarVisibility="Auto"
+                                >
+                            
+                                <Grid Background="Black">
+                                    <ItemsControl
+                                        Margin="5, 0"
+                                        ItemsSource="{TemplateBinding Logs}"
+                                        >
+                                    
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel IsItemsHost="True"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    
+                                    </ItemsControl>
+                                </Grid>
+                            
+                            </ScrollViewer> 
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     
     <!--

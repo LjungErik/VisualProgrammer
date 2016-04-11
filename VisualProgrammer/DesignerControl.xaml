@@ -9,6 +9,7 @@
              xmlns:viewmodel="clr-namespace:VisualProgrammer.ViewModels"
              xmlns:viewmodelDesigner="clr-namespace:VisualProgrammer.ViewModels.Designer"
              xmlns:viewmodelToolbox="clr-namespace:VisualProgrammer.ViewModels.Toolbox"
+             xmlns:viewmodelCompiler="clr-namespace:VisualProgrammer.ViewModels.CompilerStatus"
              xmlns:adorners="clr-namespace:VisualProgrammer.Controls.Adorners"
              xmlns:utils="clr-namespace:VisualProgrammer.Utilities"
              xmlns:converter="clr-namespace:VisualProgrammer.Utilities.Converter"
@@ -292,12 +293,34 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
         
+        <Button x:Name="buildBtn" Background="Gray" Foreground="Black" Click="buildBtnClicked" FontSize="22" Content="Build" Width="Auto" Height="32" Cursor="Hand" ClickMode="Press">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border> 
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="Green"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        
         <ScrollViewer
-            
+            Grid.Row="1"
             CanContentScroll="True"
             VerticalScrollBarVisibility="Visible"
             HorizontalScrollBarVisibility="Visible"
@@ -332,7 +355,7 @@
 
         <viewsToolbox:ToolboxView
             x:Name="toolboxView"
-            Grid.Row="1"
+            Grid.Row="2"
             ToolsSource="{Binding Toolbox.Tools}"
             ToolboxItemDragStarted="ToolboxView_ItemDragStarted"
             ToolboxItemDropped="ToolboxView_ItemDropped"

@@ -40,15 +40,6 @@ namespace VisualProgrammer.Views.Toolbox
        
         #endregion Dependency Property/Event Definitions
 
-        #region Private Data Members
-
-        /// <summary>
-        /// Reference to the 
-        /// </summary>
-        private ToolboxItemsControl toolsControl = null;
-
-        #endregion Private Data Members
-
         public ToolboxView()
         {
             this.Background = Brushes.White;
@@ -134,17 +125,6 @@ namespace VisualProgrammer.Views.Toolbox
         {
             add { AddHandler(ToolboxItemDroppedEvent, value); }
             remove { RemoveHandler(ToolboxItemDroppedEvent, value); }
-        }
-
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            this.toolsControl = (ToolboxItemsControl)this.Template.FindName("PART_ToolboxItemsControl", this);
-            if(toolsControl == null)
-            {
-                throw new ArgumentException("Failed to find 'PART_ToolboxItemsControl' in visual tree for 'ToolboxView'.");
-            }
         }
 
         #region Private Methods
