@@ -34,6 +34,7 @@ uint8_t ReadEEValue(uint8_t byte)
 	return EEDR;
 }
 
+#if TEST
 /* ----------------------------------------------------- */
 // Holds the test function for the class (test the functionality)
 /* ----------------------------------------------------- */
@@ -66,3 +67,4 @@ void TestRobot(void)
 	WriteLine("");
 }
 /* ----------------------------------------------------- */
+#endif

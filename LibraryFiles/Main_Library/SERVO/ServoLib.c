@@ -54,6 +54,18 @@ void InitServos(void)
 void Power_On_Servos(void)
 {
 	PORTG |= SERVO_POWER;
+
+	Servo1_Pos = ServoPos[1];
+	_delay_ms(50);
+	Servo2_Pos = ServoPos[2];
+	_delay_ms(50);
+	Servo3_Pos = ServoPos[3];
+	_delay_ms(50);
+	Servo4_Pos = ServoPos[4];
+	_delay_ms(50);
+	Servo5_Pos = ServoPos[5];
+	_delay_ms(50);
+	Servo6_Pos = ServoPos[6];
 }
 
 void Power_Off_Servos(void)
@@ -69,10 +81,12 @@ void MoveServo(uint8_t servo, uint16_t position)
 	//Count up the current position until at the correct location
 	uint16_t currentPos = GetServoPosition(servo);
 
+	//Keep moving servo until correct position is reached
 	while (currentPos != position) 
 	{
 		int change = 0;
 
+#if DEBUG
 		Write("CurrentPos: ");
 		WriteInt(currentPos);
 		WriteLine("");
@@ -84,6 +98,7 @@ void MoveServo(uint8_t servo, uint16_t position)
 		Write("Diff: ");
 		WriteInt((position - currentPos));
 		WriteLine("");
+#endif
 
 		if ((int)(position - currentPos) < 0) 
 		{
@@ -96,9 +111,11 @@ void MoveServo(uint8_t servo, uint16_t position)
 			change = (CHANGE_RATIO < (position - currentPos) ? CHANGE_RATIO : (position - currentPos));
 		}
 
+#if DEBUG
 		Write("Change: ");
 		WriteInt(change);
 		WriteLine("");
+#endif
 
 		currentPos += change;
 
@@ -110,17 +127,6 @@ void MoveServo(uint8_t servo, uint16_t position)
 void LoadStartPosition(void)
 {
 	ReadFromEEMemory();
-	Servo1_Pos = ServoPos[1];
-	_delay_ms(50);
-	Servo2_Pos = ServoPos[2];
-	_delay_ms(50);
-	Servo3_Pos = ServoPos[3];
-	_delay_ms(50);
-	Servo4_Pos = ServoPos[4];
-	_delay_ms(50);
-	Servo5_Pos = ServoPos[5];
-	_delay_ms(50);
-	Servo6_Pos = ServoPos[6];
 }
 
 void LoadDefaultStartPosition(void)
@@ -184,6 +190,7 @@ uint16_t GetServoPosition(uint8_t servo)
 	return (uint16_t)0;
 }
 
+#if TEST
 /* ----------------------------------------------------- */
 // Holds the test function for the class (test the functionality)
 /* ----------------------------------------------------- */
@@ -226,3 +233,4 @@ void TestServo(void)
 	Power_Off_Servos();
 }
 /* ----------------------------------------------------- */
+#endif

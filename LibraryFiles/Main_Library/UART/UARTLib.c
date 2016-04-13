@@ -136,13 +136,14 @@ void WaitForReceive(void)
 	while(uart_status == UART_WAITING);
 }
 
-void WriteInt(uint16_t value)
+void WriteInt(int16_t value)
 {
 	char buffer[17];
 	itoa(value, buffer, 10);
 	Write(buffer);
 }
 
+#if TEST
 /* ----------------------------------------------------- */
 // Holds the test function for the class (test the functionality)
 /* ----------------------------------------------------- */
@@ -171,3 +172,4 @@ void TestUART(void)
 	_delay_ms(1000);
 }
 /* ----------------------------------------------------- */
+#endif

@@ -40,8 +40,10 @@ void LoadDefaultStartPosition(void);
 void Move(uint8_t servo, uint16_t position);
 uint16_t GetServoPosition(uint8_t servo);
 
+#if TEST
 //Test function (To test the underlying functionality)
 void TestServo(void);
+#endif
 
 //Defining the numbers for the servos
 #define SERVO_1 1

@@ -46,6 +46,7 @@ void SetLED4(uint8_t power)
 	LEDSPORT |= power > 0 ? LED4 : 0;
 }
 
+#if TEST
 /* ----------------------------------------------------- */
 // Holds the test function for the class (test the functionality)
 /* ----------------------------------------------------- */
@@ -71,3 +72,4 @@ void TestLED(void)
 	SetLED4(OFF);
 }
 /* ----------------------------------------------------- */
+#endif

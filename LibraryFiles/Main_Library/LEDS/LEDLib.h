@@ -47,7 +47,9 @@ void SetLED2(uint8_t power);
 void SetLED3(uint8_t power);
 void SetLED4(uint8_t power);
 
+#if TEST
 //Test function
 void TestLED(void);
+#endif
 
 #endif /* LEDLIB_H */

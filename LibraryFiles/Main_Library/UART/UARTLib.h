@@ -40,10 +40,12 @@ void WriteChar(char c);
 //Read functions
 void WaitForReceive(void);
 
-void WriteInt(uint16_t value);
+void WriteInt(int16_t value);
 
+#if TEST
 //Test function
 void TestUART(void);
+#endif
 
 //Defined keywords
 
