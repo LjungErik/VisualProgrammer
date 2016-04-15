@@ -49,7 +49,7 @@ uint8_t GetHypotenuse(uint8_t servo)
 
 //Checks that the servos have not entered a unsafe state
 //The lowest point is below the risk zone
-BOOL IsValid() {
+BOOL IsValid(void) {
 	//Current start coordinates
 	int x_current = 0;
 	int y_current = 0;
