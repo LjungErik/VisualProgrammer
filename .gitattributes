@@ -1,0 +1,5 @@
+# Set the default behavior
+* text=auto
+
+# Visual Studio specific
+*.cs	diff=csharp
