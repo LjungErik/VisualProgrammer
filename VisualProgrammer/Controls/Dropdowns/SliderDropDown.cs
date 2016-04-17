@@ -25,9 +25,8 @@ namespace VisualProgrammer.Controls.Dropdowns
         #endregion Private Data Members
 
         /// <summary>
-        /// Toggles focus on the multiline textbox
+        /// Focus on the slider
         /// </summary>
-        /// <param name="state">the state to toggle to</param>
         public override void Focused()
         {
             if(slider != null)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,11 +11,11 @@ using VisualProgrammer.Controls.Adorners;
 
 namespace VisualProgrammer.Controls.Dropdowns
 {
-    public class SelectionDropDown : DropDownAdornerControl
+    public class NumberDropDown : DropDownAdornerControl
     {
         #region Private Data Members
 
-        private ComboBox selectionCombobox = null;
+        private TextBox numberTextbox = null;
 
         private Canvas OkButton = null;
 
@@ -23,14 +24,15 @@ namespace VisualProgrammer.Controls.Dropdowns
         #endregion Private Data Members
 
         /// <summary>
-        /// Focus on the selection combobox
+        /// Focus on the number textbox
         /// </summary>
         public override void Focused()
         {
-            if(selectionCombobox != null)
+            if (numberTextbox != null)
             {
-                selectionCombobox.Focus();
+                numberTextbox.Focus();
             }
+
         }
 
         public override void OnApplyTemplate()
@@ -40,23 +42,25 @@ namespace VisualProgrammer.Controls.Dropdowns
             //
             // Cache the textbox of the visual tree that needs to be accessed later
             //
-            this.selectionCombobox = (ComboBox)this.Template.FindName("PART_SelectionComboBox", this);
-            if(this.selectionCombobox == null)
+            this.numberTextbox = (TextBox)this.Template.FindName("PART_NumberTextBox", this);
+            if (this.numberTextbox == null)
             {
-                throw new ArgumentException("Failed to find 'PART_SelectionComboBox' in the visual tree for 'SelectionDropDown'");
+                throw new ArgumentException("Failed to find 'PART_NumberTextBox' in the visual tree for 'NumberDropDown'");
             }
 
             this.OkButton = (Canvas)this.Template.FindName("PART_OkButton", this);
-            if(this.OkButton == null)
+            if (this.OkButton == null)
             {
-                throw new ArgumentException("Failed to find 'PART_OkButton' in visual tree for 'SelectionDropDown'");
+                throw new ArgumentException("Failed to find 'PART_OkButton' in visual tree for 'NumberDropDown'");
             }
 
             this.CancelButton = (Canvas)this.Template.FindName("PART_CancelButton", this);
-            if(this.CancelButton == null)
+            if (this.CancelButton == null)
             {
-                throw new ArgumentException("Failed to find 'PART_CancelButton' in visual tree for 'SelectionDropDown'");
+                throw new ArgumentException("Failed to find 'PART_CancelButton' in visual tree for 'NumberDropDown'");
             }
+
+            this.numberTextbox.PreviewTextInput += new TextCompositionEventHandler(NumberTextbox_PreviewTextInput);
 
             this.OkButton.MouseLeftButtonUp += new MouseButtonEventHandler(OkButton_Clicked);
 
@@ -65,11 +69,21 @@ namespace VisualProgrammer.Controls.Dropdowns
 
         #region Private Methods
 
-        static SelectionDropDown()
+        static NumberDropDown()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(SelectionDropDown), new FrameworkPropertyMetadata(typeof(SelectionDropDown)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(NumberDropDown), new FrameworkPropertyMetadata(typeof(NumberDropDown)));
         }
-        
+
+        /// <summary>
+        /// Tests that the input is only numeric
+        /// </summary>
+        private void NumberTextbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[0-9]+");
+            /* Only allow numbers */
+            e.Handled = !regex.IsMatch(e.Text);
+        }
+
         private void OkButton_Clicked(object sender, MouseButtonEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(DropDownAdornerControl.OkButtonClickEvent));
@@ -81,5 +95,6 @@ namespace VisualProgrammer.Controls.Dropdowns
         }
 
         #endregion
+
     }
 }

@@ -173,10 +173,4 @@
         </Grid>
     </DataTemplate>
     
-    <dropdown:MultiLineDropDown x:Key="multiLineDropDown" Margin="-10,20,0,0"/>
-    
-    <dropdown:SliderDropDown x:Key="sliderDropDown" Margin="8, 20, 0,0"/>
-    
-    <dropdown:SelectionDropDown x:Key="selectionDropDown" Margin="-20,20,0,0"/>
-    
 </ResourceDictionary>

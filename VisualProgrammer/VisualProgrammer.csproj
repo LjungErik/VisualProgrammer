@@ -53,6 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Actions\SleepAction.cs" />
     <Compile Include="Controls\Adorners\AdornedControl.cs" />
     <Compile Include="Controls\Adorners\AdornerEventArgs.cs" />
     <Compile Include="Controls\Adorners\AdornerPlacement.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Controls\Adorners\FrameworkElementAdorner.cs" />
     <Compile Include="Controls\ConnectionLink.cs" />
     <Compile Include="Controls\Dropdowns\MultiLineDropDown.cs" />
+    <Compile Include="Controls\Dropdowns\NumberDropDown.cs" />
     <Compile Include="Controls\Dropdowns\SelectionDropDown.cs" />
     <Compile Include="Controls\Dropdowns\SliderDropDown.cs" />
     <Compile Include="Controls\PropertyEditor.cs" />
@@ -90,8 +92,10 @@
     <Compile Include="ViewModels\Designer\ServoMoveNodeViewModel.cs" />
     <Compile Include="ViewModels\CompilerStatus\LogOutputViewModel.cs" />
     <Compile Include="ViewModels\CompilerStatus\LogViewModel.cs" />
+    <Compile Include="ViewModels\Designer\SleepNodeViewModel.cs" />
     <Compile Include="ViewModels\Toolbox\ServoMoveToolboxItemViewModel.cs" />
     <Compile Include="ViewModels\Designer\StartNodeViewModel.cs" />
+    <Compile Include="ViewModels\Toolbox\SleepToolboxItemViewModel.cs" />
     <Compile Include="ViewModels\Toolbox\StartToolboxItemViewModel.cs" />
     <Compile Include="ViewModels\Toolbox\ToolboxItemViewModel.cs" />
     <Compile Include="ViewModels\Toolbox\ToolboxViewModel.cs" />
@@ -184,8 +188,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Resource Include="Resources\Images\sleep-node.png" />
+    <Resource Include="Resources\Images\toolbox_Sleepnode.png" />
     <Resource Include="Resources\Images\connector.png" />
     <Resource Include="Resources\Images\end-node.png" />
     <Resource Include="Resources\Images\servomove-node.png" />
@@ -193,8 +198,6 @@
     <Resource Include="Resources\Images\toolbox_ServoMovenode.png" />
     <Resource Include="Resources\Images\toolbox_UARTsendnode.png" />
     <Resource Include="Resources\Images\UARTsend-node.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Images\trash_can_closed.png" />
     <Resource Include="Resources\Images\trash_can_open.png" />
   </ItemGroup>

@@ -10,8 +10,12 @@ using VisualProgrammer.Enums;
 
 namespace VisualProgrammer.Processing
 {
+    
+
     public class Parser
     {
+        private const int UP_START_TIME = 3000;
+
         private List<string> dependencies;
         private List<string> preConditions;
         private List<string> postConditions;
@@ -30,10 +34,15 @@ namespace VisualProgrammer.Processing
 
             _fileWriter = fileWriter;
             _logger = logger;
+
+            /* Default Dependencys and tasks */
+            AddDependency("#include <util/delay.h>");
+            AddTaskCall("_delay_ms(" + UP_START_TIME + ");");
         }
 
-        public void GenrateCode(List<IRobotAction> actions, string outputFile)
+        public bool GenrateCode(List<IRobotAction> actions, string outputFile)
         {
+            bool ret = true;
             //Open the writer on the correect file
             _fileWriter.Open(outputFile);
 
@@ -56,22 +65,33 @@ namespace VisualProgrammer.Processing
                         AddPreCondition("InitUART();");
                         AddTaskCall(String.Format("Write(\"{0}\");", send.Message));
                         break;
+                    case "Sleep":
+                        SleepAction sleep = (SleepAction)action;
+                        AddDependency("#include <util/delay.h>");
+                        AddTaskCall(String.Format("_delay_ms({0});", sleep.Time));
+                        break;
                     default:
                         _logger.WriteError("Invalid action type, " + action.GetActionType());
                         _logger.SetStatus(StatusType.Error);
+                        ret = false;
                         break;
                 }
             }
 
-            _logger.WriteInfo("Generating appropriate C-file...");
+            if (ret)
+            {
+                _logger.WriteInfo("Generating appropriate C-file...");
 
-            WriteData(_fileWriter);
+                WriteData(_fileWriter);
 
-            _logger.WriteInfo("C-file generated");
+                _logger.WriteInfo("C-file generated");
+            }
 
             //Dispose of the writer
             _fileWriter.Dispose();
             ClearLists();
+
+            return ret;
         }
 
         private  void AddDependency(string dep)
@@ -119,6 +139,10 @@ namespace VisualProgrammer.Processing
             {
                 file.WriteLine("\t" + task);
             }
+
+            /* Default code to prevent robot from turning off directly */
+            file.WriteLine("\twhile(1);"); //Infinity loop to continue execution
+            
 
             foreach (var post in postConditions)
             {

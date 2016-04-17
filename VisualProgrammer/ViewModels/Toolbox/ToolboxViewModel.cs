@@ -34,6 +34,7 @@ namespace VisualProgrammer.ViewModels.Toolbox
             toolboxItem.Add(new StartToolboxItemViewModel());
             toolboxItem.Add(new ServoMoveToolboxItemViewModel());
             toolboxItem.Add(new UARTSendToolboxItemViewModel());
+            toolboxItem.Add(new SleepToolboxItemViewModel());
         }
 
         #endregion Private Methods

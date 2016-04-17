@@ -90,7 +90,6 @@
                         />
             </DataTemplate>
 
-            <!-- Define a data-template for the 'NodeViewModel' class. -->
             <DataTemplate
                 DataType="{x:Type viewmodelDesigner:ServoMoveNodeViewModel}"
                 >
@@ -245,7 +244,74 @@
                 </Canvas>
             </DataTemplate>
 
-            <!-- Define a data-template for the 'NodeViewModel' class. -->
+            <DataTemplate
+                DataType="{x:Type viewmodelDesigner:SleepNodeViewModel}"
+                >
+                <!-- This rectangle is the main visual for the node. -->
+                <Canvas Height="154" Width="160" Opacity="{Binding Opacity}" Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}">
+                    <Image Width="128" Height="128" Source="Resources/Images/sleep-node.png" Canvas.Left="16" Canvas.Top="13"/>
+
+                    <adorners:AdornedControl
+                            Width="80"
+                            Height="20"
+                            Data="{Binding Time, Mode=TwoWay}"
+                            Canvas.Left="40"
+                            Canvas.Top="120"
+                            >
+
+                        <controls:PropertyEditor
+                            Width="{Binding Path=Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
+                            Height="{Binding Path=Height, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
+                            Text="{Binding Path=Data, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl} }}"/>
+
+                        <adorners:AdornedControl.AdornerContent>
+                            <dropdown:NumberDropDown
+                                            Margin="-10,20,0,0"/>
+                        </adorners:AdornedControl.AdornerContent>
+
+                    </adorners:AdornedControl>
+
+                    <Grid SizeChanged="Node_SizeChanged">
+                        <Grid Margin="0,0"
+                                    >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="28" />
+                                <ColumnDefinition Width="93" />
+                                <ColumnDefinition Width="35" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="58" />
+                                <!-- spacer -->
+                                <RowDefinition Height="33" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Displays the node's input connectors. -->
+                            <ContentControl
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            Content="{Binding InputConnector}"
+                            ContentTemplate="{StaticResource inputConnectorTemplate}"
+                            Focusable="False"
+                            IsHitTestVisible="False"
+                            />
+
+                            <!-- Displays the node's output connectors. -->
+                            <ContentControl
+                            Grid.Column="3"
+                            Grid.Row="1"
+                            Content="{Binding OutputConnector}"
+                            ContentTemplate="{StaticResource outputConnectorTemplate}"
+                            Focusable="False"
+                            />
+                        </Grid>
+
+
+
+                    </Grid>
+                </Canvas>
+            </DataTemplate>
+
             <DataTemplate
                 DataType="{x:Type viewmodelDesigner:StartNodeViewModel}"
                 >

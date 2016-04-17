@@ -23,9 +23,8 @@ namespace VisualProgrammer.Controls.Dropdowns
         #endregion Private Data Members
 
         /// <summary>
-        /// Toggles focus on the multiline textbox
+        /// Focus on the multiline textbox
         /// </summary>
-        /// <param name="state">the state to toggle to</param>
         public override void Focused()
         {
             if(multiLineTextbox != null)

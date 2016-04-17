@@ -233,7 +233,6 @@ namespace VisualProgrammer.ViewModels.Designer
 
         /// <summary>
         /// The Model that represents the action of the node
-        /// Default is to send null
         /// </summary>
         public virtual IRobotAction Model
         {

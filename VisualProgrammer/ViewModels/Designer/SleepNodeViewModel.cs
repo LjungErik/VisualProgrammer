@@ -1,43 +1,47 @@
-﻿using VisualProgrammer.Actions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VisualProgrammer.Actions;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
-    public class UARTSendNodeViewModel : NodeViewModel
+    public class SleepNodeViewModel : NodeViewModel
     {
         #region Private Data Members
 
-        private UARTSendAction model = null;
+        private SleepAction model = null;
 
         #endregion Private Data Members
 
-        public UARTSendNodeViewModel()
+        public SleepNodeViewModel()
         {
-            model = new UARTSendAction("Hello World");
+            //Create default with 1000 ms sleep time
+            model = new SleepAction(1000);
 
+            //Set up connectors
             InputConnector = new ConnectorViewModel();
             OutputConnector = new ConnectorViewModel();
-
         }
 
         /// <summary>
-        /// The message to be sent over UART
+        /// Holds the time to sleep (pause execution)
         /// </summary>
-        public string Message
+        public int Time
         {
-            get { return model.Message; }
+            get
+            {
+                return model.Time;
+            }
             set
             {
-                if (model.Message == value)
+                if (model.Time == value)
                     return;
 
-                model.Message = value;
+                model.Time = value;
 
-                OnPropertyChanged("Message");
+                OnPropertyChanged("Time");
             }
         }
 
