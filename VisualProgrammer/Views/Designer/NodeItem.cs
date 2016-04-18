@@ -54,17 +54,17 @@ namespace VisualProgrammer.Views.Designer
             DependencyProperty.Register("IsPressed", typeof(bool), typeof(NodeItem),
                 new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        internal static readonly DependencyProperty ParentDesignerViewProperty =
+        public static readonly DependencyProperty ParentDesignerViewProperty =
             DependencyProperty.Register("ParentDesignerView", typeof(DesignerView), typeof(NodeItem), 
                 new FrameworkPropertyMetadata(ParentDesignerView_PropertyChanged));
 
-        internal static readonly RoutedEvent NodeDragStartedEvent =
+        public static readonly RoutedEvent NodeDragStartedEvent =
             EventManager.RegisterRoutedEvent("NodeDragStarted", RoutingStrategy.Bubble, typeof(NodeDragStartedEventHandler), typeof(NodeItem));
 
-        internal static readonly RoutedEvent NodeDraggingEvent =
+        public static readonly RoutedEvent NodeDraggingEvent =
             EventManager.RegisterRoutedEvent("NodeDragging", RoutingStrategy.Bubble, typeof(NodeDraggingEventHandler), typeof(NodeItem));
 
-        internal static readonly RoutedEvent NodeDragCompletedEvent =
+        public static readonly RoutedEvent NodeDragCompletedEvent =
             EventManager.RegisterRoutedEvent("NodeDragCompleted", RoutingStrategy.Bubble, typeof(NodeDragCompletedEventHandler), typeof(NodeItem));
 
         #endregion Dependency Property/Event Definitions
@@ -151,13 +151,11 @@ namespace VisualProgrammer.Views.Designer
                 SetValue(IsPressedProperty, value);
             }
         }
-
-        #region Private Data Members\Properties
-
+        
         /// <summary>
         /// Reference to the data-bound parent DesignerView.
         /// </summary>
-        internal DesignerView ParentDesignerView
+        public DesignerView ParentDesignerView
         {
             get
             {
@@ -168,6 +166,8 @@ namespace VisualProgrammer.Views.Designer
                 SetValue(ParentDesignerViewProperty, value);
             }
         }
+
+        #region Private Data Members\Properties
 
         /// <summary>
         /// The point the mouse was last at when dragging.
