@@ -6,15 +6,26 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using VisualProgrammer.Controls;
 
 namespace VisualProgrammer.Views.Toolbox
 {
-    public class ToolboxItem : ContentControl
+    public class ToolboxItem : ContentControl, IDraggable
     {
+        #region Private Data Members
+
+        private bool isDragging = false;
+
+        #endregion Private Data Members
+
         #region Dependency Property/Event Definitions
 
-        internal static readonly RoutedEvent ToolboxItemDragStartedEvent =
-            EventManager.RegisterRoutedEvent("ToolboxItemDragStarted", RoutingStrategy.Bubble, typeof(ToolboxItemDragStartedEventHandler), typeof(ToolboxItem));
+        //public static readonly RoutedEvent ToolboxItemDragStartedEvent =
+        //    EventManager.RegisterRoutedEvent("ToolboxItemDragStarted", RoutingStrategy.Bubble, typeof(ToolboxItemDragStartedEventHandler), typeof(ToolboxItem));
+
+        public static readonly RoutedEvent ToolboxItemDropCanceledEvent =
+            EventManager.RegisterRoutedEvent("ToolboxItemDropCanceled", RoutingStrategy.Bubble, typeof(ToolboxItemDropCanceledEventHandler), typeof(ToolboxItem));
+
 
         #endregion Dependency Property/Event Definitions
 
@@ -23,25 +34,68 @@ namespace VisualProgrammer.Views.Toolbox
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolboxItem), new FrameworkPropertyMetadata(typeof(ToolboxItem)));
         }
 
-        #region Methods
-
-        protected override void OnMouseDown(MouseButtonEventArgs e)
+        protected void BeginDragAndDrop()
         {
-            base.OnMouseUp(e);
+            isDragging = true;
+            this.CaptureMouse();
 
-            if(e.ChangedButton == MouseButton.Left)
+            DragHandler.DraggedItem = this;
+        }
+
+        private void EndDragAndDrop()
+        {
+            isDragging = false;
+            this.ReleaseMouseCapture();
+
+            var eventArgs = new DraggableDropEventArgs();
+
+            if (OnDragCompleted != null)
+                OnDragCompleted(this, eventArgs);
+
+            if (eventArgs.Failed)
+                RaiseEvent(new ToolboxItemEventArgs(ToolboxItemDropCanceledEvent, this, this));
+        }
+
+        #region Mouse Methods
+
+        protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseDown(e);
+
+            if (e.ChangedButton == MouseButton.Left)
+                BeginDragAndDrop();
+        }
+
+        protected override void OnPreviewMouseMove(MouseEventArgs e)
+        {
+            base.OnPreviewMouseMove(e);
+
+            if (isDragging)
             {
-                //Handle that the left mouse button was pressed
-                object item = this;
-                if(DataContext != null)
-                {
-                    item = DataContext;
-                }
-
-                RaiseEvent(new ToolboxItemEventArgs(ToolboxItemDragStartedEvent, this, item));
+                if (OnDragging != null)
+                    OnDragging(this, new DraggableDragEventArgs());
             }
         }
 
-        #endregion Methods
+        protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseUp(e);
+
+            if (isDragging)
+            {
+                EndDragAndDrop();
+            }
+        }
+
+        #endregion Mouse Methods
+
+        public event DraggableDragEventHandler OnDragging;
+
+        public event DraggableDropEventHandler OnDragCompleted;
+
+        public new void Drop()
+        {
+            EndDragAndDrop();
+        }
     }
 }

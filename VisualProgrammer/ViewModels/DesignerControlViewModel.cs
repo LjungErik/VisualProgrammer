@@ -260,7 +260,7 @@ namespace VisualProgrammer.ViewModels
         /// <summary>
         /// Create a node and add it to the view-model.
         /// </summary>
-        public NodeViewModel CreateNode(Point nodeLocation, bool centerNode)
+        public NodeViewModel CreateNode(Point nodeLocation)
         {
             var node = new UARTSendNodeViewModel();
             node.X = nodeLocation.X;
@@ -269,28 +269,12 @@ namespace VisualProgrammer.ViewModels
             node.InputConnector = new ConnectorViewModel();
             node.OutputConnector = new ConnectorViewModel();
 
-            if (centerNode)
-            {
-
-                EventHandler<EventArgs> sizeChangedEventHandler = null;
-                sizeChangedEventHandler =
-                    delegate(object sender, EventArgs e)
-                    {
-                        node.X -= node.Size.Width / 2;
-                        node.Y -= node.Size.Height / 2;
-
-                        node.SizeChanged -= sizeChangedEventHandler;
-                    };
-
-                node.SizeChanged += sizeChangedEventHandler;
-            }
-
             this.Designer.Nodes.Add(node);
 
             return node;
         }
 
-        public NodeViewModel CreateStartNode(Point nodeLocation, bool centerNode)
+        public NodeViewModel CreateStartNode(Point nodeLocation)
         {
             var node = new StartNodeViewModel();
             node.X = nodeLocation.X;
@@ -353,60 +337,45 @@ namespace VisualProgrammer.ViewModels
             this.Designer = new DesignerViewModel();
             this.Toolbox = new ToolboxViewModel();
 
-            CreateStartNode(new Point(50, 150), false);
-            CreateNode(new Point(150, 50), false);
+            CreateStartNode(new Point(50, 150));
+            CreateNode(new Point(150, 50));
         }
 
         #endregion Private Methods
 
-        internal void ToolboxItemDragStarted(ToolboxItemViewModel tool)
-        {
-
-            //Get the node corresponding to the clicked tool
-            NodeViewModel node = tool.GetNode();
-            node.X = 0;
-            node.Y = 0;
-
-            if (node is StartNodeViewModel && this.Designer.StartNode == null)
-            {
-                //Only set a startnode as active if no current
-                //startnode exists
-                this.Designer.NewActiveNode = node;
-            }
-            else if(!(node is StartNodeViewModel))
-            {
-                //Set the currently Active node (generates its size 
-                //for use later in DesignerViewMouseEnter)
-                this.Designer.NewActiveNode = node;
-            }
-        }
-
-        internal void ToolboxItemDropped()
-        {
-            this.Designer.NewActiveNode = null;
-        }
-
-        internal void DesignerViewMouseEnter(Point mousePosition)
+        public void DraggingInNode(ToolboxItemViewModel tool, Point mousePosition)
         {
             if (this.Designer.NewActiveNode != null)
-            {
-                this.Designer.NewActiveNode.X = mousePosition.X - this.Designer.NewActiveNode.Size.Width / 2;
-                this.Designer.NewActiveNode.Y = mousePosition.Y - this.Designer.NewActiveNode.Size.Height / 2;
+                return;
 
-                //Trigger a external mouse press on node (Activate dragging)
-                this.Designer.NewActiveNode.IsPressed = true;
+            NodeViewModel newNode = tool.GetNode();
+
+            if (newNode is StartNodeViewModel && this.Designer.StartNode != null)
+                return;
+
+            newNode.X = 0;
+            newNode.Y = 0;
+
+            this.Designer.NewActiveNode = newNode;
+        }
+
+        public NodeViewModel DropNode(Point mousePosition)
+        {
+            NodeViewModel temp = this.Designer.NewActiveNode;
+
+            if (this.Designer.NewActiveNode != null)
+            {
+                this.Designer.NewActiveNode.X = mousePosition.X - (this.Designer.NewActiveNode.Width / 2);
+                this.Designer.NewActiveNode.Y = mousePosition.Y - (this.Designer.NewActiveNode.Height / 2);
 
                 this.Designer.Nodes.Add(this.Designer.NewActiveNode);
 
-                //Check if the current node is a start node
-                if(this.Designer.NewActiveNode is StartNodeViewModel)
-                {
-                    //Set as the current start node
+                if (this.Designer.NewActiveNode is StartNodeViewModel)
                     this.Designer.StartNode = (StartNodeViewModel)this.Designer.NewActiveNode;
-                }
 
                 this.Designer.NewActiveNode = null;
             }
+            return temp;
         }
     }
 }

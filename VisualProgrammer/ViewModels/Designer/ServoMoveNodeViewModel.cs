@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
@@ -64,6 +65,22 @@ namespace VisualProgrammer.ViewModels.Designer
         public override IRobotAction Model
         {
             get { return model; }
+        }
+
+        public override double Width
+        {
+            get
+            {
+                return 160;
+            }
+        }
+
+        public override double Height
+        {
+            get
+            {
+                return 154;
+            }
         }
     }
 }

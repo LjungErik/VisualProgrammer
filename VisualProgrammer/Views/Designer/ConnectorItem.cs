@@ -165,7 +165,7 @@ namespace VisualProgrammer.Views.Designer
                     //
                     // Delegate to parent node to execute selection logic.
                     //
-                    this.ParentNodeItem.LeftMouseDownSelectionLogic();
+                    //this.ParentNodeItem.LeftMouseDownSelectionLogic();
                 }
 
                 lastMousePoint = e.GetPosition(this.ParentDesignerView);
@@ -179,7 +179,7 @@ namespace VisualProgrammer.Views.Designer
                     //
                     // Delegate to parent node to execute selection logic.
                     //
-                    this.ParentNodeItem.RightMouseDownSelectionLogic();
+                    //this.ParentNodeItem.RightMouseDownSelectionLogic();
                 }
             }
         }

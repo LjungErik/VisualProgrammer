@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:designView="clr-namespace:VisualProgrammer.Views.Restructure.Designer">
+
+    <DataTemplate
+        x:Key="inputConnectorTemplate"
+        >
+        <Grid
+            Margin="15,5,0,0"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- The 'ConnectorItem' or anchor point for the connector. -->
+            <designView:Connector 
+                Grid.Column="0"
+                Width="15"
+                Height="15"
+                Cursor="Hand"                    
+                />
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

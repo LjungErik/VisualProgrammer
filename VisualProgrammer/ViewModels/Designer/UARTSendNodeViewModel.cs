@@ -48,5 +48,21 @@ namespace VisualProgrammer.ViewModels.Designer
         {
             get { return model; }
         }
+
+        public override double Width
+        {
+            get
+            {
+                return 160;
+            }
+        }
+
+        public override double Height
+        {
+            get
+            {
+                return 154;
+            }
+        }
     }
 }

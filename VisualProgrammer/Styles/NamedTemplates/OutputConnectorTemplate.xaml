@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:designView="clr-namespace:VisualProgrammer.Views.Restructure.Designer">
+
+    <DataTemplate
+        x:Key="outputConnectorTemplate"
+        >
+        <Grid
+            HorizontalAlignment="Left"
+            Margin="0,5,0,0"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid
+                Grid.Column="1"
+                Cursor="Hand"
+                >
+
+                <!-- The 'ConnectorItem' or anchor point for the connector. -->
+                <designView:Connector 
+                    Width="15"
+                    Height="15"
+                    HorizontalAlignment="Left"
+                    Margin="17,0,0,0"/>
+
+                <Image
+                    Source="../../Resources/Images/connector.png"
+                    IsHitTestVisible="False"
+                    Margin="21,0,0,0"
+                    Visibility="{Binding IsConnectionAttached, Converter={StaticResource invertedBooleanToVisibilityConverter}}"
+                    />
+
+                <!-- Show a black dot at the start of the arrow when connected. -->
+                <Rectangle
+                    Visibility="{Binding IsConnectionAttached, Converter={StaticResource booleanToVisibilityConverter}}"
+                    Height="8"
+                    Width="8"
+                    Fill="{StaticResource connectionBrush}"
+                    IsHitTestVisible="False"
+                    Margin="0,0,0,0"
+                    />
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

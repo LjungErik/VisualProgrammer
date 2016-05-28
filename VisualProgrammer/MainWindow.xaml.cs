@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VisualProgrammer.Controls;
 
 namespace VisualProgrammer
 {
@@ -23,6 +24,8 @@ namespace VisualProgrammer
         public MainWindow()
         {
             InitializeComponent();
+
+            DragHandler.SetRoot(this);
         }
     }
 }

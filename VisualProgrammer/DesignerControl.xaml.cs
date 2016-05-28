@@ -15,7 +15,8 @@ using System.Windows.Shapes;
 using VisualProgrammer.ViewModels;
 using VisualProgrammer.ViewModels.Designer;
 using VisualProgrammer.ViewModels.Toolbox;
-using VisualProgrammer.Views.Designer;
+using VisualProgrammer.Views.Restructure.Designer;
+using VisualProgrammer.Views.Restructure.Designer.Events;
 using VisualProgrammer.Views.Toolbox;
 
 namespace VisualProgrammer
@@ -50,15 +51,8 @@ namespace VisualProgrammer
             var draggedOutConnector = (ConnectorViewModel)e.ConnectorDraggedOut;
             var curDragPoint = Mouse.GetPosition(designerControl);
 
-            //
-            // Delegate the real work to the view model.
-            //
             var connection = this.ViewModel.ConnectionDragStarted(draggedOutConnector, curDragPoint);
 
-            //
-            // Must return the view-model object that represents the connection via the event args.
-            // This is so that DesignerView can keep track of the object while it is being dragged.
-            //
             e.Connection = connection;
         }
 
@@ -88,7 +82,6 @@ namespace VisualProgrammer
         /// </summary>
         private void designerControl_NodeDragStarted(object sender, NodeDragStartedEventArgs e)
         {
-            //TODO
             toolboxView.IsNodeDragged = true;
         }
 
@@ -97,10 +90,9 @@ namespace VisualProgrammer
         /// </summary>
         private void designerControl_NodeDragging(object sender, NodeDraggingEventArgs e)
         {
-            //TODO
             Point mouse = Mouse.GetPosition(toolboxView);
-            //Check if dropped on toolbox
-            if (HitTest(mouse, toolboxView))
+            
+            if (HitTest(mouse, toolboxView))    //Check if dropped on toolbox
             {
                 if (!toolboxView.IsNodeDraggedOver)
                 {
@@ -122,6 +114,8 @@ namespace VisualProgrammer
                     node.IsVisible = true;
                 }
             }
+
+            SetCursor();
         }
 
         /// <summary>
@@ -139,19 +133,12 @@ namespace VisualProgrammer
                 nodes.ToList().ForEach(x => ViewModel.RemoveNode(x));
             }
 
+            e.Cancel = IsOutOfBounds();
+
             //Update the toolbox
             toolboxView.IsNodeDraggedOver = false;
             toolboxView.IsNodeDragged = false;
-        }
-
-        /// <summary>
-        /// Event that is rasied when the user has entered the DesignView with the cursor
-        /// </summary>
-        private void designerControl_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Point mouseLocation = Mouse.GetPosition(designerControl);
-
-            this.ViewModel.DesignerViewMouseEnter(mouseLocation);
+            Mouse.OverrideCursor = null;
         }
 
         private bool HitTest(Point hitPoint, FrameworkElement element)
@@ -161,55 +148,63 @@ namespace VisualProgrammer
             return false;
         }
 
-        /// <summary>
-        /// Event raised to create a new node.
-        /// </summary>
-        private void CreateNode_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            CreateNode();
-        }
-
-        /// <summary>
-        /// Creates a new node in the designer at the current mouse location.
-        /// </summary>
-        private void CreateNode()
-        {
-            var newNodePosition = Mouse.GetPosition(designerControl);
-            this.ViewModel.CreateNode(newNodePosition, true);
-        }
-
-        /// <summary>
-        /// Event raised when the size of a node has changed.
-        /// </summary>
-        private void Node_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            //
-            // The size of a node, as determined in the UI by the node's data-template,
-            // has changed.  Push the size of the node through to the view-model.
-            //
-            var element = (FrameworkElement)sender;
-            var node = (NodeViewModel)element.DataContext;
-            node.Size = new Size(element.ActualWidth, element.ActualHeight);
-        }
-
-        private void ToolboxView_ItemDragStarted(object sender, ToolboxItemEventArgs e)
-        {
-            var tool = (ToolboxItemViewModel)e.Item;
-            this.ViewModel.ToolboxItemDragStarted(tool);
-        }
-
-        private void ToolboxView_ItemDropped(object sender, ToolboxItemEventArgs e)
-        {
-            this.ViewModel.ToolboxItemDropped();
-        }
-
         private void buildBtnClicked(object sender, RoutedEventArgs e)
         {
-            //TODO: Add code for building the real code
-            //Open compiler status window with the provided startnode
             CompilerStatusWindow compileStatusWindow = new CompilerStatusWindow(this.ViewModel.Designer.StartNode);
             compileStatusWindow.Owner = Window.GetWindow(this);
             compileStatusWindow.ShowDialog();
+        }
+
+        private void SetCursor()
+        {
+            if(IsOutOfBounds())
+                Mouse.OverrideCursor = Cursors.No;
+            else
+                Mouse.OverrideCursor = null;
+        }
+
+        public bool IsOutOfBounds()
+        {
+            Point mousePosition = Mouse.GetPosition(this);
+            return !HitTest(mousePosition, this);
+        }
+
+        private void toolboxView_DraggedOver(object sender, DragDropEventArgs e)
+        {
+            Mouse.OverrideCursor = null;
+            var toolItem = e.DraggedItem as ToolboxItem;
+            if (toolItem != null)
+            {
+                var toolDataContext = (ToolboxItemViewModel)toolItem.DataContext;
+                var mouseLocation = Mouse.GetPosition(designerControl);
+                ViewModel.DraggingInNode(toolDataContext, mouseLocation);
+            }
+        }
+
+        private void designerControl_DraggedOver(object sender, DragDropEventArgs e)
+        {
+            Mouse.OverrideCursor = null;
+            //TODO PREPARE FOR DROP AND SAVE NODE IN TEMP
+            //var toolItem = e.DraggedItem as ToolboxItem;
+            //if (toolItem != null)
+            //{
+            //    var toolDataContext = (ToolboxItemViewModel)toolItem.DataContext;
+            //    ViewModel.DraggingInNode(toolDataContext, e.MousePoint);
+            //}
+        }
+
+        private void designerControl_DroppedOver(object sender, DragDropEventArgs e)
+        {
+            NodeViewModel retItem = null;
+
+            var toolItem = e.DraggedItem as ToolboxItem;
+            if(toolItem != null)
+            {
+                var toolDataContext = (ToolboxItemViewModel)toolItem.DataContext;
+                var mouseLocation = Mouse.GetPosition(designerControl);
+                retItem = ViewModel.DropNode(mouseLocation);
+            }
+            e.ReturnItem = retItem;
         }
     }
 }

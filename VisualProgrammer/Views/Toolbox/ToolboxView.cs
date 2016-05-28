@@ -9,11 +9,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using VisualProgrammer.Controls;
 using VisualProgrammer.Utilities;
+using VisualProgrammer.Views.Restructure.Designer.Events;
 
 namespace VisualProgrammer.Views.Toolbox
 {
-    public class ToolboxView : Control
+    public class ToolboxView : Control, IDropView
     {
         #region Dependency Property/Event Definitions
         
@@ -32,11 +34,15 @@ namespace VisualProgrammer.Views.Toolbox
         public static readonly DependencyProperty IsNodeDraggedOverPropertry =
             DependencyProperty.Register("IsNodeDraggedOver", typeof(bool), typeof(ToolboxView));
 
-        public static readonly RoutedEvent ToolboxItemDragStartedEvent =
-            EventManager.RegisterRoutedEvent("ToolboxItemDragStarted", RoutingStrategy.Bubble, typeof(ToolboxItemDragStartedEventHandler), typeof(ToolboxView));
+        public static readonly DependencyProperty IsExpandedProperty =
+            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(ToolboxView),
+                new FrameworkPropertyMetadata(false));
 
-        public static readonly RoutedEvent ToolboxItemDroppedEvent =
-            EventManager.RegisterRoutedEvent("ToolboxItemDrop", RoutingStrategy.Bubble, typeof(ToolboxItemDroppedEventHandler), typeof(ToolboxView));
+        public static readonly RoutedEvent DraggedOverEvent =
+            EventManager.RegisterRoutedEvent("DraggedOver", RoutingStrategy.Bubble, typeof(DragDropEventHandler), typeof(ToolboxView));
+
+        public static readonly RoutedEvent ToolboxItemDropCanceledEvent =
+            EventManager.RegisterRoutedEvent("ToolboxItemDropCancel", RoutingStrategy.Bubble, typeof(ToolboxItemDropCanceledEventHandler), typeof(ToolboxView));
        
         #endregion Dependency Property/Event Definitions
 
@@ -46,10 +52,7 @@ namespace VisualProgrammer.Views.Toolbox
 
             this.Tools = new ImpObservableCollection<object>();
 
-            //
-            // Add handlers for click event on toolbox items
-            //
-            AddHandler(ToolboxItem.ToolboxItemDragStartedEvent, new ToolboxItemDragStartedEventHandler(ToolboxItem_Clicked));
+            AddHandler(ToolboxItem.ToolboxItemDropCanceledEvent, new ToolboxItemDropCanceledEventHandler(ToolboxItem_DropCanceled));
         }
 
         /// <summary>
@@ -115,17 +118,36 @@ namespace VisualProgrammer.Views.Toolbox
             }
         }
 
-        public event ToolboxItemDragStartedEventHandler ToolboxItemDragStarted
+        public bool IsExpanded
         {
-            add { AddHandler(ToolboxItemDragStartedEvent, value); }
-            remove { RemoveHandler(ToolboxItemDragStartedEvent, value); }
+            get
+            {
+                return (bool)GetValue(IsExpandedProperty);
+            }
+            set
+            {
+                SetValue(IsExpandedProperty, value);
+            }
         }
 
-        public event ToolboxItemDroppedEventHandler ToolboxItemDropped
+        public event RoutedEventHandler DraggedOver
         {
-            add { AddHandler(ToolboxItemDroppedEvent, value); }
-            remove { RemoveHandler(ToolboxItemDroppedEvent, value); }
+            add { AddHandler(DraggedOverEvent, value); }
+            remove { RemoveHandler(DraggedOverEvent, value); }
         }
+
+        public event RoutedEventHandler ToolboxItemDropCanceled
+        {
+            add { AddHandler(ToolboxItemDropCanceledEvent, value); }
+            remove { RemoveHandler(ToolboxItemDropCanceledEvent, value); }
+        }
+
+        public new void DragOver(IDraggable dragged)
+        {
+            RaiseEvent(new DragDropEventArgs(DraggedOverEvent, this, dragged));
+        }
+
+        public void Dropped(IDraggable dragged) { }
 
         #region Private Methods
 
@@ -134,12 +156,11 @@ namespace VisualProgrammer.Views.Toolbox
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolboxView), new FrameworkPropertyMetadata(typeof(ToolboxView)));
         }
 
-        private void ToolboxItem_Clicked(object sender, ToolboxItemEventArgs e)
+        private void ToolboxItem_DropCanceled(object sender, ToolboxItemEventArgs e)
         {
             e.Handled = true;
 
-            var eventArgs = new ToolboxItemEventArgs(ToolboxItemDragStartedEvent, this, e.Item);
-            RaiseEvent(eventArgs);
+            RaiseEvent(new ToolboxItemEventArgs(ToolboxItemDropCanceledEvent, this, e.Item));
         }
 
         /// <summary>
@@ -149,9 +170,6 @@ namespace VisualProgrammer.Views.Toolbox
         {
            ToolboxView c = (ToolboxView)d;
 
-            //
-            // Clear 'Tools'.
-            //
             c.Tools.Clear();
 
             if (e.NewValue != null)
@@ -159,9 +177,6 @@ namespace VisualProgrammer.Views.Toolbox
                 var enumerable = e.NewValue as IEnumerable;
                 if (enumerable != null)
                 {
-                    //
-                    // Populate 'Tools' from 'ToolsSource'.
-                    //
                     foreach (object obj in enumerable)
                     {
                         c.Tools.Add(obj);
@@ -170,17 +185,8 @@ namespace VisualProgrammer.Views.Toolbox
             }
         }
 
-        protected override void OnMouseUp(MouseButtonEventArgs e)
-        {
-            base.OnMouseUp(e);
-
-            if(e.ChangedButton == MouseButton.Left)
-            {
-                //Left Mousebutton was released (signal that dragged item should be dropped)
-                RaiseEvent(new ToolboxItemEventArgs(ToolboxItemDroppedEvent, this));
-            }
-        }
-
         #endregion Private Methods
+
+        
     }
 }

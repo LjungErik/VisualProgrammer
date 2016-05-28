@@ -29,13 +29,7 @@ namespace VisualProgrammer.Views.Toolbox
         }
     }
 
-    /// <summary>
-    /// Event for when the Item is first dragged
-    /// </summary>
-    public delegate void ToolboxItemDragStartedEventHandler(object sender, ToolboxItemEventArgs e);
+    //public delegate void ToolboxItemDragStartedEventHandler(object sender, ToolboxItemEventArgs e);
 
-    /// <summary>
-    /// Event for when the Item is dropped
-    /// </summary>
-    public delegate void ToolboxItemDroppedEventHandler(object sender, ToolboxItemEventArgs e);
+    public delegate void ToolboxItemDropCanceledEventHandler(object sender, ToolboxItemEventArgs e);
 }

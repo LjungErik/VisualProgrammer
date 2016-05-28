@@ -1,0 +1,60 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mouse="clr-namespace:VisualProgrammer.Views.Restructure.Designer.MouseToolPanel">
+
+    <Style
+        TargetType="{x:Type mouse:MouseSelectorPanel}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type mouse:MouseSelectorPanel}">
+                    <Expander
+                            ExpandDirection="Right"
+                            BorderBrush="LightGray"
+                            BorderThickness="1"
+                            Height="38">
+
+                        <Grid>
+                            <Grid>
+                                <WrapPanel 
+                                    VerticalAlignment="Center"
+                                    >
+
+                                    <Button 
+                                    x:Name="PART_ArrowBtn"
+                                        Background="White"
+                                        Width="32"
+                                        Height="32"
+                                        Margin="2,0"
+                                        BorderThickness="0">
+                                        <Image Source="../../Resources/Images/arrowIcon.png"/>
+                                    </Button>
+
+                                    <Button
+                                    x:Name="PART_MoveBtn"
+                                        Background="White"
+                                        Width="32"
+                                        Height="32"
+                                        Margin="2,0"
+                                        BorderThickness="0">
+                                        <Image Source="../../Resources/Images/moveIcon.png"/>
+                                    </Button>
+
+                                    <Button
+                                    x:Name="PART_SelectBtn"
+                                        Background="White"
+                                        Width="32"
+                                        Height="32"
+                                        Margin="2,0"
+                                        BorderThickness="0">
+                                        <Image Source="../../Resources/Images/selectIcon.png"/>
+                                    </Button>
+                                </WrapPanel>
+                            </Grid>
+                        </Grid>
+                    </Expander>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

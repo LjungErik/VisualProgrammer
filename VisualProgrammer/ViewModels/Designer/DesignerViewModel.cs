@@ -33,17 +33,17 @@ namespace VisualProgrammer.ViewModels.Designer
         /// <summary>
         /// The collection of nodes in the Designer.
         /// </summary>
-        private ImpObservableCollection<NodeViewModel> nodes = null;
+        private ObservableCollection<NodeViewModel> nodes = null;
 
         /// <summary>
         /// The collection of connections in the Designer.
         /// </summary>
-        private ImpObservableCollection<ConnectionViewModel> connections = null;
+        private ObservableCollection<ConnectionViewModel> connections = null;
 
         /// <summary>
         /// The collection of temperary nodes in the Designer
         /// </summary>
-        private ImpObservableCollection<NodeViewModel> temperaryNodes = null;
+        private ObservableCollection<NodeViewModel> temperaryNodes = null;
 
         /// <summary>
         /// The start node in the Designer
@@ -60,13 +60,13 @@ namespace VisualProgrammer.ViewModels.Designer
         /// <summary>
         /// The collection of nodes in the Designer.
         /// </summary>
-        public ImpObservableCollection<NodeViewModel> Nodes
+        public ObservableCollection<NodeViewModel> Nodes
         {
             get
             {
                 if (nodes == null)
                 {
-                    nodes = new ImpObservableCollection<NodeViewModel>();
+                    nodes = new ObservableCollection<NodeViewModel>();
                 }
 
                 return nodes;
@@ -76,14 +76,13 @@ namespace VisualProgrammer.ViewModels.Designer
         /// <summary>
         /// The collection of connections in the Designer.
         /// </summary>
-        public ImpObservableCollection<ConnectionViewModel> Connections
+        public ObservableCollection<ConnectionViewModel> Connections
         {
             get
             {
                 if (connections == null)
                 {
-                    connections = new ImpObservableCollection<ConnectionViewModel>();
-                    connections.ItemsRemoved += new EventHandler<CollectionItemsChangedEventArgs>(connections_ItemsRemoved);
+                    connections = new ObservableCollection<ConnectionViewModel>();
                 }
 
                 return connections;
@@ -93,13 +92,13 @@ namespace VisualProgrammer.ViewModels.Designer
         /// <summary>
         /// The collection of temperary nodes in the Designer
         /// </summary>
-        public ImpObservableCollection<NodeViewModel> TemperaryNodes
+        public ObservableCollection<NodeViewModel> TemperaryNodes
         {
             get
             {
-                if(temperaryNodes == null)
+                if (temperaryNodes == null)
                 {
-                    temperaryNodes = new ImpObservableCollection<NodeViewModel>();
+                    temperaryNodes = new ObservableCollection<NodeViewModel>();
                 }
 
                 return temperaryNodes;
@@ -131,37 +130,20 @@ namespace VisualProgrammer.ViewModels.Designer
             {
                 if (newActiveNode == value)
                     return;
-                
-                if(newActiveNode != null)
+
+
+                if (newActiveNode != null)
                 {
                     TemperaryNodes.Remove(newActiveNode);
                 }
 
                 newActiveNode = value;
 
-                if(newActiveNode != null)
+                if (newActiveNode != null)
                 {
                     TemperaryNodes.Add(newActiveNode);
                 }
-
-                
             }
         }
-
-        #region Private Methods
-
-        /// <summary>
-        /// Event raised then Connections have been removed.
-        /// </summary>
-        private void connections_ItemsRemoved(object sender, CollectionItemsChangedEventArgs e)
-        {
-            foreach (ConnectionViewModel connection in e.Items)
-            {
-                connection.SourceConnector = null;
-                connection.DestConnector = null;
-            }
-        }
-
-        #endregion Private Methods
     }
 }

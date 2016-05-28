@@ -75,13 +75,24 @@
     <Compile Include="Controls\Adorners\DropDownAdornerControl.cs" />
     <Compile Include="Controls\Adorners\FrameworkElementAdorner.cs" />
     <Compile Include="Controls\ConnectionLink.cs" />
+    <Compile Include="Controls\DraggableEvents.cs" />
+    <Compile Include="Controls\DragHandler.cs" />
+    <Compile Include="Controls\DragDropContentControl.cs" />
     <Compile Include="Controls\Dropdowns\MultiLineDropDown.cs" />
     <Compile Include="Controls\Dropdowns\NumberDropDown.cs" />
     <Compile Include="Controls\Dropdowns\SelectionDropDown.cs" />
     <Compile Include="Controls\Dropdowns\SliderDropDown.cs" />
+    <Compile Include="Controls\IDraggable.cs" />
+    <Compile Include="Controls\IDropView.cs" />
     <Compile Include="Controls\PropertyEditor.cs" />
+    <Compile Include="Enums\MouseAction.cs" />
     <Compile Include="Enums\StatusType.cs" />
     <Compile Include="Enums\WriteType.cs" />
+    <Compile Include="Factory\MouseActionFactory.cs" />
+    <Compile Include="Factory\MouseActions\ArrowMouseAction.cs" />
+    <Compile Include="Factory\MouseActions\IMouseAction.cs" />
+    <Compile Include="Factory\MouseActions\MoveMouseAction.cs" />
+    <Compile Include="Factory\MouseActions\SelectMouseAction.cs" />
     <Compile Include="Processing\Builder.cs" />
     <Compile Include="Utilities\AbstractModelBase.cs" />
     <Compile Include="Utilities\CollectionItemsChangedEventArgs.cs" />
@@ -130,6 +141,19 @@
     <Compile Include="Views\Designer\NodeDragEvents.cs" />
     <Compile Include="Views\Designer\NodeItem.cs" />
     <Compile Include="Views\Designer\NodeItemsControl.cs" />
+    <Compile Include="Views\Restructure\Designer\Events\ConnectionEvents.cs" />
+    <Compile Include="Views\Restructure\Designer\Connector.cs" />
+    <Compile Include="Views\Restructure\Designer\Events\ConnectorEvents.cs" />
+    <Compile Include="Views\Restructure\Designer\DesignView.cs" />
+    <Compile Include="Views\Restructure\Designer\DesignView_ConnectorDragging.cs" />
+    <Compile Include="Views\Restructure\Designer\DesignView_DragAndDrop.cs" />
+    <Compile Include="Views\Restructure\Designer\DesignView_Mouse.cs" />
+    <Compile Include="Views\Restructure\Designer\DesignView_NodeDragging.cs" />
+    <Compile Include="Views\Restructure\Designer\Events\DraggingEvents.cs" />
+    <Compile Include="Views\Restructure\Designer\MouseToolPanel\MouseSelectorPanel.cs" />
+    <Compile Include="Views\Restructure\Designer\Node.cs" />
+    <Compile Include="Views\Restructure\Designer\NodeControl.cs" />
+    <Compile Include="Views\Restructure\Designer\Events\NodeEvents.cs" />
     <Compile Include="Views\Toolbox\ToolboxItem.cs" />
     <Compile Include="Views\Toolbox\ToolboxItemControl.cs" />
     <Compile Include="Views\Toolbox\ToolboxItemEvents.cs" />
@@ -159,11 +183,95 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SharedVisualTemplates.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Styles\ControlDataTemplates\ConnectionViewModelTemplate.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Generic.xaml">
+    <Page Include="Styles\ControlDataTemplates\ServoMoveNodeViewModelTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ControlDataTemplates\SleepNodeViewModelTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ControlDataTemplates\StartNodeViewModelTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ControlDataTemplates\ToolboxItemViewModelTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ControlDataTemplates\UARTSendNodeViewModelTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\ConnectorStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\DesignViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\DropDown\MultiLineDropDownStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\DropDown\NumberDropDownStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\DropDown\SelectionDropDownStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\DropDown\SliderDropDownStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\LogOutputViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\MousePanelStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\NodeStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\PropertyEditorStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\ToolboxItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CustomControls\ToolboxViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\NamedTemplates\InputConnectorTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\NamedTemplates\NodeListBoxTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\NamedTemplates\OutputConnectorTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\SharedStyleTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Old\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -229,6 +337,18 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\arrowIcon.png" />
+    <Resource Include="Resources\Images\selectIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\moveIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\node_selected.png" />
+    <Resource Include="Resources\Images\start-node_selected.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

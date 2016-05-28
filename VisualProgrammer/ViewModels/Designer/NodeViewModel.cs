@@ -73,11 +73,6 @@ namespace VisualProgrammer.ViewModels.Designer
         protected double opacity = 0.5;
 
         /// <summary>
-        /// The size of the node.
-        /// </summary>
-        private Size size = Size.Empty;
-
-        /// <summary>
         /// List of input connectors (connections points) attached to the node.
         /// </summary>
         private ConnectorViewModel inputConnector = null;
@@ -97,10 +92,7 @@ namespace VisualProgrammer.ViewModels.Designer
         /// </summary>
         private bool isVisible = true;
 
-        /// <summary>
-        /// Sets to 'true' when the node is pressed (node is being dragged)
-        /// </summary>
-        private bool isPressed = false;
+        private Point startLocation = new Point(0, 0);
 
         #endregion Private Data Members
 
@@ -182,6 +174,22 @@ namespace VisualProgrammer.ViewModels.Designer
             }
         }
 
+        public virtual double Width
+        {
+            get
+            {
+                return 0.0;
+            }
+        }
+
+        public virtual double Height
+        {
+            get
+            {
+                return 0.0;
+            }
+        }
+
         /// <summary>
         /// The Z index of the node.
         /// </summary>
@@ -240,31 +248,6 @@ namespace VisualProgrammer.ViewModels.Designer
         }
 
         /// <summary>
-        /// The size of the node.
-        /// </summary>
-        public Size Size
-        {
-            get
-            {
-                return size;
-            }
-            set
-            {
-                if (size == value)
-                {
-                    return;
-                }
-
-                size = value;
-
-                if (SizeChanged != null)
-                {
-                    SizeChanged(this, EventArgs.Empty);
-                }
-            }
-        }
-
-        /// <summary>
         /// The status if the node is visible or not
         /// </summary>
         public bool IsVisible
@@ -286,26 +269,6 @@ namespace VisualProgrammer.ViewModels.Designer
                 {
                     VisibilityChanged(this, new VisibilityEventArgs(isVisible));
                 }
-            }
-        }
-
-        /// <summary>
-        /// The status of if the node is externally pressed or not
-        /// </summary>
-        public bool IsPressed
-        {
-            get
-            {
-                return isPressed;
-            }
-            set
-            {
-                if (isPressed == value)
-                    return;
-
-                isPressed = value;
-
-                OnPropertyChanged("IsLeftMouseDown");
             }
         }
 
@@ -415,6 +378,18 @@ namespace VisualProgrammer.ViewModels.Designer
 
                 OnPropertyChanged("IsSelected");
             }
+        }
+
+        public void SaveLocation()
+        {
+            startLocation.X = this.X;
+            startLocation.Y = this.Y;
+        }
+
+        public void ResetLocation()
+        {
+            this.X = startLocation.X;
+            this.Y = startLocation.Y;
         }
     }
 }

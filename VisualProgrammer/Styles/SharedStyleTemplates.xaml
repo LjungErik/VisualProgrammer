@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converter="clr-namespace:VisualProgrammer.Utilities.Converter">
+
+    <BooleanToVisibilityConverter
+        x:Key="booleanToVisibilityConverter" 
+        />
+
+    <converter:InvertedBooleanToVisibilityConverter
+        x:Key="invertedBooleanToVisibilityConverter"
+        />
+
+    <converter:StringToDegreesConverter
+        x:Key="stringToDegreesConverter"
+        />
+
+    <converter:StringToServoNumberConverter
+        x:Key="stringToServoNumberConverter"
+        />
+
+    <converter:WriteTypeToColorConverter
+        x:Key="writeTypeToColorConverter"
+        />
+
+    <converter:StatusTypeToColorConverter
+        x:Key="statusTypeToColorConverter"
+        />
+
+    <converter:StatusTypeToStatusStringConverter
+        x:Key="statusTypeToStatusStringConverter"
+        />
+
+    <converter:StatusTypeToBooleanConverter
+        x:Key="statusTypeToBooleanConverter"
+        />
+
+    <SolidColorBrush
+        x:Key="connectionBrush"
+        Color="Black"
+        />
+
+    <SolidColorBrush
+        x:Key="connectorBackgroundBrush"
+        Color="Transparent"
+        />
+
+</ResourceDictionary>

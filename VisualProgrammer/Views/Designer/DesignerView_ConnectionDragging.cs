@@ -112,7 +112,6 @@ namespace VisualProgrammer.Views.Designer
 
             Trace.Assert((ConnectorItem)e.OriginalSource == this.draggedOutConnectorItem);
 
-            Point mousePoint = Mouse.GetPosition(this);
             //
             // Raise an event so that application code can compute intermediate connection points.
             //

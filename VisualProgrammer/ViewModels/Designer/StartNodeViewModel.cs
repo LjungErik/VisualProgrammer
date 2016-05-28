@@ -36,5 +36,21 @@ namespace VisualProgrammer.ViewModels.Designer
             opacity = 1;
             OutputConnector = new ConnectorViewModel();
         }
+
+        public override double Width
+        {
+            get
+            {
+                return 160;
+            }
+        }
+
+        public override double Height
+        {
+            get
+            {
+                return 154;
+            }
+        }
     }
 }
