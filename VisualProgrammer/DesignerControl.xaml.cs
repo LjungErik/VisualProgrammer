@@ -123,9 +123,8 @@ namespace VisualProgrammer
         /// </summary>
         private void designerControl_NodeDragCompleted(object sender, NodeDragCompletedEventArgs e)
         {
-
             Point mouse = Mouse.GetPosition(toolboxView);
-            //Check if dropped on toolbox
+
             if (HitTest(mouse, toolboxView))
             {
                 NodeViewModel[] nodes = new NodeViewModel[e.Nodes.Count];
@@ -135,7 +134,6 @@ namespace VisualProgrammer
 
             e.Cancel = IsOutOfBounds();
 
-            //Update the toolbox
             toolboxView.IsNodeDraggedOver = false;
             toolboxView.IsNodeDragged = false;
             Mouse.OverrideCursor = null;
@@ -172,25 +170,11 @@ namespace VisualProgrammer
         private void toolboxView_DraggedOver(object sender, DragDropEventArgs e)
         {
             Mouse.OverrideCursor = null;
-            var toolItem = e.DraggedItem as ToolboxItem;
-            if (toolItem != null)
-            {
-                var toolDataContext = (ToolboxItemViewModel)toolItem.DataContext;
-                var mouseLocation = Mouse.GetPosition(designerControl);
-                ViewModel.DraggingInNode(toolDataContext, mouseLocation);
-            }
         }
 
         private void designerControl_DraggedOver(object sender, DragDropEventArgs e)
         {
             Mouse.OverrideCursor = null;
-            //TODO PREPARE FOR DROP AND SAVE NODE IN TEMP
-            //var toolItem = e.DraggedItem as ToolboxItem;
-            //if (toolItem != null)
-            //{
-            //    var toolDataContext = (ToolboxItemViewModel)toolItem.DataContext;
-            //    ViewModel.DraggingInNode(toolDataContext, e.MousePoint);
-            //}
         }
 
         private void designerControl_DroppedOver(object sender, DragDropEventArgs e)
@@ -202,7 +186,7 @@ namespace VisualProgrammer
             {
                 var toolDataContext = (ToolboxItemViewModel)toolItem.DataContext;
                 var mouseLocation = Mouse.GetPosition(designerControl);
-                retItem = ViewModel.DropNode(mouseLocation);
+                retItem = ViewModel.DropNode(toolDataContext, mouseLocation);
             }
             e.ReturnItem = retItem;
         }

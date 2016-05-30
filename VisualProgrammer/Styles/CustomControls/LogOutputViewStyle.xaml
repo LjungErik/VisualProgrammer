@@ -21,7 +21,7 @@
                                 <Grid Background="Black">
                                     <ItemsControl
                                         Margin="5, 0"
-                                        ItemsSource="{TemplateBinding Logs}"
+                                        ItemsSource="{TemplateBinding LogsSource}"
                                         >
 
                                         <ItemsControl.ItemsPanel>

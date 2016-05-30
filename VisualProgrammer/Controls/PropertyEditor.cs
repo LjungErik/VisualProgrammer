@@ -35,9 +35,6 @@ namespace VisualProgrammer.Controls
 
         #region Private Method
 
-        /// <summary>
-        /// Static constructor.
-        /// </summary>
         static PropertyEditor()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PropertyEditor), new FrameworkPropertyMetadata(typeof(PropertyEditor)));

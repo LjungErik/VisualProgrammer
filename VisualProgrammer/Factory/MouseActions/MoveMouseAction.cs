@@ -87,7 +87,7 @@ namespace VisualProgrammer.Factory.MouseActions
 
         private void MoveDesignView(DesignView designView, double horizontalChange, double verticalChange)
         {
-            foreach(NodeViewModel node in designView.Nodes)
+            foreach(NodeViewModel node in designView.NodesSource)
             {
                 /* Shift the position of the nodes */
                 node.X += horizontalChange;

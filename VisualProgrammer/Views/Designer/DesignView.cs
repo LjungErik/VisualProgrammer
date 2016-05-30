@@ -33,32 +33,11 @@ namespace VisualProgrammer.Views.Restructure.Designer
 
         #region Dependency Properties
 
-        private static readonly DependencyPropertyKey NodesPropertyKey =
-            DependencyProperty.RegisterReadOnly("Nodes", typeof(ObservableCollection<object>), typeof(DesignView),
-                new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty NodesProperty = NodesPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey ConnectionsPropertyKey =
-            DependencyProperty.RegisterReadOnly("Connections", typeof(ObservableCollection<object>), typeof(DesignView),
-                new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty ConnectionsProperty = ConnectionsPropertyKey.DependencyProperty;
-
-        private static readonly DependencyPropertyKey TemperaryNodesPropertyKey =
-            DependencyProperty.RegisterReadOnly("TemperaryNodes", typeof(ObservableCollection<object>), typeof(DesignView),
-                new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty TemperaryNodesProperty = TemperaryNodesPropertyKey.DependencyProperty;
-
         public static readonly DependencyProperty NodesSourceProperty =
-            DependencyProperty.Register("NodesSource", typeof(IEnumerable), typeof(DesignView),
-                new FrameworkPropertyMetadata(NodesSource_PropertyChanged));
+            DependencyProperty.Register("NodesSource", typeof(IEnumerable), typeof(DesignView));
 
         public static readonly DependencyProperty ConnectionsSourceProperty =
-            DependencyProperty.Register("ConnectionsSource", typeof(IEnumerable), typeof(DesignView),
-                new FrameworkPropertyMetadata(ConnectionsSource_PropertyChanged));
-
-        public static readonly DependencyProperty TemperaryNodesSourceProperty =
-            DependencyProperty.Register("TemperaryNodesSource", typeof(IEnumerable), typeof(DesignView),
-                new FrameworkPropertyMetadata(TemperaryNodesSource_PropertyChanged));
+            DependencyProperty.Register("ConnectionsSource", typeof(IEnumerable), typeof(DesignView));
 
         public static readonly DependencyProperty MouseHandlerProperty =
             DependencyProperty.Register("MouseHandler", typeof(IMouseAction), typeof(DesignView));
@@ -91,12 +70,6 @@ namespace VisualProgrammer.Views.Restructure.Designer
 
         public DesignView()
         {
-            this.Nodes = new ObservableCollection<object>();
-
-            this.Connections = new ObservableCollection<object>();
-
-            this.TemperaryNodes = new ObservableCollection<object>();
-
             this.Background = Brushes.White;
 
             AddHandler(Node.NodeDragStartedEvent, new NodeDragStartedEventHandler(Node_DragStarted));
@@ -105,42 +78,6 @@ namespace VisualProgrammer.Views.Restructure.Designer
             AddHandler(Connector.ConnectorDragStartedEvent, new ConnectorDragStartedEventHandler(Connector_DragStarted));
             AddHandler(Connector.ConnectorDraggingEvent, new ConnectorDraggingEventHander(Connector_Dragging));
             AddHandler(Connector.ConnectorDragCompletedEvent, new ConnectorDragCompletedEventHandler(Connector_DragCompleted));
-        }
-
-        public ObservableCollection<object> Nodes
-        {
-            get
-            {
-                return (ObservableCollection<object>)GetValue(NodesProperty);
-            }
-            private set
-            {
-                SetValue(NodesPropertyKey, value);
-            }
-        }
-
-        public ObservableCollection<object> Connections
-        {
-            get
-            {
-                return (ObservableCollection<object>)GetValue(ConnectionsProperty);
-            }
-            private set
-            {
-                SetValue(ConnectionsPropertyKey, value);
-            }
-        }
-
-        public ObservableCollection<object> TemperaryNodes
-        {
-            get
-            {
-                return (ObservableCollection<object>)GetValue(TemperaryNodesProperty);
-            }
-            set
-            {
-                SetValue(TemperaryNodesPropertyKey, value);
-            }
         }
 
         public IEnumerable NodesSource
@@ -164,18 +101,6 @@ namespace VisualProgrammer.Views.Restructure.Designer
             set
             {
                 SetValue(ConnectionsSourceProperty, value);
-            }
-        }
-
-        public IEnumerable TemperaryNodesSource
-        {
-            get
-            {
-                return (IEnumerable)GetValue(TemperaryNodesSourceProperty);
-            }
-            set
-            {
-                SetValue(TemperaryNodesSourceProperty, value);
             }
         }
 
@@ -323,9 +248,9 @@ namespace VisualProgrammer.Views.Restructure.Designer
             if(nodeControl.SelectedItems.Count > 0)
                 nodeControl.SelectedItems.Clear();
 
-            for(int nodeIndex = 0; nodeIndex < this.Nodes.Count; ++nodeIndex)
+            foreach(var nodeDataContext in NodesSource)
             {
-                var node = (Node)nodeControl.ItemContainerGenerator.ContainerFromIndex(nodeIndex);
+                var node = (Node)nodeControl.ItemContainerGenerator.ContainerFromItem(nodeDataContext);
                 var transformToAncestor = node.TransformToAncestor(this);
                 Point itemPt1 = transformToAncestor.Transform(new Point(0, 0));
                 Point itemPt2 = transformToAncestor.Transform(new Point(node.ActualWidth, node.ActualHeight));
@@ -349,193 +274,6 @@ namespace VisualProgrammer.Views.Restructure.Designer
         static DesignView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignView), new FrameworkPropertyMetadata(typeof(DesignView)));
-        }
-
-        #endregion Private Methods
-
-        #region Property Changed Methods
-
-        private static void NodesSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DesignView c = (DesignView)d;
-
-            c.Nodes.Clear();
-
-            if (e.OldValue != null)
-            {
-                var notifyCollectionChanged = e.OldValue as INotifyCollectionChanged;
-                if (notifyCollectionChanged != null)
-                {
-                    notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(c.NodesSource_CollectionChanged);
-                }
-            }
-
-            if (e.NewValue != null)
-            {
-                var enumerable = e.NewValue as IEnumerable;
-                if (enumerable != null)
-                {
-                    foreach (object obj in enumerable)
-                    {
-                        c.Nodes.Add(obj);
-                    }
-                }
-
-                var notifyCollectionChanged = e.NewValue as INotifyCollectionChanged;
-                if (notifyCollectionChanged != null)
-                {
-                    notifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(c.NodesSource_CollectionChanged);
-                }
-            }
-        }
-
-        private void NodesSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                Nodes.Clear();
-            }
-            else
-            {
-                if (e.OldItems != null)
-                {
-                    foreach (object obj in e.OldItems)
-                    {
-                        Nodes.Remove(obj);
-                    }
-                }
-
-                if (e.NewItems != null)
-                {
-                    foreach (object obj in e.NewItems)
-                    {
-                        Nodes.Add(obj);
-                    }
-                }
-            }
-        }
-
-        private static void ConnectionsSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DesignView c = (DesignView)d;
-
-            c.Connections.Clear();
-
-            if (e.OldValue != null)
-            {
-                INotifyCollectionChanged notifyCollectionChanged = e.NewValue as INotifyCollectionChanged;
-                if (notifyCollectionChanged != null)
-                {
-                    notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(c.ConnectionsSource_CollectionChanged);
-                }
-            }
-
-            if (e.NewValue != null)
-            {
-                IEnumerable enumerable = e.NewValue as IEnumerable;
-                if (enumerable != null)
-                {
-                    foreach (object obj in enumerable)
-                    {
-                        c.Connections.Add(obj);
-                    }
-                }
-
-                INotifyCollectionChanged notifyCollectionChanged = e.NewValue as INotifyCollectionChanged;
-                if (notifyCollectionChanged != null)
-                {
-                    notifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(c.ConnectionsSource_CollectionChanged);
-                }
-            }
-        }
-
-        private void ConnectionsSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-
-                Connections.Clear();
-            }
-            else
-            {
-                if (e.OldItems != null)
-                {
-
-                    foreach (object obj in e.OldItems)
-                    {
-                        Connections.Remove(obj);
-                    }
-                }
-
-                if (e.NewItems != null)
-                {
-
-                    foreach (object obj in e.NewItems)
-                    {
-                        Connections.Add(obj);
-                    }
-                }
-            }
-        }
-
-        private static void TemperaryNodesSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            DesignView c = (DesignView)d;
-
-            c.TemperaryNodes.Clear();
-
-            if (e.OldValue != null)
-            {
-                INotifyCollectionChanged notifyCollectionChanged = e.NewValue as INotifyCollectionChanged;
-                if (notifyCollectionChanged != null)
-                {
-                    notifyCollectionChanged.CollectionChanged -= new NotifyCollectionChangedEventHandler(c.TemperaryNodesSource_CollectionChanged);
-                }
-            }
-
-            if (e.NewValue != null)
-            {
-                IEnumerable enumerable = e.NewValue as IEnumerable;
-                if (enumerable != null)
-                {
-                    foreach (object obj in enumerable)
-                    {
-                        c.TemperaryNodes.Add(obj);
-                    }
-                }
-
-                INotifyCollectionChanged notifyCollectionChanged = e.NewValue as INotifyCollectionChanged;
-                if (notifyCollectionChanged != null)
-                {
-                    notifyCollectionChanged.CollectionChanged += new NotifyCollectionChangedEventHandler(c.TemperaryNodesSource_CollectionChanged);
-                }
-            }
-        }
-
-        private void TemperaryNodesSource_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                TemperaryNodes.Clear();
-            }
-            else
-            {
-                if (e.OldItems != null)
-                {
-                    foreach (object obj in e.OldItems)
-                    {
-                        TemperaryNodes.Remove(obj);
-                    }
-                }
-
-                if (e.NewItems != null)
-                {
-                    foreach (object obj in e.NewItems)
-                    {
-                        TemperaryNodes.Add(obj);
-                    }
-                }
-            }
         }
 
         #endregion Private Methods

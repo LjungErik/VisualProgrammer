@@ -8,6 +8,11 @@ namespace VisualProgrammer.ViewModels.Designer
 {
     public class StartNodeViewModel : NodeViewModel
     {
+        public StartNodeViewModel()
+        {
+            OutputConnector = new ConnectorViewModel();
+        }
+
         /// <summary>
         /// Overrides the InputConnector because not needed on start node
         /// </summary>
@@ -29,12 +34,6 @@ namespace VisualProgrammer.ViewModels.Designer
 
                 return attachedConnections;
             }
-        }
-
-        public StartNodeViewModel()
-        {
-            opacity = 1;
-            OutputConnector = new ConnectorViewModel();
         }
 
         public override double Width

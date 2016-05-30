@@ -11,24 +11,17 @@
                     <Grid>
                         <Grid 
                                 Background="White">
-                            
-                            <designView:NodeControl
-                                    x:Name="PART_TemperaryNodesControl"
-                                    ItemsSource="{TemplateBinding TemperaryNodes}"
-                                    Style="{StaticResource nodeListBoxStyle}"
-                                    Visibility="Collapsed"
-                                    />
 
                             <designView:NodeControl
                                     x:Name="PART_NodesControl"
-                                    ItemsSource="{TemplateBinding Nodes}"
+                                    ItemsSource="{TemplateBinding NodesSource}"
                                     SelectionMode="Extended"
                                     Style="{StaticResource nodeListBoxStyle}"
                                     />
 
                             <ItemsControl
                                     x:Name="PART_ConnectionsControl"
-                                    ItemsSource="{TemplateBinding Connections}">
+                                    ItemsSource="{TemplateBinding ConnectionsSource}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <Canvas/>

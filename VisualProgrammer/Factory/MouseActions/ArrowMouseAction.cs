@@ -18,17 +18,14 @@ namespace VisualProgrammer.Factory.MouseActions
 
         public void OnMouseDown(DesignView designView, MouseEventArgs e)
         {
-            //throw new NotImplementedException();
         }
 
         public void OnMouseMove(DesignView designView, MouseEventArgs e)
         {
-            //throw new NotImplementedException();
         }
 
         public void OnMouseUp(DesignView designView, MouseEventArgs e)
         {
-            //throw new NotImplementedException();
         }
     }
 }

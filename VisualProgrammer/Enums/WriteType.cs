@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace VisualProgrammer.Enums
 {
-    /// <summary>
-    /// The different types of writes that 
-    /// can be performed on buffer
-    /// </summary>
     public enum WriteType
     {
         Info,

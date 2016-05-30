@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace VisualProgrammer.ViewModels.CompilerStatus
         /// <summary>
         /// Holds the activlly logged events
         /// </summary>
-        private ImpObservableCollection<LogViewModel> logs = null;
+        private ObservableCollection<LogViewModel> logs = null;
 
         private CompileLogger logger = null;
 
@@ -24,10 +25,10 @@ namespace VisualProgrammer.ViewModels.CompilerStatus
 
         public LogOutputViewModel()
         {
-            logs = new ImpObservableCollection<LogViewModel>();
+            logs = new ObservableCollection<LogViewModel>();
         }
 
-        public ImpObservableCollection<LogViewModel> Logs
+        public ObservableCollection<LogViewModel> Logs
         {
             get
             {

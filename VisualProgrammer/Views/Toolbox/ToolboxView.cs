@@ -18,15 +18,9 @@ namespace VisualProgrammer.Views.Toolbox
     public class ToolboxView : Control, IDropView
     {
         #region Dependency Property/Event Definitions
-        
-        private static readonly DependencyPropertyKey ToolsPropertyKey =
-            DependencyProperty.RegisterReadOnly("Tools", typeof(ImpObservableCollection<object>), typeof(ToolboxView),
-                new FrameworkPropertyMetadata());
-        public static readonly DependencyProperty ToolsProperty = ToolsPropertyKey.DependencyProperty;
 
         public static readonly DependencyProperty ToolsSourceProperty =
-            DependencyProperty.Register("ToolsSource", typeof(IEnumerable), typeof(ToolboxView),
-                    new FrameworkPropertyMetadata(ToolsSource_PropertyChanged));
+            DependencyProperty.Register("ToolsSource", typeof(IEnumerable), typeof(ToolboxView));
 
         public static readonly DependencyProperty IsNodeDraggedPropertry =
             DependencyProperty.Register("IsNodeDragged", typeof(bool), typeof(ToolboxView));
@@ -50,24 +44,7 @@ namespace VisualProgrammer.Views.Toolbox
         {
             this.Background = Brushes.White;
 
-            this.Tools = new ImpObservableCollection<object>();
-
             AddHandler(ToolboxItem.ToolboxItemDropCanceledEvent, new ToolboxItemDropCanceledEventHandler(ToolboxItem_DropCanceled));
-        }
-
-        /// <summary>
-        /// Collection of tools in the toolbox.
-        /// </summary>
-        public ImpObservableCollection<object> Tools
-        {
-            get
-            {
-                return (ImpObservableCollection<object>)GetValue(ToolsProperty);
-            }
-            private set
-            {
-                SetValue(ToolsPropertyKey, value);
-            }
         }
 
         /// <summary>
@@ -161,28 +138,6 @@ namespace VisualProgrammer.Views.Toolbox
             e.Handled = true;
 
             RaiseEvent(new ToolboxItemEventArgs(ToolboxItemDropCanceledEvent, this, e.Item));
-        }
-
-        /// <summary>
-        /// Event raised when a new collection has been assigned to the 'ToolsSource' property.
-        /// </summary>
-        private static void ToolsSource_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-           ToolboxView c = (ToolboxView)d;
-
-            c.Tools.Clear();
-
-            if (e.NewValue != null)
-            {
-                var enumerable = e.NewValue as IEnumerable;
-                if (enumerable != null)
-                {
-                    foreach (object obj in enumerable)
-                    {
-                        c.Tools.Add(obj);
-                    }
-                }
-            }
         }
 
         #endregion Private Methods

@@ -9,9 +9,6 @@ namespace VisualProgrammer.Utilities.Logger
 {
     #region Events Args/Delegates
 
-    /// <summary>
-    /// Event args for when the logger has changed
-    /// </summary>
     public class CompilerLogChangedEventArgs : EventArgs
     {
         public CompilerLogChangedEventArgs(WriteType type, string logMessage)
@@ -20,23 +17,13 @@ namespace VisualProgrammer.Utilities.Logger
             this.LogMessage = logMessage;
         }
 
-        /// <summary>
-        /// The type of write command performed
-        /// </summary>
         public WriteType Type { get; private set; }
-
-        /// <summary>
-        /// The message that is to be written
-        /// </summary>
         public string LogMessage { get; private set; }
 
     }
 
     public delegate void CompilerLogChangedEventHandler(object sender, CompilerLogChangedEventArgs e);
 
-    /// <summary>
-    /// Event args for when the progress of the logger is changed
-    /// </summary>
     public class CompilerLogProgressChangedEventArgs : EventArgs
     {
         public CompilerLogProgressChangedEventArgs(double progress)
@@ -44,17 +31,11 @@ namespace VisualProgrammer.Utilities.Logger
             this.Progress = progress;
         }
 
-        /// <summary>
-        /// The new progress that was changed to
-        /// </summary>
         public double Progress { get; private set; }
     }
 
     public delegate void CompilerLogProgressChangedEventHandler(object sender, CompilerLogProgressChangedEventArgs e);
 
-    /// <summary>
-    /// Event args for when the status of the logger is changed
-    /// </summary>
     public class CompilerLogStatusChangedEventArgs : EventArgs
     {
         public CompilerLogStatusChangedEventArgs(StatusType status)
@@ -69,10 +50,6 @@ namespace VisualProgrammer.Utilities.Logger
 
     #endregion Events Args/Delegates
 
-    /// <summary>
-    /// Static compile logger that signals
-    /// when new events occur
-    /// </summary>
     public class CompileLogger
     {
         #region Event

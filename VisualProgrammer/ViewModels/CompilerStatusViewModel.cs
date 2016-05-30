@@ -13,14 +13,8 @@ namespace VisualProgrammer.ViewModels
 
         #region Private Data Members
 
-        /// <summary>
-        /// The representation of the output from the logger
-        /// </summary>
         private LogOutputViewModel logOutput = null;
 
-        /// <summary>
-        /// The representation of the progress for the logger
-        /// </summary>
         private LogProgressViewModel logProgress = null;
 
         #endregion Private Data Members

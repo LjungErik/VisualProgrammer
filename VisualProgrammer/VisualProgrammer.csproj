@@ -111,9 +111,8 @@
     <Compile Include="ViewModels\CompilerStatus\LogProgressViewModel.cs" />
     <Compile Include="ViewModels\DesignerControlViewModel.cs" />
     <Compile Include="ViewModels\Designer\ConnectionViewModel.cs" />
-    <Compile Include="ViewModels\Designer\ConnectorType.cs" />
     <Compile Include="ViewModels\Designer\ConnectorViewModel.cs" />
-    <Compile Include="ViewModels\Designer\DesignerViewModel.cs" />
+    <Compile Include="ViewModels\Designer\DesignViewModel.cs" />
     <Compile Include="ViewModels\Designer\NodeViewModel.cs" />
     <Compile Include="ViewModels\Designer\ServoMoveNodeViewModel.cs" />
     <Compile Include="ViewModels\CompilerStatus\LogOutputViewModel.cs" />
@@ -131,29 +130,19 @@
       <DependentUpon>DesignerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CompilerStatus\LogOutputView.cs" />
-    <Compile Include="Views\Designer\ConnectionDragEvents.cs" />
-    <Compile Include="Views\Designer\ConnectorItem.cs" />
-    <Compile Include="Views\Designer\ConnectorItemDragEvents.cs" />
-    <Compile Include="Views\Designer\DesignerView.cs" />
-    <Compile Include="Views\Designer\DesignerView_ConnectionDragging.cs" />
-    <Compile Include="Views\Designer\DesignerView_DragSelection.cs" />
-    <Compile Include="Views\Designer\DesignerView_NodeDragging.cs" />
-    <Compile Include="Views\Designer\NodeDragEvents.cs" />
-    <Compile Include="Views\Designer\NodeItem.cs" />
-    <Compile Include="Views\Designer\NodeItemsControl.cs" />
-    <Compile Include="Views\Restructure\Designer\Events\ConnectionEvents.cs" />
-    <Compile Include="Views\Restructure\Designer\Connector.cs" />
-    <Compile Include="Views\Restructure\Designer\Events\ConnectorEvents.cs" />
-    <Compile Include="Views\Restructure\Designer\DesignView.cs" />
-    <Compile Include="Views\Restructure\Designer\DesignView_ConnectorDragging.cs" />
-    <Compile Include="Views\Restructure\Designer\DesignView_DragAndDrop.cs" />
-    <Compile Include="Views\Restructure\Designer\DesignView_Mouse.cs" />
-    <Compile Include="Views\Restructure\Designer\DesignView_NodeDragging.cs" />
-    <Compile Include="Views\Restructure\Designer\Events\DraggingEvents.cs" />
-    <Compile Include="Views\Restructure\Designer\MouseToolPanel\MouseSelectorPanel.cs" />
-    <Compile Include="Views\Restructure\Designer\Node.cs" />
-    <Compile Include="Views\Restructure\Designer\NodeControl.cs" />
-    <Compile Include="Views\Restructure\Designer\Events\NodeEvents.cs" />
+    <Compile Include="Views\Designer\Events\ConnectionEvents.cs" />
+    <Compile Include="Views\Designer\Connector.cs" />
+    <Compile Include="Views\Designer\Events\ConnectorEvents.cs" />
+    <Compile Include="Views\Designer\DesignView.cs" />
+    <Compile Include="Views\Designer\DesignView_ConnectorDragging.cs" />
+    <Compile Include="Views\Designer\DesignView_DragAndDrop.cs" />
+    <Compile Include="Views\Designer\DesignView_Mouse.cs" />
+    <Compile Include="Views\Designer\DesignView_NodeDragging.cs" />
+    <Compile Include="Views\Designer\Events\DraggingEvents.cs" />
+    <Compile Include="Views\Designer\MouseToolPanel\MouseSelectorPanel.cs" />
+    <Compile Include="Views\Designer\Node.cs" />
+    <Compile Include="Views\Designer\NodeControl.cs" />
+    <Compile Include="Views\Designer\Events\NodeEvents.cs" />
     <Compile Include="Views\Toolbox\ToolboxItem.cs" />
     <Compile Include="Views\Toolbox\ToolboxItemControl.cs" />
     <Compile Include="Views\Toolbox\ToolboxItemEvents.cs" />
@@ -271,10 +260,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Old\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="DesignerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -352,7 +337,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>powershell.exe -command "$(ProjectDir)build-script.ps1 -configName $(ConfigurationName)"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

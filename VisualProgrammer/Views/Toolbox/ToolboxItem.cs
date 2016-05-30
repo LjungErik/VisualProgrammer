@@ -20,9 +20,6 @@ namespace VisualProgrammer.Views.Toolbox
 
         #region Dependency Property/Event Definitions
 
-        //public static readonly RoutedEvent ToolboxItemDragStartedEvent =
-        //    EventManager.RegisterRoutedEvent("ToolboxItemDragStarted", RoutingStrategy.Bubble, typeof(ToolboxItemDragStartedEventHandler), typeof(ToolboxItem));
-
         public static readonly RoutedEvent ToolboxItemDropCanceledEvent =
             EventManager.RegisterRoutedEvent("ToolboxItemDropCanceled", RoutingStrategy.Bubble, typeof(ToolboxItemDropCanceledEventHandler), typeof(ToolboxItem));
 

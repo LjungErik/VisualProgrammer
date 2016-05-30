@@ -12,7 +12,6 @@
                         LineColor="{StaticResource connectionBrush}"
                         LineThickness="2"
                         Points="{Binding Points}"
-                        Opacity="{Binding Opacity}"
                         Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}"
                         />
     </DataTemplate>

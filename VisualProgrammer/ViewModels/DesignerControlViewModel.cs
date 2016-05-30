@@ -23,38 +23,9 @@ namespace VisualProgrammer.ViewModels
     {
         #region Internal Data Members
 
-        /// <summary>
-        /// This is the designer that is displayed in the window.
-        /// It is the main part of the view-model.
-        /// </summary>
-        public DesignerViewModel designer = null;
+        public DesignViewModel designer = null;
 
         public ToolboxViewModel toolbox = null;
-
-        ///
-        /// The current scale at which the content is being viewed.
-        /// 
-        private double contentScale = 1;
-
-        ///
-        /// The X coordinate of the offset of the viewport onto the content (in content coordinates).
-        /// 
-        private double contentOffsetX = 0;
-
-        ///
-        /// The Y coordinate of the offset of the viewport onto the content (in content coordinates).
-        /// 
-        private double contentOffsetY = 0;
-
-        ///
-        /// The width of the content (in content coordinates).
-        /// 
-        private double contentWidth = 1000;
-
-        ///
-        /// The heigth of the content (in content coordinates).
-        /// 
-        private double contentHeight = 1000;
 
         #endregion Internal Data Members
 
@@ -64,11 +35,7 @@ namespace VisualProgrammer.ViewModels
             PopulateWithTestData();
         }
 
-        /// <summary>
-        /// This is the Designer that is displayed in the window.
-        /// It is the main part of the view-model.
-        /// </summary>
-        public DesignerViewModel Designer
+        public DesignViewModel Designer
         {
             get
             {
@@ -96,91 +63,6 @@ namespace VisualProgrammer.ViewModels
             }
         }
 
-        ///
-        /// The current scale at which the content is being viewed.
-        /// 
-        public double ContentScale
-        {
-            get
-            {
-                return contentScale;
-            }
-            set
-            {
-                contentScale = value;
-
-                OnPropertyChanged("ContentScale");
-            }
-        }
-
-        ///
-        /// The X coordinate of the offset of the viewport onto the content (in content coordinates).
-        /// 
-        public double ContentOffsetX
-        {
-            get
-            {
-                return contentOffsetX;
-            }
-            set
-            {
-                contentOffsetX = value;
-
-                OnPropertyChanged("ContentOffsetX");
-            }
-        }
-
-        ///
-        /// The Y coordinate of the offset of the viewport onto the content (in content coordinates).
-        /// 
-        public double ContentOffsetY
-        {
-            get
-            {
-                return contentOffsetY;
-            }
-            set
-            {
-                contentOffsetY = value;
-
-                OnPropertyChanged("ContentOffsetY");
-            }
-        }
-
-        ///
-        /// The width of the content (in content coordinates).
-        /// 
-        public double ContentWidth
-        {
-            get
-            {
-                return contentWidth;
-            }
-            set
-            {
-                contentWidth = value;
-
-                OnPropertyChanged("ContentWidth");
-            }
-        }
-
-        ///
-        /// The heigth of the content (in content coordinates).
-        /// 
-        public double ContentHeight
-        {
-            get
-            {
-                return contentHeight;
-            }
-            set
-            {
-                contentHeight = value;
-
-                OnPropertyChanged("ContentHeight");
-            }
-        }
-
         /// <summary>
         /// Called when the user has started to drag out a connector, thus creating a new connection.
         /// </summary>
@@ -188,27 +70,13 @@ namespace VisualProgrammer.ViewModels
         {
             var existingConnection = draggedOutConnector.AttachedConnection;
             if(existingConnection != null)
-            {
-                //
-                // Remove any existing connection so that there
-                // is only one connection going from the connector
-                //
                 this.Designer.Connections.Remove(existingConnection);
-            }
 
-            //
-            // Create a new connection to add to the view-model.
-            //
             var connection = new ConnectionViewModel();
 
-            //
-            // The user is dragging out a source connector (an output) and will connect it to a destination connector (an input).
-            //
             connection.SourceConnector = draggedOutConnector;
             connection.DestConnectorHotspot = curDragPoint;
-            //
-            // Add the new connection to the view-model.
-            //
+
             this.Designer.Connections.Add(connection);
 
             return connection;
@@ -220,13 +88,9 @@ namespace VisualProgrammer.ViewModels
         public void ConnectionDragging(Point curDragPoint, ConnectionViewModel connection)
         {
             if (connection.DestConnector == null)
-            {
                 connection.DestConnectorHotspot = curDragPoint;
-            }
             else
-            {
                 connection.SourceConnectorHotspot = curDragPoint;
-            }
         }
 
         /// <summary>
@@ -236,6 +100,7 @@ namespace VisualProgrammer.ViewModels
         {
             if (nodeDraggedOver == null || nodeDraggedOver.InputConnector == null)
             {
+                connectorDraggedOut.AttachedConnection = null;
                 this.Designer.Connections.Remove(newConnection);
                 return;
             }
@@ -244,6 +109,7 @@ namespace VisualProgrammer.ViewModels
 
             if(FindLoop(connectorDraggedOut, inputConnector))
             {
+                connectorDraggedOut.AttachedConnection = null;
                 this.Designer.Connections.Remove(newConnection);
                 return;
             }
@@ -297,16 +163,13 @@ namespace VisualProgrammer.ViewModels
 
             //Remove as startnode 
             if(node is StartNodeViewModel)
-            {
                 this.Designer.StartNode = null;
-            }
         }
 
         #region Private Methods
 
         private bool FindLoop(ConnectorViewModel outputConnector, ConnectorViewModel inputConnector)
         {
-            Trace.Assert(outputConnector.Type != inputConnector.Type);
 
             NodeViewModel outputNode = outputConnector.ParentNode;
             NodeViewModel currentNode = inputConnector.ParentNode;
@@ -334,7 +197,7 @@ namespace VisualProgrammer.ViewModels
         /// </summary>
         private void PopulateWithTestData()
         {
-            this.Designer = new DesignerViewModel();
+            this.Designer = new DesignViewModel();
             this.Toolbox = new ToolboxViewModel();
 
             CreateStartNode(new Point(50, 150));
@@ -343,39 +206,22 @@ namespace VisualProgrammer.ViewModels
 
         #endregion Private Methods
 
-        public void DraggingInNode(ToolboxItemViewModel tool, Point mousePosition)
+        public NodeViewModel DropNode(ToolboxItemViewModel tool, Point mousePosition)
         {
-            if (this.Designer.NewActiveNode != null)
-                return;
-
             NodeViewModel newNode = tool.GetNode();
 
             if (newNode is StartNodeViewModel && this.Designer.StartNode != null)
-                return;
+                return null;
 
-            newNode.X = 0;
-            newNode.Y = 0;
+            newNode.X = mousePosition.X - (newNode.Width / 2);
+            newNode.Y = mousePosition.Y - (newNode.Height / 2);
 
-            this.Designer.NewActiveNode = newNode;
-        }
+            this.Designer.Nodes.Add(newNode);
 
-        public NodeViewModel DropNode(Point mousePosition)
-        {
-            NodeViewModel temp = this.Designer.NewActiveNode;
+            if (newNode is StartNodeViewModel)
+                this.Designer.StartNode = (StartNodeViewModel)newNode;
 
-            if (this.Designer.NewActiveNode != null)
-            {
-                this.Designer.NewActiveNode.X = mousePosition.X - (this.Designer.NewActiveNode.Width / 2);
-                this.Designer.NewActiveNode.Y = mousePosition.Y - (this.Designer.NewActiveNode.Height / 2);
-
-                this.Designer.Nodes.Add(this.Designer.NewActiveNode);
-
-                if (this.Designer.NewActiveNode is StartNodeViewModel)
-                    this.Designer.StartNode = (StartNodeViewModel)this.Designer.NewActiveNode;
-
-                this.Designer.NewActiveNode = null;
-            }
-            return temp;
+            return newNode;
         }
     }
 }

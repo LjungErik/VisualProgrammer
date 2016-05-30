@@ -15,7 +15,7 @@
                             Margin="{TemplateBinding Margin}" />
 
                         <viewsToolbox:ToolboxItemsControl
-                            ItemsSource="{TemplateBinding Tools}"
+                            ItemsSource="{TemplateBinding ToolsSource}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
                             

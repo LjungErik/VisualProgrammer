@@ -42,16 +42,6 @@ namespace VisualProgrammer.ViewModels.Designer
 
         public ConnectorViewModel()
         {
-            this.Type = ConnectorType.Undefined;
-        }
-
-        /// <summary>
-        /// Defines the type of the connector.
-        /// </summary>
-        public ConnectorType Type
-        {
-            get;
-            internal set;
         }
 
         /// <summary>
@@ -102,7 +92,6 @@ namespace VisualProgrammer.ViewModels.Designer
                 if(attachedConnection != null)
                 {
                     attachedConnection.ConnectionChanged -= new EventHandler<EventArgs>(connection_ConnectionChanged);
-                    OnConnectionDettached();
                     
                 }
 
@@ -111,7 +100,6 @@ namespace VisualProgrammer.ViewModels.Designer
                 if(attachedConnection != null)
                 {
                     attachedConnection.ConnectionChanged += new EventHandler<EventArgs>(connection_ConnectionChanged);
-                    OnConnectionAttached(attachedConnection);
                 }
 
                 OnPropertyChanged("IsConnectionAttached");
@@ -177,22 +165,6 @@ namespace VisualProgrammer.ViewModels.Designer
             if (HotspotUpdated != null)
             {
                 HotspotUpdated(this, EventArgs.Empty);
-            }
-        }
-
-        private void OnConnectionDettached()
-        {
-            if(ParentNode != null)
-            {
-                ParentNode.ConnectionDettached(this);
-            }
-        }
-
-        private void OnConnectionAttached(ConnectionViewModel connection)
-        {
-            if (ParentNode != null && connection.SourceConnector != null && connection.SourceConnector.ParentNode != null)
-            {
-                ParentNode.ConnectionAttached(this, connection.SourceConnector.ParentNode);
             }
         }
 

@@ -10,21 +10,6 @@ using VisualProgrammer.Utilities;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
-    /* 
-    * Copyright (c) 2012 Ashley Davis
-    * --------------------------------------------------
-    * Derived and Adapted from Ashley Davis article
-    * "NetworkView: A WPF custom control for 
-    * visualizing and editing networks, graphs 
-    * and flow-charts".
-    * --------------------------------------------------
-    * This code was created by Ashley Davis, 2 Aug 2012
-    * Licenced under the CPOL-License which is available
-    * at the root of this project.
-    * --------------------------------------------------
-    * Modified on April 4 2016, by Erik Ljung
-    */
-
     public sealed class ConnectionViewModel : AbstractModelBase
     {
         #region Internal Data Members
@@ -77,7 +62,6 @@ namespace VisualProgrammer.ViewModels.Designer
                 {
                     sourceConnector.AttachedConnection = null;
                     sourceConnector.HotspotUpdated -= new EventHandler<EventArgs>(sourceConnector_HotspotUpdated);
-                    sourceConnector.ParentNode.OpacityChanged -= new EventHandler<EventArgs>(sourceConnector_OpacityChanged);
                     sourceConnector.ParentNode.VisibilityChanged -= new EventHandler<VisibilityEventArgs>(sourceConnector_VisibilityChanged);
                 }
 
@@ -87,7 +71,6 @@ namespace VisualProgrammer.ViewModels.Designer
                 {
                     sourceConnector.AttachedConnection = this;
                     sourceConnector.HotspotUpdated += new EventHandler<EventArgs>(sourceConnector_HotspotUpdated);
-                    sourceConnector.ParentNode.OpacityChanged += new EventHandler<EventArgs>(sourceConnector_OpacityChanged);
                     sourceConnector.ParentNode.VisibilityChanged += new EventHandler<VisibilityEventArgs>(sourceConnector_VisibilityChanged);
                     this.SourceConnectorHotspot = sourceConnector.Hotspot;
                 }
@@ -187,16 +170,6 @@ namespace VisualProgrammer.ViewModels.Designer
             }
         }
 
-        public double Opacity
-        {
-            get
-            {
-                if((sourceConnector != null && sourceConnector.ParentNode != null))
-                    return sourceConnector.ParentNode.Opacity;
-                return 0.0;
-            }
-        }
-
         public bool IsVisible
         {
             get
@@ -229,9 +202,7 @@ namespace VisualProgrammer.ViewModels.Designer
         private void OnConnectionChanged()
         {
             if (ConnectionChanged != null)
-            {
                 ConnectionChanged(this, EventArgs.Empty);
-            }
         }
 
         /// <summary>
@@ -240,11 +211,6 @@ namespace VisualProgrammer.ViewModels.Designer
         private void sourceConnector_HotspotUpdated(object sender, EventArgs e)
         {
             this.SourceConnectorHotspot = this.SourceConnector.Hotspot;
-        }
-
-        private void sourceConnector_OpacityChanged(object sender, EventArgs e)
-        {
-            OnPropertyChanged("Opacity");
         }
 
         private void sourceConnector_VisibilityChanged(object sender, VisibilityEventArgs e)

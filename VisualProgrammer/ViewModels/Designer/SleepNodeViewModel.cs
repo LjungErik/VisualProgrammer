@@ -17,7 +17,6 @@ namespace VisualProgrammer.ViewModels.Designer
 
         public SleepNodeViewModel()
         {
-            //Create default with 1000 ms sleep time
             model = new SleepAction(1000);
 
             //Set up connectors

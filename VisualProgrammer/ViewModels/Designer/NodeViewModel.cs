@@ -9,21 +9,6 @@ using VisualProgrammer.Utilities;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
-    /* 
-    * Copyright (c) 2012 Ashley Davis
-    * --------------------------------------------------
-    * Derived and Adapted from Ashley Davis article
-    * "NetworkView: A WPF custom control for 
-    * visualizing and editing networks, graphs 
-    * and flow-charts".
-    * --------------------------------------------------
-    * This code was created by Ashley Davis, 2 Aug 2012
-    * Licenced under the CPOL-License which is available
-    * at the root of this project.
-    * --------------------------------------------------
-    * Modified on April 4 2016, by Erik Ljung
-    */
-
     public class VisibilityEventArgs : EventArgs
     {
         private bool visibility;
@@ -68,11 +53,6 @@ namespace VisualProgrammer.ViewModels.Designer
         private int zIndex = 0;
 
         /// <summary>
-        /// The opacity of the node
-        /// </summary>
-        protected double opacity = 0.5;
-
-        /// <summary>
         /// List of input connectors (connections points) attached to the node.
         /// </summary>
         private ConnectorViewModel inputConnector = null;
@@ -98,36 +78,6 @@ namespace VisualProgrammer.ViewModels.Designer
 
         public NodeViewModel()
         {
-        }
-
-        public void ConnectionDettached(ConnectorViewModel connector)
-        {
-            if (connector.Type == ConnectorType.Input)
-            {
-                Opacity = DEFAULT_OPACITY;
-
-                var outputConnection = outputConnector.AttachedConnection;
-                if (outputConnection != null && outputConnection.DestConnector != null && outputConnection.DestConnector.ParentNode != null)
-                {
-                    var parent = outputConnection.DestConnector.ParentNode;
-                    parent.ConnectionDettached(connector);
-                }
-            }
-        }
-
-        public void ConnectionAttached(ConnectorViewModel connector, NodeViewModel connectedNode)
-        {
-            if(connector.Type == ConnectorType.Input)
-            {
-                Opacity = connectedNode.Opacity;
-
-                var outputConnection = outputConnector.AttachedConnection;
-                if (outputConnection != null && outputConnection.DestConnector != null && outputConnection.DestConnector.ParentNode != null)
-                {
-                    var parent = outputConnection.DestConnector.ParentNode;
-                    parent.ConnectionAttached(connector, connectedNode);
-                }
-            }
         }
 
         /// <summary>
@@ -213,33 +163,6 @@ namespace VisualProgrammer.ViewModels.Designer
         }
 
         /// <summary>
-        /// The opacity of the node
-        /// </summary>
-        public double Opacity
-        {
-            get
-            {
-                if(isVisible)
-                    return opacity;
-                return 0.0;
-            }
-            set
-            {
-                if (opacity == value)
-                    return;
-
-                opacity = value;
-
-                if(OpacityChanged != null)
-                {
-                    OpacityChanged(this, EventArgs.Empty);
-                }
-
-                OnPropertyChanged("Opacity");
-            }
-        }
-
-        /// <summary>
         /// The Model that represents the action of the node
         /// </summary>
         public virtual IRobotAction Model
@@ -272,13 +195,6 @@ namespace VisualProgrammer.ViewModels.Designer
             }
         }
 
-        /// <summary>
-        /// Event raised when the size of the node is changed.
-        /// </summary>
-        public event EventHandler<EventArgs> SizeChanged;
-
-        public event EventHandler<EventArgs> OpacityChanged;
-
         public event EventHandler<VisibilityEventArgs> VisibilityChanged;
 
         /// <summary>
@@ -298,7 +214,6 @@ namespace VisualProgrammer.ViewModels.Designer
                 if(inputConnector != null)
                 {
                     inputConnector.ParentNode = null;
-                    inputConnector.Type = ConnectorType.Undefined;
                 }
 
                 inputConnector = value;
@@ -306,7 +221,6 @@ namespace VisualProgrammer.ViewModels.Designer
                 if(inputConnector != null)
                 {
                     inputConnector.ParentNode = this;
-                    inputConnector.Type = ConnectorType.Input;
                 }
             }
         }
@@ -328,7 +242,6 @@ namespace VisualProgrammer.ViewModels.Designer
                 if(outputConnector != null)
                 {
                     outputConnector.ParentNode = null;
-                    outputConnector.Type = ConnectorType.Undefined;
                 }
 
                 outputConnector = value;
@@ -336,7 +249,6 @@ namespace VisualProgrammer.ViewModels.Designer
                 if(outputConnector != null)
                 {
                     outputConnector.ParentNode = this;
-                    outputConnector.Type = ConnectorType.Output;
                 }
             }
         }

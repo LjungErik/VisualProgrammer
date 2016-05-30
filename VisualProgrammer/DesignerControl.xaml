@@ -30,7 +30,6 @@
                     
             NodesSource="{Binding Designer.Nodes}"
             ConnectionsSource="{Binding Designer.Connections}"
-            TemperaryNodesSource="{Binding Designer.TemperaryNodes}"
             
             MouseHandler="{Binding ElementName=mouseSelectorPanel, Path=MouseHandler, Mode=TwoWay}"
                    

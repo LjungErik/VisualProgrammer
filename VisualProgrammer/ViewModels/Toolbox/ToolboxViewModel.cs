@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace VisualProgrammer.ViewModels.Toolbox
     {
         #region Private Data Members
 
-        private ImpObservableCollection<ToolboxItemViewModel> toolboxItem = null;
+        private ObservableCollection<ToolboxItemViewModel> toolboxItem = null;
 
         #endregion Private Data Members
 
@@ -20,7 +21,7 @@ namespace VisualProgrammer.ViewModels.Toolbox
             PopulateToolbox();
         }
 
-        public ImpObservableCollection<ToolboxItemViewModel> Tools
+        public ObservableCollection<ToolboxItemViewModel> Tools
         {
             get { return toolboxItem; }
         }
@@ -29,7 +30,7 @@ namespace VisualProgrammer.ViewModels.Toolbox
 
         private void PopulateToolbox()
         {
-            toolboxItem = new ImpObservableCollection<ToolboxItemViewModel>();
+            toolboxItem = new ObservableCollection<ToolboxItemViewModel>();
 
             toolboxItem.Add(new StartToolboxItemViewModel());
             toolboxItem.Add(new ServoMoveToolboxItemViewModel());
