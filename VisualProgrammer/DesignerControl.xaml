@@ -5,8 +5,8 @@
              xmlns:viewsToolbox="clr-namespace:VisualProgrammer.Views.Toolbox"
              xmlns:viewmodel="clr-namespace:VisualProgrammer.ViewModels"
              xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-             xmlns:designView="clr-namespace:VisualProgrammer.Views.Restructure.Designer"
-             xmlns:mouse="clr-namespace:VisualProgrammer.Views.Restructure.Designer.MouseToolPanel"
+             xmlns:designView="clr-namespace:VisualProgrammer.Views.Designer"
+             xmlns:mouse="clr-namespace:VisualProgrammer.Views.Designer.MouseToolPanel"
              MinHeight="450"
              MinWidth="750"
              >

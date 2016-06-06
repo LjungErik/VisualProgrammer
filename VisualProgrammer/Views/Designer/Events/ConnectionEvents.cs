@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace VisualProgrammer.Views.Restructure.Designer.Events
+namespace VisualProgrammer.Views.Designer.Events
 {
     public class ConnectionDragEventArgs : RoutedEventArgs
     {

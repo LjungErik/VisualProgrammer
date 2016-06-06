@@ -15,8 +15,8 @@ using System.Windows.Shapes;
 using VisualProgrammer.ViewModels;
 using VisualProgrammer.ViewModels.Designer;
 using VisualProgrammer.ViewModels.Toolbox;
-using VisualProgrammer.Views.Restructure.Designer;
-using VisualProgrammer.Views.Restructure.Designer.Events;
+using VisualProgrammer.Views.Designer;
+using VisualProgrammer.Views.Designer.Events;
 using VisualProgrammer.Views.Toolbox;
 
 namespace VisualProgrammer

@@ -9,7 +9,7 @@ using VisualProgrammer.Enums;
 using VisualProgrammer.Factory;
 using VisualProgrammer.Factory.MouseActions;
 
-namespace VisualProgrammer.Views.Restructure.Designer.MouseToolPanel
+namespace VisualProgrammer.Views.Designer.MouseToolPanel
 {
     public class MouseSelectorPanel : Control
     {

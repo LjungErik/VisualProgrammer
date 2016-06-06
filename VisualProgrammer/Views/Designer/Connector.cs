@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using VisualProgrammer.Views.Restructure.Designer.Events;
+using VisualProgrammer.Views.Designer.Events;
 
-namespace VisualProgrammer.Views.Restructure.Designer
+namespace VisualProgrammer.Views.Designer
 {
     public class Connector : ContentControl
     {

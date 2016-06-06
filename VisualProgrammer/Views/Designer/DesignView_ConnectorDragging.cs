@@ -8,9 +8,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using VisualProgrammer.Utilities;
-using VisualProgrammer.Views.Restructure.Designer.Events;
+using VisualProgrammer.Views.Designer.Events;
 
-namespace VisualProgrammer.Views.Restructure.Designer
+namespace VisualProgrammer.Views.Designer
 {
     public partial class DesignView
     {

@@ -7,10 +7,10 @@ using System.Windows;
 using System.Windows.Input;
 using VisualProgrammer.Controls;
 using VisualProgrammer.ViewModels.Designer;
-using VisualProgrammer.Views.Restructure.Designer.Events;
+using VisualProgrammer.Views.Designer.Events;
 using VisualProgrammer.Views.Toolbox;
 
-namespace VisualProgrammer.Views.Restructure.Designer
+namespace VisualProgrammer.Views.Designer
 {
     public partial class DesignView : IDropView
     {

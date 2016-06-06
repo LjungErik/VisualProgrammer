@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace VisualProgrammer.Views.Restructure.Designer
+namespace VisualProgrammer.Views.Designer
 {
     public partial class DesignView
     {

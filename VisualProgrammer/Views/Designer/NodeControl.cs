@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace VisualProgrammer.Views.Restructure.Designer
+namespace VisualProgrammer.Views.Designer
 {
     public class NodeControl : ListBox
     {

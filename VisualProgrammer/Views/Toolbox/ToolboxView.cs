@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using VisualProgrammer.Controls;
 using VisualProgrammer.Utilities;
-using VisualProgrammer.Views.Restructure.Designer.Events;
+using VisualProgrammer.Views.Designer.Events;
 
 namespace VisualProgrammer.Views.Toolbox
 {

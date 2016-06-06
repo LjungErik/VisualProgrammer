@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using VisualProgrammer.Views.Restructure.Designer;
+using VisualProgrammer.Views.Designer;
 
 namespace VisualProgrammer.Factory.MouseActions
 {
