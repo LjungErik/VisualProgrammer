@@ -7,34 +7,36 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using VisualProgrammer.Controls.Adorners;
 
 namespace VisualProgrammer.Controls.Dropdowns
 {
-    public class NumberDropDown : DropDownAdornerControl
+    public class NumberDropDown : ContentControl
     {
         #region Private Data Members
 
         private TextBox numberTextbox = null;
 
-        private Canvas OkButton = null;
-
-        private Canvas CancelButton = null;
-
         #endregion Private Data Members
 
-        /// <summary>
-        /// Focus on the number textbox
-        /// </summary>
-        public override void Focused()
+        #region Dependency Property
+
+        public static readonly DependencyProperty NumberProperty =
+            DependencyProperty.Register("Number", typeof(int), typeof(NumberDropDown));
+
+        #endregion
+
+        public int Number
         {
-            if (numberTextbox != null)
-            {
-                numberTextbox.Focus();
+            get 
+            { 
+                return (int)GetValue(NumberProperty); 
             }
-
+            set
+            {
+                SetValue(NumberProperty, value);
+            }
         }
-
+        
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -48,23 +50,7 @@ namespace VisualProgrammer.Controls.Dropdowns
                 throw new ArgumentException("Failed to find 'PART_NumberTextBox' in the visual tree for 'NumberDropDown'");
             }
 
-            this.OkButton = (Canvas)this.Template.FindName("PART_OkButton", this);
-            if (this.OkButton == null)
-            {
-                throw new ArgumentException("Failed to find 'PART_OkButton' in visual tree for 'NumberDropDown'");
-            }
-
-            this.CancelButton = (Canvas)this.Template.FindName("PART_CancelButton", this);
-            if (this.CancelButton == null)
-            {
-                throw new ArgumentException("Failed to find 'PART_CancelButton' in visual tree for 'NumberDropDown'");
-            }
-
             this.numberTextbox.PreviewTextInput += new TextCompositionEventHandler(NumberTextbox_PreviewTextInput);
-
-            this.OkButton.MouseLeftButtonUp += new MouseButtonEventHandler(OkButton_Clicked);
-
-            this.CancelButton.MouseLeftButtonUp += new MouseButtonEventHandler(CancelButton_Clicked);
         }
 
         #region Private Methods
@@ -82,16 +68,6 @@ namespace VisualProgrammer.Controls.Dropdowns
             Regex regex = new Regex("[0-9]+");
             /* Only allow numbers */
             e.Handled = !regex.IsMatch(e.Text);
-        }
-
-        private void OkButton_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            RaiseEvent(new RoutedEventArgs(DropDownAdornerControl.OkButtonClickEvent));
-        }
-
-        private void CancelButton_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            RaiseEvent(new RoutedEventArgs(DropDownAdornerControl.CancelButtonClickEvent));
         }
 
         #endregion

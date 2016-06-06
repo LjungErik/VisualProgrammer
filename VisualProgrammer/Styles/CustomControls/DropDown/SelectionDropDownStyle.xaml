@@ -9,7 +9,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type dropdown:SelectionDropDown}">
                     <Canvas>
-                        <Rectangle Fill="#FFCDCDCD" Height="20" Canvas.Left="70" Stroke="Black" Canvas.Top="10" Width="15" StrokeThickness="0" RadiusY="2" RadiusX="2"/>
                         <Rectangle Fill="#FFCDCDCD" Height="30" RadiusY="3" RadiusX="3" Canvas.Top="10" Width="75"/>
                         <Polygon Fill="#FFCDCDCD" Height="10" Canvas.Left="25" Stretch="Fill" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center" Points="0,10 7.5,0 15,10" Canvas.Top="0"/>
                         <ComboBox 
@@ -18,7 +17,7 @@
                             Canvas.Left="2" 
                             Canvas.Top="12" 
                             Width="71" 
-                            SelectedIndex="{Binding Path=Value, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}">
+                            SelectedIndex="{Binding Index, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
                             <ComboBoxItem/>
                             <ComboBoxItem Content="Servo 1"/>
                             <ComboBoxItem Content="Servo 2"/>
@@ -27,14 +26,6 @@
                             <ComboBoxItem Content="Servo 5"/>
                             <ComboBoxItem Content="Servo 6"/>
                         </ComboBox>
-                        <Canvas x:Name="PART_OkButton" Height="8" Canvas.Left="74" Canvas.Top="12" Width="10" Background="Transparent">
-                            <Path Data="M9.625,0.29166667 L3.9583333,6.9583333" Fill="#FFCDCDCD" Height="8" Canvas.Left="3" Stretch="Fill" Stroke="#FF464646" Canvas.Top="0" Width="7"/>
-                            <Path Data="M4.0833333,7.6666667 L0.041666667,3.9166667" Fill="#FFCDCDCD" Height="4" Canvas.Left="0.042" Stretch="Fill" Stroke="#FF464646" Canvas.Top="4.126" Width="4.5"/>
-                        </Canvas>
-                        <Canvas x:Name="PART_CancelButton" Height="8" Canvas.Left="74" Canvas.Top="21" Width="10" Background="Transparent">
-                            <Path Data="M0.16666667,0.16666667 L8.9583333,7.0416667" Fill="#FFCDCDCD" Height="8" Canvas.Left="1" Stretch="Fill" Stroke="#FF464646" Canvas.Top="0" Width="8"/>
-                            <Path Data="M9.5833333,0.41666667 L-0.16666667,7.2083333" Fill="#FFCDCDCD" Height="8" Canvas.Left="1" Stretch="Fill" Stroke="#FF464646" Canvas.Top="0" Width="8"/>
-                        </Canvas>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

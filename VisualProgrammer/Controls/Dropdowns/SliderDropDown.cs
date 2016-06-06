@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using VisualProgrammer.Controls.Adorners;
 
 namespace VisualProgrammer.Controls.Dropdowns
 {
-    public class SliderDropDown : DropDownAdornerControl
+    public class SliderDropDown : ContentControl
     {
         #region Private Data Members
 
@@ -18,20 +18,24 @@ namespace VisualProgrammer.Controls.Dropdowns
 
         private Slider slider = null;
 
-        private Canvas OkButton = null;
-
-        private Canvas CancelButton = null;
-
         #endregion Private Data Members
 
-        /// <summary>
-        /// Focus on the slider
-        /// </summary>
-        public override void Focused()
+        #region Dependency Property
+
+        public static readonly DependencyProperty SliderProperty =
+            DependencyProperty.Register("Slider", typeof(int), typeof(SliderDropDown));
+
+        #endregion
+
+        public int Slider
         {
-            if(slider != null)
+            get 
+            { 
+                return (int)GetValue(SliderProperty); 
+            }
+            set
             {
-                slider.Focus();
+                SetValue(SliderProperty, value);
             }
         }
 
@@ -54,21 +58,7 @@ namespace VisualProgrammer.Controls.Dropdowns
                 throw new ArgumentException("Failed to find 'PART_SliderValueTextbox' in the visual tree for 'SliderDropDown'");
             }
 
-            this.OkButton = (Canvas)this.Template.FindName("PART_OkButton", this);
-            if (this.OkButton == null)
-            {
-                throw new ArgumentException("Failed to find 'PART_OkButton' in visual tree for 'SliderDropDown'");
-            }
-
-            this.CancelButton = (Canvas)this.Template.FindName("PART_CancelButton", this);
-            if (this.CancelButton == null)
-            {
-                throw new ArgumentException("Failed to find 'PART_CancelButton' in visual tree for 'SliderDropDown'");
-            }
-
-            this.OkButton.MouseLeftButtonUp += new MouseButtonEventHandler(OkButton_Clicked);
-
-            this.CancelButton.MouseLeftButtonUp += new MouseButtonEventHandler(CancelButton_Clicked);
+            this.sliderValueTextbox.PreviewTextInput += new TextCompositionEventHandler(SliderValueTextbox_PreviewTextInput);
         }
 
         #region Private Methods
@@ -78,14 +68,14 @@ namespace VisualProgrammer.Controls.Dropdowns
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SliderDropDown), new FrameworkPropertyMetadata(typeof(SliderDropDown)));
         }
 
-        private void OkButton_Clicked(object sender, MouseButtonEventArgs e)
+        /// <summary>
+        /// Tests that the input is only numeric
+        /// </summary>
+        private void SliderValueTextbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            RaiseEvent(new RoutedEventArgs(DropDownAdornerControl.OkButtonClickEvent));
-        }
-
-        private void CancelButton_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            RaiseEvent(new RoutedEventArgs(DropDownAdornerControl.CancelButtonClickEvent));
+            Regex regex = new Regex("[0-9]+");
+            /* Only allow numbers */
+            e.Handled = !regex.IsMatch(e.Text);
         }
 
         #endregion

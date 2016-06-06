@@ -13,26 +13,26 @@
 
             <Image Width="128" Height="128" Source="../../Resources/Images/sleep-node.png" Canvas.Left="16" Canvas.Top="13"/>
             <Image Width="130" Height="132" Source="../../Resources/Images/node_selected.png" Canvas.Left="14" Canvas.Top="11" Visibility="{Binding IsSelected, Converter={StaticResource booleanToVisibilityConverter}}"/>
-
-            <adorners:AdornedControl
-                            Width="80"
-                            Height="20"
-                            Data="{Binding Time, Mode=TwoWay}"
-                            Canvas.Left="40"
-                            Canvas.Top="120"
-                            >
-
-                <controls:PropertyEditor
-                            Width="{Binding Path=Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
-                            Height="{Binding Path=Height, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
-                            Text="{Binding Path=Data, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl} }}"/>
-
-                <adorners:AdornedControl.AdornerContent>
-                    <dropdown:NumberDropDown
-                                            Margin="-10,20,0,0"/>
-                </adorners:AdornedControl.AdornerContent>
-
-            </adorners:AdornedControl>
+            
+            <controls:PropertyEditor
+                    Name="sleepValue"
+                    Width="80"
+                    Height="20"
+                    Text="{Binding Time}"
+                    Canvas.Top="120"
+                    Canvas.Left="40"/>
+            
+            <Popup IsOpen="{Binding IsChecked, ElementName=sleepValue}"
+                   StaysOpen="False"
+                   PlacementTarget="{Binding ElementName=sleepValue}"
+                   Placement="Bottom"
+                   HorizontalOffset="-10"
+                   Width="100"
+                   Height="100"
+                   AllowsTransparency="True">
+                <dropdown:NumberDropDown
+                    Number="{Binding Time, Mode=TwoWay}" />
+            </Popup>
 
             <Grid>
                 <Grid Margin="0,0"

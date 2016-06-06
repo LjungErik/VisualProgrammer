@@ -15,46 +15,46 @@
             <Image Width="130" Height="132" Source="../../Resources/Images/node_selected.png" Canvas.Left="14" Canvas.Top="11" Visibility="{Binding IsSelected, Converter={StaticResource booleanToVisibilityConverter}}"/>
 
             <!-- Servo Number -->
-            <adorners:AdornedControl
-                            Width="25"
-                            Height="20"
-                            Data="{Binding Servo, Mode=TwoWay}"
-                            Canvas.Left="40"
-                            Canvas.Top="120"
-                            >
 
-                <controls:PropertyEditor
-                            Width="{Binding Path=Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
-                            Height="{Binding Path=Height, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
-                            Text="{Binding Path=Data, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl} }, Converter={StaticResource stringToServoNumberConverter}, Mode=OneWay}"/>
-
-                <adorners:AdornedControl.AdornerContent>
-                    <dropdown:SelectionDropDown
-                                            Margin="-20,20,0,0"/>
-                </adorners:AdornedControl.AdornerContent>
-
-            </adorners:AdornedControl>
-
-            <!-- Servo Degrees -->
-            <adorners:AdornedControl
-                            Width="45"
-                            Height="20"
-                            Data="{Binding Degrees, Mode=TwoWay}"
-                            Canvas.Left="75"
-                            Canvas.Top="120"
-                            >
-
-                <controls:PropertyEditor
-                            Width="{Binding Path=Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
-                            Height="{Binding Path=Height, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl}}}"
-                            Text="{Binding Path=Data, RelativeSource={ RelativeSource FindAncestor, AncestorType={x:Type adorners:AdornedControl} }, Converter={StaticResource stringToDegreesConverter}, Mode=OneWay}"/>
-
-                <adorners:AdornedControl.AdornerContent>
-                    <dropdown:SliderDropDown
-                                            Margin="8,20,0,0"/>
-                </adorners:AdornedControl.AdornerContent>
-
-            </adorners:AdornedControl>
+            <controls:PropertyEditor Name="servoNumber"
+                        Width="25"
+                        Height="20"
+                        Text="{Binding Servo}"
+                        Canvas.Left="40"
+                        Canvas.Top="120"/>
+            <Popup 
+                IsOpen="{Binding IsChecked, ElementName=servoNumber}"
+                StaysOpen="False"
+                PlacementTarget="{Binding ElementName=servoNumber}"
+                Placement="Bottom"
+                HorizontalOffset="-22"
+                Width="100"
+                Height="100"
+                AllowsTransparency="True">
+                <dropdown:SelectionDropDown
+                    Index="{Binding Servo, Mode=TwoWay}"/>
+            </Popup>
+            
+            <controls:PropertyEditor 
+                        Name="degreesValue"
+                        Width="45"
+                        Height="20"
+                        Text="{Binding Degrees}"
+                        Canvas.Left="75"
+                        Canvas.Top="120" />
+            
+            <Popup
+                IsOpen="{Binding IsChecked, ElementName=degreesValue}"
+                StaysOpen="False"
+                PlacementTarget="{Binding ElementName=degreesValue}"
+                Placement="Bottom"
+                HorizontalOffset="8"
+                Width="30"
+                Height="100"
+                AllowsTransparency="True">
+                <dropdown:SliderDropDown
+                    Slider="{Binding Degrees, Mode=TwoWay}"/>
+            </Popup>
 
             <Grid>
                 <Grid Margin="0,0"

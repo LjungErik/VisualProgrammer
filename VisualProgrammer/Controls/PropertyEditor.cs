@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace VisualProgrammer.Controls
 {
-    public class PropertyEditor : ContentControl
+    public class PropertyEditor : ToggleButton
     {
         #region Dependency Properties/Event Definitions
 
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(PropertyEditor),
-                new FrameworkPropertyMetadata(""));
+            DependencyProperty.Register("Text", typeof(string), typeof(PropertyEditor));
 
         #endregion Dependency Properties/Event Definitions
 

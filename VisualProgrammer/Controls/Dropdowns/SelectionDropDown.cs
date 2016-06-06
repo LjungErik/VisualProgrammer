@@ -6,30 +6,33 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using VisualProgrammer.Controls.Adorners;
 
 namespace VisualProgrammer.Controls.Dropdowns
 {
-    public class SelectionDropDown : DropDownAdornerControl
+    public class SelectionDropDown : ContentControl
     {
         #region Private Data Members
 
         private ComboBox selectionCombobox = null;
 
-        private Canvas OkButton = null;
-
-        private Canvas CancelButton = null;
-
         #endregion Private Data Members
 
-        /// <summary>
-        /// Focus on the selection combobox
-        /// </summary>
-        public override void Focused()
+        #region Dependency Property
+
+        public static readonly DependencyProperty IndexProperty =
+            DependencyProperty.Register("Index", typeof(int), typeof(SelectionDropDown));
+
+        #endregion
+
+        public int Index
         {
-            if(selectionCombobox != null)
+            get
             {
-                selectionCombobox.Focus();
+                return (int)GetValue(IndexProperty);
+            }
+            set
+            {
+                SetValue(IndexProperty, value);
             }
         }
 
@@ -45,22 +48,6 @@ namespace VisualProgrammer.Controls.Dropdowns
             {
                 throw new ArgumentException("Failed to find 'PART_SelectionComboBox' in the visual tree for 'SelectionDropDown'");
             }
-
-            this.OkButton = (Canvas)this.Template.FindName("PART_OkButton", this);
-            if(this.OkButton == null)
-            {
-                throw new ArgumentException("Failed to find 'PART_OkButton' in visual tree for 'SelectionDropDown'");
-            }
-
-            this.CancelButton = (Canvas)this.Template.FindName("PART_CancelButton", this);
-            if(this.CancelButton == null)
-            {
-                throw new ArgumentException("Failed to find 'PART_CancelButton' in visual tree for 'SelectionDropDown'");
-            }
-
-            this.OkButton.MouseLeftButtonUp += new MouseButtonEventHandler(OkButton_Clicked);
-
-            this.CancelButton.MouseLeftButtonUp += new MouseButtonEventHandler(CancelButton_Clicked);
         }
 
         #region Private Methods
@@ -68,16 +55,6 @@ namespace VisualProgrammer.Controls.Dropdowns
         static SelectionDropDown()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SelectionDropDown), new FrameworkPropertyMetadata(typeof(SelectionDropDown)));
-        }
-        
-        private void OkButton_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            RaiseEvent(new RoutedEventArgs(DropDownAdornerControl.OkButtonClickEvent));
-        }
-
-        private void CancelButton_Clicked(object sender, MouseButtonEventArgs e)
-        {
-            RaiseEvent(new RoutedEventArgs(DropDownAdornerControl.CancelButtonClickEvent));
         }
 
         #endregion
