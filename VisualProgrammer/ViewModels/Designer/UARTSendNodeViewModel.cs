@@ -1,9 +1,10 @@
-﻿using VisualProgrammer.Actions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VisualProgrammer.Data;
+using VisualProgrammer.Data.Actions;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
@@ -11,13 +12,18 @@ namespace VisualProgrammer.ViewModels.Designer
     {
         #region Private Data Members
 
-        private UARTSendAction model = null;
+        private UARTSendAction action = null;
 
         #endregion Private Data Members
 
         public UARTSendNodeViewModel()
         {
-            model = new UARTSendAction("Hello World");
+            action = new UARTSendAction();
+            action.Message = "Hello World!";
+
+            model = new Node();
+            model.Action = action;
+            model.NodeGuid = Guid.NewGuid().ToString();
 
             InputConnector = new ConnectorViewModel();
             OutputConnector = new ConnectorViewModel();
@@ -29,24 +35,16 @@ namespace VisualProgrammer.ViewModels.Designer
         /// </summary>
         public string Message
         {
-            get { return model.Message; }
+            get { return action.Message; }
             set
             {
-                if (model.Message == value)
+                if (action.Message == value)
                     return;
 
-                model.Message = value;
+                action.Message = value;
 
                 OnPropertyChanged("Message");
             }
-        }
-
-        /// <summary>
-        /// The Model that represents the action of the node
-        /// </summary>
-        public override IRobotAction Model
-        {
-            get { return model; }
         }
 
         public override double Width

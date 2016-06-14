@@ -30,6 +30,8 @@ namespace VisualProgrammer.ViewModels.Designer
         /// </summary>
         private StartNodeViewModel startNode = null;
 
+
+
         #endregion Internal Data Members
 
         /// <summary>

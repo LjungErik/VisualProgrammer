@@ -68,7 +68,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Actions\SleepAction.cs" />
     <Compile Include="Controls\ConnectionLink.cs" />
     <Compile Include="Controls\DraggableEvents.cs" />
     <Compile Include="Controls\DragHandler.cs" />
@@ -79,6 +78,14 @@
     <Compile Include="Controls\IDraggable.cs" />
     <Compile Include="Controls\IDropView.cs" />
     <Compile Include="Controls\PropertyEditor.cs" />
+    <Compile Include="Data\Actions\RobotAction.cs" />
+    <Compile Include="Data\Actions\ServoMoveAction.cs" />
+    <Compile Include="Data\Actions\SleepAction.cs" />
+    <Compile Include="Data\Actions\StartAction.cs" />
+    <Compile Include="Data\Actions\UARTSendAction.cs" />
+    <Compile Include="Data\Connection.cs" />
+    <Compile Include="Data\Node.cs" />
+    <Compile Include="Data\VisualProject.cs" />
     <Compile Include="Enums\MouseAction.cs" />
     <Compile Include="Enums\StatusType.cs" />
     <Compile Include="Enums\WriteType.cs" />
@@ -87,7 +94,7 @@
     <Compile Include="Factory\MouseActions\IMouseAction.cs" />
     <Compile Include="Factory\MouseActions\MoveMouseAction.cs" />
     <Compile Include="Factory\MouseActions\SelectMouseAction.cs" />
-    <Compile Include="Processing\Builder.cs" />
+    <Compile Include="Utilities\Processing\Builder.cs" />
     <Compile Include="Utilities\AbstractModelBase.cs" />
     <Compile Include="Utilities\Converter\StatusTypeToBooleanConverter.cs" />
     <Compile Include="Utilities\Converter\StatusTypeToColorConverter.cs" />
@@ -146,20 +153,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Actions\IRobotAction.cs" />
-    <Compile Include="Actions\ServoMoveAction.cs" />
-    <Compile Include="Actions\UARTSendAction.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Processing\Commands\Compiler\CompilerCommand.cs" />
-    <Compile Include="Processing\Commands\Compiler\ICompilerCommand.cs" />
-    <Compile Include="Processing\Commands\Shell\CommandShell.cs" />
-    <Compile Include="Processing\Compiler.cs" />
-    <Compile Include="Processing\File\FileWriter.cs" />
-    <Compile Include="Processing\File\IFileWriter.cs" />
-    <Compile Include="Processing\Parser.cs" />
+    <Compile Include="Utilities\Processing\Commands\Compiler\CompilerCommand.cs" />
+    <Compile Include="Utilities\Processing\Commands\Compiler\ICompilerCommand.cs" />
+    <Compile Include="Utilities\Processing\Commands\Shell\CommandShell.cs" />
+    <Compile Include="Utilities\Processing\Compiler.cs" />
+    <Compile Include="Utilities\Processing\File\FileWriter.cs" />
+    <Compile Include="Utilities\Processing\File\IFileWriter.cs" />
+    <Compile Include="Utilities\Processing\Parser.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

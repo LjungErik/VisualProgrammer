@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using VisualProgrammer.Data;
+using VisualProgrammer.Data.Actions;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
@@ -10,6 +12,10 @@ namespace VisualProgrammer.ViewModels.Designer
     {
         public StartNodeViewModel()
         {
+            model = new Node();
+            model.Action = new StartAction();
+            model.NodeGuid = Guid.NewGuid().ToString();
+
             OutputConnector = new ConnectorViewModel();
         }
 

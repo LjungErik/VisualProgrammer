@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows;
-using VisualProgrammer.Actions;
 using VisualProgrammer.Utilities;
+using VisualProgrammer.Data;
+using VisualProgrammer.Data.Actions;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
@@ -37,20 +38,7 @@ namespace VisualProgrammer.ViewModels.Designer
 
         #region Private Data Members
 
-        /// <summary>
-        /// The X coordinate for the position of the node.
-        /// </summary>
-        private double x = 0;
-
-        /// <summary>
-        /// The Y coordinate for the position of the node.
-        /// </summary>
-        private double y = 0;
-
-        /// <summary>
-        /// The Z index of the node.
-        /// </summary>
-        private int zIndex = 0;
+        protected Node model;
 
         /// <summary>
         /// List of input connectors (connections points) attached to the node.
@@ -87,16 +75,16 @@ namespace VisualProgrammer.ViewModels.Designer
         {
             get
             {
-                return x;
+                return model.XPos;
             }
             set
             {
-                if (x == value)
+                if (model.XPos == value)
                 {
                     return;
                 }
 
-                x = value;
+                model.XPos = value;
 
                 OnPropertyChanged("X");
             }
@@ -109,16 +97,16 @@ namespace VisualProgrammer.ViewModels.Designer
         {
             get
             {
-                return y;
+                return model.YPos;
             }
             set
             {
-                if (y == value)
+                if (model.YPos == value)
                 {
                     return;
                 }
 
-                y = value;
+                model.YPos = value;
 
                 OnPropertyChanged("Y");
             }
@@ -147,16 +135,16 @@ namespace VisualProgrammer.ViewModels.Designer
         {
             get
             {
-                return zIndex;
+                return model.ZIndex;
             }
             set
             {
-                if (zIndex == value)
+                if (model.ZIndex == value)
                 {
                     return;
                 }
 
-                zIndex = value;
+                model.ZIndex = value;
 
                 OnPropertyChanged("ZIndex");
             }
@@ -165,9 +153,14 @@ namespace VisualProgrammer.ViewModels.Designer
         /// <summary>
         /// The Model that represents the action of the node
         /// </summary>
-        public virtual IRobotAction Model
+        public RobotAction Action
         {
-            get { return null; }
+            get { return model.Action; }
+        }
+
+        public Node Model
+        {
+            get { return model; }
         }
 
         /// <summary>

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows;
 using VisualProgrammer.Utilities;
+using VisualProgrammer.Data;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
@@ -42,6 +43,22 @@ namespace VisualProgrammer.ViewModels.Designer
 
         #endregion Internal Data Members
 
+        #region Private Data Member
+
+        private Connection model = null;
+
+        #endregion Private Data Member
+
+        public ConnectionViewModel()
+        {
+            model = new Connection();
+        }
+
+        public Connection Model
+        {
+            get { return model; }
+        }
+
         /// <summary>
         /// The source connector the connection is attached to.
         /// </summary>
@@ -63,6 +80,7 @@ namespace VisualProgrammer.ViewModels.Designer
                     sourceConnector.AttachedConnection = null;
                     sourceConnector.HotspotUpdated -= new EventHandler<EventArgs>(sourceConnector_HotspotUpdated);
                     sourceConnector.ParentNode.VisibilityChanged -= new EventHandler<VisibilityEventArgs>(sourceConnector_VisibilityChanged);
+                    this.model.SourceNodeGuid = null;
                 }
 
                 sourceConnector = value;
@@ -72,6 +90,7 @@ namespace VisualProgrammer.ViewModels.Designer
                     sourceConnector.AttachedConnection = this;
                     sourceConnector.HotspotUpdated += new EventHandler<EventArgs>(sourceConnector_HotspotUpdated);
                     sourceConnector.ParentNode.VisibilityChanged += new EventHandler<VisibilityEventArgs>(sourceConnector_VisibilityChanged);
+                    this.model.SourceNodeGuid = sourceConnector.ParentNode.Model.NodeGuid;
                     this.SourceConnectorHotspot = sourceConnector.Hotspot;
                 }
 
@@ -101,6 +120,7 @@ namespace VisualProgrammer.ViewModels.Designer
                     destConnector.AttachedConnection = null;
                     destConnector.HotspotUpdated -= new EventHandler<EventArgs>(destConnector_HotspotUpdated);
                     destConnector.ParentNode.VisibilityChanged -= new EventHandler<VisibilityEventArgs>(destConnector_VisibilityChanged);
+                    this.model.DestNodeGuid = destConnector.ParentNode.Model.NodeGuid;
                 }
 
                 destConnector = value;
@@ -110,6 +130,7 @@ namespace VisualProgrammer.ViewModels.Designer
                     destConnector.AttachedConnection = this;
                     destConnector.HotspotUpdated += new EventHandler<EventArgs>(destConnector_HotspotUpdated);
                     destConnector.ParentNode.VisibilityChanged += new EventHandler<VisibilityEventArgs>(destConnector_VisibilityChanged);
+                    this.model.DestNodeGuid = destConnector.ParentNode.Model.NodeGuid;
                     this.DestConnectorHotspot = destConnector.Hotspot;
                 }
 

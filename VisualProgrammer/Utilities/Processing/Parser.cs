@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualProgrammer.Processing.File;
-using VisualProgrammer.Actions;
+using VisualProgrammer.Utilities.Processing.File;
 using VisualProgrammer.Utilities.Logger;
 using VisualProgrammer.Enums;
+using VisualProgrammer.Data.Actions;
 
-namespace VisualProgrammer.Processing
+namespace VisualProgrammer.Utilities.Processing
 {
     
 
@@ -40,7 +40,7 @@ namespace VisualProgrammer.Processing
             AddTaskCall("_delay_ms(" + UP_START_TIME + ");");
         }
 
-        public bool GenrateCode(List<IRobotAction> actions, string outputFile)
+        public bool GenrateCode(List<RobotAction> actions, string outputFile)
         {
             bool ret = true;
             //Open the writer on the correect file
@@ -50,28 +50,28 @@ namespace VisualProgrammer.Processing
 
             foreach (var action in actions)
             {
-                switch (action.GetActionType())
+                switch (action.GetType().Name)
                 {
-                    case "ServoMove":
+                    case "ServoMoveAction":
                         ServoMoveAction move = (ServoMoveAction)action;
                         AddDependency("#include \"ServoExtended.h\"");
                         AddPreCondition("StartServo();");
                         AddTaskCall(String.Format("MoveDegrees({0},{1});", move.Servo, move.Degrees));
                         AddPostCondition("StopServo();");
                         break;
-                    case "UARTSend":
+                    case "UARTSendAction":
                         UARTSendAction send = (UARTSendAction)action;
                         AddDependency("#include \"UARTLib.h\"");
                         AddPreCondition("InitUART();");
                         AddTaskCall(String.Format("Write(\"{0}\");", send.Message));
                         break;
-                    case "Sleep":
+                    case "SleepAction":
                         SleepAction sleep = (SleepAction)action;
                         AddDependency("#include <util/delay.h>");
                         AddTaskCall(String.Format("_delay_ms({0});", sleep.Time));
                         break;
                     default:
-                        _logger.WriteError("Invalid action type, " + action.GetActionType());
+                        _logger.WriteError("Invalid action type, " + action.GetType());
                         _logger.SetStatus(StatusType.Error);
                         ret = false;
                         break;

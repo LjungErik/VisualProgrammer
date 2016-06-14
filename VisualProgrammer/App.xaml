@@ -6,29 +6,29 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/SharedStyleTemplates.xaml"/>
-                <ResourceDictionary Source="Styles/NamedTemplates/NodeListBoxTemplate.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/DesignViewStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/ConnectorStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/NodeStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/MousePanelStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/LogOutputViewStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/ToolboxViewStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/ToolboxItemStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/PropertyEditorStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/DropDown/MultiLineDropDownStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/DropDown/NumberDropDownStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/DropDown/SelectionDropDownStyle.xaml"/>
-                <ResourceDictionary Source="Styles/CustomControls/DropDown/SliderDropDownStyle.xaml"/>
-                <ResourceDictionary Source="Styles/NamedTemplates/InputConnectorTemplate.xaml"/>
-                <ResourceDictionary Source="Styles/NamedTemplates/OutputConnectorTemplate.xaml"/>
-                <ResourceDictionary Source="Styles/ControlDataTemplates/ConnectionViewModelTemplate.xaml"/>
-                <ResourceDictionary Source="Styles/ControlDataTemplates/ServoMoveNodeViewModelTemplate.xaml"/>
-                <ResourceDictionary Source="Styles/ControlDataTemplates/SleepNodeViewModelTemplate.xaml"/>
-                <ResourceDictionary Source="Styles/ControlDataTemplates/StartNodeViewModelTemplate.xaml"/>
-                <ResourceDictionary Source="Styles/ControlDataTemplates/ToolboxItemViewModelTemplate.xaml"/>
-                <ResourceDictionary Source="Styles/ControlDataTemplates/UARTSendNodeViewModelTemplate.xaml"/>
-                <ResourceDictionary Source="Styles/ControlDataTemplates/ToolboxItemViewModelTemplate.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/SharedStyleTemplates.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/NamedTemplates/NodeListBoxTemplate.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/DesignViewStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/ConnectorStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/NodeStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/MousePanelStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/LogOutputViewStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/ToolboxViewStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/ToolboxItemStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/PropertyEditorStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/DropDown/MultiLineDropDownStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/DropDown/NumberDropDownStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/DropDown/SelectionDropDownStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/CustomControls/DropDown/SliderDropDownStyle.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/NamedTemplates/InputConnectorTemplate.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/NamedTemplates/OutputConnectorTemplate.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/ControlDataTemplates/ConnectionViewModelTemplate.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/ControlDataTemplates/ServoMoveNodeViewModelTemplate.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/ControlDataTemplates/SleepNodeViewModelTemplate.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/ControlDataTemplates/StartNodeViewModelTemplate.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/ControlDataTemplates/ToolboxItemViewModelTemplate.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/ControlDataTemplates/UARTSendNodeViewModelTemplate.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/ControlDataTemplates/ToolboxItemViewModelTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

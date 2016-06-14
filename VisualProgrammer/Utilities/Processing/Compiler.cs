@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualProgrammer.Processing.Commands.Compiler;
-using VisualProgrammer.Processing.Commands.Shell;
-using VisualProgrammer.Actions;
+using VisualProgrammer.Utilities.Processing.Commands.Compiler;
+using VisualProgrammer.Utilities.Processing.Commands.Shell;
 using VisualProgrammer.Utilities.Logger;
 using VisualProgrammer.Enums;
+using VisualProgrammer.Data.Actions;
 
-namespace VisualProgrammer.Processing
+namespace VisualProgrammer.Utilities.Processing
 {
     public class Compiler
     {
@@ -21,7 +21,7 @@ namespace VisualProgrammer.Processing
 
         private CompileLogger _logger;
 
-        public Compiler(List<IRobotAction> tasks, ICompilerCommand compiler, CompileLogger logger)
+        public Compiler(List<RobotAction> tasks, ICompilerCommand compiler, CompileLogger logger)
         { 
             //Set the dependencies
             SetUpDependencies(tasks);
@@ -99,14 +99,14 @@ namespace VisualProgrammer.Processing
             }
         }
 
-        private void SetUpDependencies(List<IRobotAction> tasks)
+        private void SetUpDependencies(List<RobotAction> tasks)
         {
             //Loop through all of the tasks and generate dependencies
             foreach (var task in tasks)
             {
-                switch (task.GetActionType())
+                switch (task.GetType().Name)
                 {
-                    case "ServoMove":
+                    case "ServoMoveAction":
                         AddDepDirectory("Main_Library/MAIN_ROBOT");
                         AddDepName("RobotLib");
                         AddDepDirectory("Main_Library/SERVO");
@@ -116,7 +116,7 @@ namespace VisualProgrammer.Processing
                         AddDepDirectory("Extended_Library/SERVO");
                         AddDepName("ServoExtended");
                         break;
-                    case "UARTSend":
+                    case "UARTSendAction":
                         AddDepDirectory("Main_Library/MAIN_ROBOT");
                         AddDepName("RobotLib");
                         AddDepDirectory("Main_Library/UART");

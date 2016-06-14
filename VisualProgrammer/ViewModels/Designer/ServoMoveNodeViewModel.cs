@@ -1,25 +1,29 @@
 ﻿
-using VisualProgrammer.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using VisualProgrammer.Data;
+using VisualProgrammer.Data.Actions;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
     public class ServoMoveNodeViewModel : NodeViewModel
     {
-        #region Private Data Members
 
-        private ServoMoveAction model = null;
-
-        #endregion Private Data Members
+        private ServoMoveAction action = null;
 
         public ServoMoveNodeViewModel()
         {
-            model = new ServoMoveAction(1, 180);
+            action = new ServoMoveAction();
+            action.Degrees = 180;
+            action.Servo = 1;
+
+            model = new Node();
+            model.Action = action;
+            model.NodeGuid = Guid.NewGuid().ToString();
             //Set up connectors
             InputConnector = new ConnectorViewModel();
             OutputConnector = new ConnectorViewModel();
@@ -30,13 +34,13 @@ namespace VisualProgrammer.ViewModels.Designer
         /// </summary>
         public int Servo
         {
-            get { return model.Servo; }
+            get { return action.Servo; }
             set
             {
-                if (model.Servo == value)
+                if (action.Servo == value)
                     return;
 
-                model.Servo = value;
+                action.Servo = value;
 
                 OnPropertyChanged("Servo");
             }
@@ -47,24 +51,16 @@ namespace VisualProgrammer.ViewModels.Designer
         /// </summary>
         public int Degrees
         {
-            get { return model.Degrees; }
+            get { return action.Degrees; }
             set 
             {
-                if (model.Degrees == value)
+                if (action.Degrees == value)
                     return;
 
-                model.Degrees = value;
+                action.Degrees = value;
 
                 OnPropertyChanged("Degrees");
             }
-        }
-
-        /// <summary>
-        /// The Model that represents the action of the node
-        /// </summary>
-        public override IRobotAction Model
-        {
-            get { return model; }
         }
 
         public override double Width

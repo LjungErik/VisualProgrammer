@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VisualProgrammer.Utilities.Logger;
 
-namespace VisualProgrammer.Processing.Commands.Shell
+namespace VisualProgrammer.Utilities.Processing.Commands.Shell
 {
     public class CommandShell
     {

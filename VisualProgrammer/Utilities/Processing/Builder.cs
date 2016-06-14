@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualProgrammer.Actions;
+using VisualProgrammer.Data.Actions;
 using VisualProgrammer.Enums;
-using VisualProgrammer.Processing.Commands.Compiler;
-using VisualProgrammer.Processing.File;
+using VisualProgrammer.Utilities.Processing.Commands.Compiler;
+using VisualProgrammer.Utilities.Processing.File;
 using VisualProgrammer.Utilities;
 using VisualProgrammer.Utilities.Logger;
 using VisualProgrammer.ViewModels.Designer;
 
-namespace VisualProgrammer.Processing
+namespace VisualProgrammer.Utilities.Processing
 {
     public class Builder
     {
@@ -29,7 +29,7 @@ namespace VisualProgrammer.Processing
                 return;
             }
 
-            List<IRobotAction> actions = ModelCollector.GetModels(startNode);
+            List<RobotAction> actions = ModelCollector.GetModels(startNode);
 
             logger.SetStatus(StatusType.Processing);
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisualProgrammer.Processing.Commands.Compiler
+namespace VisualProgrammer.Utilities.Processing.Commands.Compiler
 {
     public interface ICompilerCommand
     {

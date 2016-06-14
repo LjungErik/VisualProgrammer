@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VisualProgrammer.Actions;
+using VisualProgrammer.Data;
+using VisualProgrammer.Data.Actions;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
@@ -11,14 +12,18 @@ namespace VisualProgrammer.ViewModels.Designer
     {
         #region Private Data Members
 
-        private SleepAction model = null;
+        private SleepAction action = null;
 
         #endregion Private Data Members
 
         public SleepNodeViewModel()
         {
-            model = new SleepAction(1000);
+            action = new SleepAction();
+            action.Time = 1000;
 
+            model = new Node();
+            model.Action = action;
+            model.NodeGuid = Guid.NewGuid().ToString();
             //Set up connectors
             InputConnector = new ConnectorViewModel();
             OutputConnector = new ConnectorViewModel();
@@ -31,25 +36,17 @@ namespace VisualProgrammer.ViewModels.Designer
         {
             get
             {
-                return model.Time;
+                return action.Time;
             }
             set
             {
-                if (model.Time == value)
+                if (action.Time == value)
                     return;
 
-                model.Time = value;
+                action.Time = value;
 
                 OnPropertyChanged("Time");
             }
-        }
-
-        /// <summary>
-        /// The Model that represents the action of the node
-        /// </summary>
-        public override IRobotAction Model
-        {
-            get { return model; }
         }
 
         public override double Width

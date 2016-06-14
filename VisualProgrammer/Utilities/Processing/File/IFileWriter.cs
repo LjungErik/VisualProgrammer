@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisualProgrammer.Processing.File
+namespace VisualProgrammer.Utilities.Processing.File
 {
     public interface IFileWriter : IDisposable
     {

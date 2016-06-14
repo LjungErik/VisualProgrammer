@@ -8,11 +8,10 @@ using System.Windows.Input;
 using VisualProgrammer.Utilities;
 using VisualProgrammer.ViewModels.Designer;
 using VisualProgrammer.ViewModels.Toolbox;
-using VisualProgrammer.Actions;
-using VisualProgrammer.Processing;
-using VisualProgrammer.Processing.File;
-using VisualProgrammer.Processing.Commands.Shell;
-using VisualProgrammer.Processing.Commands.Compiler;
+using VisualProgrammer.Utilities.Processing;
+using VisualProgrammer.Utilities.Processing.File;
+using VisualProgrammer.Utilities.Processing.Commands.Shell;
+using VisualProgrammer.Utilities.Processing.Commands.Compiler;
 
 namespace VisualProgrammer.ViewModels
 {

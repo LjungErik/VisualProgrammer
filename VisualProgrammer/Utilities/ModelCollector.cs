@@ -1,28 +1,28 @@
-﻿using VisualProgrammer.Actions;
-using VisualProgrammer.ViewModels.Designer;
+﻿using VisualProgrammer.ViewModels.Designer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VisualProgrammer.Data.Actions;
 
 namespace VisualProgrammer.Utilities
 {
     public class ModelCollector
     {
-        public static List<IRobotAction> GetModels(StartNodeViewModel start)
+        public static List<RobotAction> GetModels(StartNodeViewModel start)
         {
-            List<IRobotAction> models = new List<IRobotAction>();
+            List<RobotAction> actions = new List<RobotAction>();
 
             NodeViewModel node = start;
 
             while((node = GetNextNode(node)) != null)
             {
-                if (node.Model != null)
-                    models.Add(node.Model);
+                if (node.Action != null)
+                    actions.Add(node.Action);
             }
 
-            return models;
+            return actions;
         }
 
         #region Private Methods
