@@ -319,7 +319,44 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="LibraryFiles\Extended_Library\SERVO\ServoExtended.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Extended_Library\SERVO\ServoExtended.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Extended_Library\UART_COMMAND\UARTExtended.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Extended_Library\UART_COMMAND\UARTExtended.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Main_Library\LEDS\LEDLib.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Main_Library\LEDS\LEDLib.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Main_Library\MAIN_ROBOT\RobotLib.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Main_Library\MAIN_ROBOT\RobotLib.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Main_Library\SERVO\ServoLib.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Main_Library\SERVO\ServoLib.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Main_Library\UART\UARTLib.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LibraryFiles\Main_Library\UART\UARTLib.h">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\arrowIcon.png" />
     <Resource Include="Resources\Images\selectIcon.png" />

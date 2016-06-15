@@ -107,19 +107,19 @@ namespace VisualProgrammer.Utilities.Processing
                 switch (task.GetType().Name)
                 {
                     case "ServoMoveAction":
-                        AddDepDirectory("Main_Library/MAIN_ROBOT");
+                        AddDepDirectory("LibraryFiles/Main_Library/MAIN_ROBOT");
                         AddDepName("RobotLib");
-                        AddDepDirectory("Main_Library/SERVO");
+                        AddDepDirectory("LibraryFiles/Main_Library/SERVO");
                         AddDepName("ServoLib");
-                        AddDepDirectory("Main_Library/UART");
+                        AddDepDirectory("LibraryFiles/Main_Library/UART");
                         AddDepName("UARTLib");
-                        AddDepDirectory("Extended_Library/SERVO");
+                        AddDepDirectory("LibraryFiles/Extended_Library/SERVO");
                         AddDepName("ServoExtended");
                         break;
                     case "UARTSendAction":
-                        AddDepDirectory("Main_Library/MAIN_ROBOT");
+                        AddDepDirectory("LibraryFiles/Main_Library/MAIN_ROBOT");
                         AddDepName("RobotLib");
-                        AddDepDirectory("Main_Library/UART");
+                        AddDepDirectory("LibraryFiles/Main_Library/UART");
                         AddDepName("UARTLib");
                         break;
                 }
