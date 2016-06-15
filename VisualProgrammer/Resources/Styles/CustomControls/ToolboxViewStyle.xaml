@@ -29,9 +29,9 @@
 
                         <Grid Visibility="{TemplateBinding IsNodeDragged, Converter={StaticResource booleanToVisibilityConverter}}">
                             <Rectangle Fill="White" Margin="0" Opacity="0.8"/>
-                            <Image x:Name="trashClosed" HorizontalAlignment="Center" Height="64" Margin="0,18,0,0" VerticalAlignment="Top" Width="64" Source="../../Resources/Images/trash_can_closed.png" 
+                            <Image x:Name="trashClosed" HorizontalAlignment="Center" Height="64" Margin="0,18,0,0" VerticalAlignment="Top" Width="64" Source="pack://application:,,,/Resources/Images/trash_can_closed.png" 
                                        Visibility="{TemplateBinding IsNodeDraggedOver, Converter={StaticResource invertedBooleanToVisibilityConverter}}"/>
-                            <Image x:Name="trashOpen" HorizontalAlignment="Center" Height="64" Margin="418,18,418,0" VerticalAlignment="Top" Width="64" Source="../../Resources/Images/trash_can_open.png" 
+                            <Image x:Name="trashOpen" HorizontalAlignment="Center" Height="64" Margin="418,18,418,0" VerticalAlignment="Top" Width="64" Source="pack://application:,,,/Resources/Images/trash_can_open.png" 
                                        Visibility="{TemplateBinding IsNodeDraggedOver, Converter={StaticResource booleanToVisibilityConverter}}"/>
                         </Grid>
                     </Grid>

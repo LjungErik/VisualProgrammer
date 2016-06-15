@@ -10,8 +10,8 @@
         <!-- This rectangle is the main visual for the node. -->
         <Canvas Height="{Binding Height}" Width="{Binding Width}" Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}">
 
-            <Image Width="128" Height="128" Source="../../Resources/Images/UARTsend-node.png" Canvas.Left="16" Canvas.Top="13"/>
-            <Image Width="130" Height="132" Source="../../Resources/Images/node_selected.png" Canvas.Left="14" Canvas.Top="11" Visibility="{Binding IsSelected, Converter={StaticResource booleanToVisibilityConverter}}"/>
+            <Image Width="128" Height="128" Source="pack://application:,,,/Resources/Images/UARTsend-node.png" Canvas.Left="16" Canvas.Top="13"/>
+            <Image Width="130" Height="132" Source="pack://application:,,,/Resources/Images/node_selected.png" Canvas.Left="14" Canvas.Top="11" Visibility="{Binding IsSelected, Converter={StaticResource booleanToVisibilityConverter}}"/>
             
             <controls:PropertyEditor
                 Name="textValue"

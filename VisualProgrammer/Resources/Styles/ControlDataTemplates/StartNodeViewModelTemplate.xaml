@@ -8,8 +8,8 @@
         <!-- This rectangle is the main visual for the node. -->
         <Grid Height="{Binding Height}" Width="{Binding Width}" Visibility="{Binding IsVisible, Converter={StaticResource booleanToVisibilityConverter}}">
 
-            <Image Width="128" Height="128" Source="../../Resources/Images/start-node.png" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
-            <Image Width="130" Height="132" Source="../../Resources/Images/start-node_selected.png" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsSelected, Converter={StaticResource booleanToVisibilityConverter}}"/>
+            <Image Width="128" Height="128" Source="pack://application:,,,/Resources/Images/start-node.png" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+            <Image Width="130" Height="132" Source="pack://application:,,,/Resources/Images/start-node_selected.png" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsSelected, Converter={StaticResource booleanToVisibilityConverter}}"/>
 
 
             <!-- The margin has been selected so that the selection rect nicely covers the entire node. -->

@@ -168,91 +168,91 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Styles\ControlDataTemplates\ConnectionViewModelTemplate.xaml">
+    <Page Include="Resources\Styles\ControlDataTemplates\ConnectionViewModelTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\ControlDataTemplates\ServoMoveNodeViewModelTemplate.xaml">
+    <Page Include="Resources\Styles\ControlDataTemplates\ServoMoveNodeViewModelTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\ControlDataTemplates\SleepNodeViewModelTemplate.xaml">
+    <Page Include="Resources\Styles\ControlDataTemplates\SleepNodeViewModelTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\ControlDataTemplates\StartNodeViewModelTemplate.xaml">
+    <Page Include="Resources\Styles\ControlDataTemplates\StartNodeViewModelTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\ControlDataTemplates\ToolboxItemViewModelTemplate.xaml">
+    <Page Include="Resources\Styles\ControlDataTemplates\ToolboxItemViewModelTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\ControlDataTemplates\UARTSendNodeViewModelTemplate.xaml">
+    <Page Include="Resources\Styles\ControlDataTemplates\UARTSendNodeViewModelTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\ConnectorStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\ConnectorStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\DesignViewStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\DesignViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\DropDown\MultiLineDropDownStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\DropDown\MultiLineDropDownStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\DropDown\NumberDropDownStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\DropDown\NumberDropDownStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\DropDown\SelectionDropDownStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\DropDown\SelectionDropDownStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\DropDown\SliderDropDownStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\DropDown\SliderDropDownStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\LogOutputViewStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\LogOutputViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\MousePanelStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\MousePanelStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\NodeStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\NodeStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\PropertyEditorStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\PropertyEditorStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\ToolboxItemStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\ToolboxItemStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\CustomControls\ToolboxViewStyle.xaml">
+    <Page Include="Resources\Styles\CustomControls\ToolboxViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\NamedTemplates\InputConnectorTemplate.xaml">
+    <Page Include="Resources\Styles\NamedTemplates\InputConnectorTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\NamedTemplates\NodeListBoxTemplate.xaml">
+    <Page Include="Resources\Styles\NamedTemplates\NodeListBoxTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\NamedTemplates\OutputConnectorTemplate.xaml">
+    <Page Include="Resources\Styles\NamedTemplates\OutputConnectorTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\SharedStyleTemplates.xaml">
+    <Page Include="Resources\Styles\SharedStyleTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

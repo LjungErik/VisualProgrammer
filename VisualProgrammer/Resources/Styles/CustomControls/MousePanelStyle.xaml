@@ -26,7 +26,7 @@
                                         Height="32"
                                         Margin="2,0"
                                         BorderThickness="0">
-                                        <Image Source="../../Resources/Images/arrowIcon.png"/>
+                                        <Image Source="pack://application:,,,/Resources/Images/arrowIcon.png"/>
                                     </Button>
 
                                     <Button
@@ -36,7 +36,7 @@
                                         Height="32"
                                         Margin="2,0"
                                         BorderThickness="0">
-                                        <Image Source="../../Resources/Images/moveIcon.png"/>
+                                        <Image Source="pack://application:,,,/Resources/Images/moveIcon.png"/>
                                     </Button>
 
                                     <Button
@@ -46,7 +46,7 @@
                                         Height="32"
                                         Margin="2,0"
                                         BorderThickness="0">
-                                        <Image Source="../../Resources/Images/selectIcon.png"/>
+                                        <Image Source="pack://application:,,,/Resources/Images/selectIcon.png"/>
                                     </Button>
                                 </WrapPanel>
                             </Grid>

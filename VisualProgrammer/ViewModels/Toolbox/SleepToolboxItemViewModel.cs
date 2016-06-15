@@ -11,7 +11,7 @@ namespace VisualProgrammer.ViewModels.Toolbox
     {
         #region CONSTANTS
 
-        private const string IMAGE_SOURCE = "../../Resources/Images/toolbox_Sleepnode.png";
+        private const string IMAGE_SOURCE = "pack://application:,,,/Resources/Images/toolbox_Sleepnode.png";
 
         #endregion CONSTANTS
 
