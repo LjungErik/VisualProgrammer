@@ -39,7 +39,8 @@ namespace VisualProgrammer.Views.Designer
                 new FrameworkPropertyMetadata(true));
 
         public static DependencyProperty ParentDesignViewProperty =
-            DependencyProperty.Register("ParentDesignView", typeof(DesignView), typeof(Node));
+            DependencyProperty.Register("ParentDesignView", typeof(DesignView), typeof(Node), 
+            new FrameworkPropertyMetadata(ParentDesignView_PropertyChanged));
 
         public static readonly RoutedEvent NodeDragStartedEvent =
             EventManager.RegisterRoutedEvent("NodeDrageStarted", RoutingStrategy.Bubble, typeof(NodeDragStartedEventHandler), typeof(Node));
@@ -201,6 +202,8 @@ namespace VisualProgrammer.Views.Designer
 
         private void HandleDragging(Point location)
         {
+            BringToFront();
+
             NodeDragStartedEventArgs eventArgs = new NodeDragStartedEventArgs(NodeDragStartedEvent, this, new Node[] { this });
             RaiseEvent(eventArgs);
 
@@ -220,6 +223,21 @@ namespace VisualProgrammer.Views.Designer
             IsSelected = true;
         }
 
+        private void BringToFront()
+        {
+            if (ParentDesignView == null)
+                return;
+
+            int maxIndex = ParentDesignView.GetMaxIndex();
+            this.ZIndex = maxIndex + 1;
+        }
+
         #endregion Private Methods
+
+        private static void ParentDesignView_PropertyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            Node node = (Node)o;
+            node.BringToFront();
+        }
     }
 }

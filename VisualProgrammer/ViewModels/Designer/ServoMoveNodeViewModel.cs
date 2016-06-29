@@ -29,6 +29,15 @@ namespace VisualProgrammer.ViewModels.Designer
             OutputConnector = new ConnectorViewModel();
         }
 
+        public ServoMoveNodeViewModel(Node node)
+        {
+            model = node;
+            action = (ServoMoveAction)node.Action;
+
+            InputConnector = new ConnectorViewModel();
+            OutputConnector = new ConnectorViewModel();
+        }
+
         /// <summary>
         /// The Servo that is to be moved
         /// </summary>

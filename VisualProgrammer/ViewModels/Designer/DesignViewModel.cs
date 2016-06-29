@@ -5,6 +5,8 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using VisualProgrammer.Utilities;
+using VisualProgrammer.Data;
+using VisualProgrammer.Data.Actions;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
@@ -33,6 +35,12 @@ namespace VisualProgrammer.ViewModels.Designer
 
 
         #endregion Internal Data Members
+
+        public DesignViewModel(IList<Node> nodes, IList<Connection> connections)
+        {
+            this.nodes = GetObservableNodes(nodes);
+            this.connections = GetObservableConnections(connections, this.nodes);
+        }
 
         /// <summary>
         /// The collection of nodes in the Designer.
@@ -80,5 +88,55 @@ namespace VisualProgrammer.ViewModels.Designer
                 startNode = value;
             }
         }
+
+        #region Private Methods
+
+        private ObservableCollection<NodeViewModel> GetObservableNodes(IList<Node> nodes)
+        {
+            var observNodes = new ObservableCollection<NodeViewModel>();
+
+            foreach(var node in nodes)
+                observNodes.Add(GetNodeViewModel(node));
+
+            return observNodes;
+        }
+
+        private ObservableCollection<ConnectionViewModel> GetObservableConnections(IList<Connection> connections, ObservableCollection<NodeViewModel> nodes)
+        {
+            var observConnection = new ObservableCollection<ConnectionViewModel>();
+
+            foreach(var connection in connections)
+                observConnection.Add(GetConnectionViewModel(connection, nodes));
+
+            return observConnection;
+        }
+
+        private NodeViewModel GetNodeViewModel(Node node)
+        {
+            if (node.Action is ServoMoveAction)
+                return new ServoMoveNodeViewModel(node);
+            else if (node.Action is SleepAction)
+                return new SleepNodeViewModel(node);
+            else if (node.Action is StartAction)
+                return new StartNodeViewModel(node);
+            else if (node.Action is UARTSendAction)
+                return new UARTSendNodeViewModel(node);
+
+            return null;
+        }
+
+        private ConnectionViewModel GetConnectionViewModel(Connection connection, ObservableCollection<NodeViewModel> nodes)
+        {
+            var sourceNode = nodes.Where(x => x.Model.NodeGuid == connection.SourceNodeGuid)
+                                  .FirstOrDefault();
+            var destNode = nodes.Where(x => x.Model.NodeGuid == connection.DestNodeGuid)
+                                .FirstOrDefault();
+
+            return sourceNode == null || destNode == null ?
+                null :
+                new ConnectionViewModel(connection, sourceNode, destNode);
+        }
+
+        #endregion Private Methods
     }
 }

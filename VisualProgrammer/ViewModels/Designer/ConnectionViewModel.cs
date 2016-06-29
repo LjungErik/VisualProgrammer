@@ -54,6 +54,14 @@ namespace VisualProgrammer.ViewModels.Designer
             model = new Connection();
         }
 
+        public ConnectionViewModel(Connection connection, NodeViewModel sourceNode, NodeViewModel destNode)
+        {
+            model = connection;
+
+            SourceConnector = sourceNode.OutputConnector;
+            DestConnector = destNode.InputConnector;
+        }
+
         public Connection Model
         {
             get { return model; }

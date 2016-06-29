@@ -105,6 +105,8 @@
     <Compile Include="Utilities\ModelCollector.cs" />
     <Compile Include="Utilities\Converter\StringToDegreesConverter.cs" />
     <Compile Include="Utilities\Converter\StringToServoNumberConverter.cs" />
+    <Compile Include="Utilities\Processing\FileHelpers\IFileHandler.cs" />
+    <Compile Include="Utilities\Processing\FileHelpers\XMLFileHandler.cs" />
     <Compile Include="Utilities\WpfUtils.cs" />
     <Compile Include="ViewModels\CompilerStatusViewModel.cs" />
     <Compile Include="ViewModels\CompilerStatus\LogProgressViewModel.cs" />
@@ -161,8 +163,8 @@
     <Compile Include="Utilities\Processing\Commands\Compiler\ICompilerCommand.cs" />
     <Compile Include="Utilities\Processing\Commands\Shell\CommandShell.cs" />
     <Compile Include="Utilities\Processing\Compiler.cs" />
-    <Compile Include="Utilities\Processing\File\FileWriter.cs" />
-    <Compile Include="Utilities\Processing\File\IFileWriter.cs" />
+    <Compile Include="Utilities\Processing\FileHelpers\FileWriter.cs" />
+    <Compile Include="Utilities\Processing\FileHelpers\IFileWriter.cs" />
     <Compile Include="Utilities\Processing\Parser.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

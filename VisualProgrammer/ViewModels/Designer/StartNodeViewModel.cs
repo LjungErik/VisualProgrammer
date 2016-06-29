@@ -19,6 +19,13 @@ namespace VisualProgrammer.ViewModels.Designer
             OutputConnector = new ConnectorViewModel();
         }
 
+        public StartNodeViewModel(Node node)
+        {
+            model = node;
+
+            OutputConnector = new ConnectorViewModel();
+        }
+
         /// <summary>
         /// Overrides the InputConnector because not needed on start node
         /// </summary>

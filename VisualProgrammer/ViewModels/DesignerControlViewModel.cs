@@ -9,9 +9,11 @@ using VisualProgrammer.Utilities;
 using VisualProgrammer.ViewModels.Designer;
 using VisualProgrammer.ViewModels.Toolbox;
 using VisualProgrammer.Utilities.Processing;
-using VisualProgrammer.Utilities.Processing.File;
+using VisualProgrammer.Utilities.Processing.FileHelpers;
 using VisualProgrammer.Utilities.Processing.Commands.Shell;
 using VisualProgrammer.Utilities.Processing.Commands.Compiler;
+using VisualProgrammer.Data;
+using System.Collections.ObjectModel;
 
 namespace VisualProgrammer.ViewModels
 {
@@ -28,10 +30,10 @@ namespace VisualProgrammer.ViewModels
 
         #endregion Internal Data Members
 
-        public DesignerControlViewModel()
+        public DesignerControlViewModel(VisualProject project)
         {
-            // Add some test data to the view-model.
-            PopulateWithTestData();
+            this.Toolbox = new ToolboxViewModel();
+            this.Designer = new DesignViewModel(project.Nodes, project.Connections);
         }
 
         public DesignViewModel Designer
@@ -122,36 +124,6 @@ namespace VisualProgrammer.ViewModels
             newConnection.DestConnector = inputConnector;
         }
 
-        /// <summary>
-        /// Create a node and add it to the view-model.
-        /// </summary>
-        public NodeViewModel CreateNode(Point nodeLocation)
-        {
-            var node = new UARTSendNodeViewModel();
-            node.X = nodeLocation.X;
-            node.Y = nodeLocation.Y;
-
-            node.InputConnector = new ConnectorViewModel();
-            node.OutputConnector = new ConnectorViewModel();
-
-            this.Designer.Nodes.Add(node);
-
-            return node;
-        }
-
-        public NodeViewModel CreateStartNode(Point nodeLocation)
-        {
-            var node = new StartNodeViewModel();
-            node.X = nodeLocation.X;
-            node.Y = nodeLocation.Y;
-
-            node.OutputConnector = new ConnectorViewModel();
-
-            this.Designer.Nodes.Add(node);
-            this.Designer.StartNode = node;
-            return node;
-        }
-
         public void RemoveNode(NodeViewModel node)
         {
             //Remove the attached connections
@@ -191,16 +163,14 @@ namespace VisualProgrammer.ViewModels
             return false;
         }
 
-        /// <summary>
-        /// A function to conveniently populate the view-model with test data.
-        /// </summary>
-        private void PopulateWithTestData()
+        private VisualProject GetProject()
         {
-            this.Designer = new DesignViewModel();
-            this.Toolbox = new ToolboxViewModel();
+            var project = new VisualProject();
 
-            CreateStartNode(new Point(50, 150));
-            CreateNode(new Point(150, 50));
+            project.Nodes = Designer.Nodes.Select(x => x.Model).ToList();
+            project.Connections = Designer.Connections.Select(x => x.Model).ToList();
+
+            return project;
         }
 
         #endregion Private Methods

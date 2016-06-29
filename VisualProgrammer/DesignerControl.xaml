@@ -11,19 +11,13 @@
              MinWidth="750"
              >
 
-    <UserControl.DataContext>
-        <viewmodel:DesignerControlViewModel/>
-    </UserControl.DataContext>
-
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <designView:DesignView
-            Grid.Row="1"
             
             x:Name="designerControl"
             Cursor="{Binding ElementName=mouseSelectorPanel, Path=MouseHandler.MouseCursor, Mode=OneWay}"
@@ -45,19 +39,14 @@
             DroppedOver="designerControl_DroppedOver"
             />
 
-        <Button x:Name="buildBtn" Background="Gray" Foreground="Black" Click="buildBtnClicked" FontSize="22" Content="Build" Width="Auto" Height="32" Cursor="Hand" ClickMode="Press">
-        </Button>
-
         <mouse:MouseSelectorPanel
             x:Name="mouseSelectorPanel"
-            Grid.Row="1"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"/>
 
         <Expander 
-            Grid.Row="2"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Stretch">
+            Grid.Row="1"
+            HorizontalAlignment="Stretch">
         <viewsToolbox:ToolboxView
             Height="100"
             VerticalAlignment="Stretch"

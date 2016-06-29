@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -146,13 +147,6 @@ namespace VisualProgrammer
             return false;
         }
 
-        private void buildBtnClicked(object sender, RoutedEventArgs e)
-        {
-            CompilerStatusWindow compileStatusWindow = new CompilerStatusWindow(this.ViewModel.Designer.StartNode);
-            compileStatusWindow.Owner = Window.GetWindow(this);
-            compileStatusWindow.ShowDialog();
-        }
-
         private void SetCursor()
         {
             if(IsOutOfBounds())
@@ -161,7 +155,7 @@ namespace VisualProgrammer
                 Mouse.OverrideCursor = null;
         }
 
-        public bool IsOutOfBounds()
+        private bool IsOutOfBounds()
         {
             Point mousePosition = Mouse.GetPosition(this);
             return !HitTest(mousePosition, this);

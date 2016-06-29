@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VisualProgrammer.Utilities.Processing.File
+namespace VisualProgrammer.Utilities.Processing.FileHelpers
 {
     public class FileWriter : IFileWriter
     {

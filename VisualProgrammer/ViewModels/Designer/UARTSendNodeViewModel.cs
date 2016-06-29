@@ -27,7 +27,15 @@ namespace VisualProgrammer.ViewModels.Designer
 
             InputConnector = new ConnectorViewModel();
             OutputConnector = new ConnectorViewModel();
+        }
 
+        public UARTSendNodeViewModel(Node node)
+        {
+            model = node;
+            action = (UARTSendAction)node.Action;
+
+            InputConnector = new ConnectorViewModel();
+            OutputConnector = new ConnectorViewModel();
         }
 
         /// <summary>

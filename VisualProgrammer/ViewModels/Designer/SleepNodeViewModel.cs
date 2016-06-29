@@ -29,6 +29,16 @@ namespace VisualProgrammer.ViewModels.Designer
             OutputConnector = new ConnectorViewModel();
         }
 
+        public SleepNodeViewModel(Node node)
+        {
+            model = node;
+            action = (SleepAction)node.Action;
+
+            //Set up connectors
+            InputConnector = new ConnectorViewModel();
+            OutputConnector = new ConnectorViewModel();
+        }
+
         /// <summary>
         /// Holds the time to sleep (pause execution)
         /// </summary>

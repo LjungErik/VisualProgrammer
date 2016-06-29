@@ -64,10 +64,6 @@ namespace VisualProgrammer.ViewModels.Designer
 
         #endregion Private Data Members
 
-        public NodeViewModel()
-        {
-        }
-
         /// <summary>
         /// The X coordinate for the position of the node.
         /// </summary>

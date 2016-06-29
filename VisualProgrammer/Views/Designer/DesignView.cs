@@ -12,6 +12,7 @@ using System.Windows.Media;
 using VisualProgrammer.Controls;
 using VisualProgrammer.Factory.MouseActions;
 using VisualProgrammer.Utilities;
+using VisualProgrammer.ViewModels.Designer;
 using VisualProgrammer.Views.Designer.Events;
 
 namespace VisualProgrammer.Views.Designer
@@ -191,6 +192,19 @@ namespace VisualProgrammer.Views.Designer
             {
                 throw new ApplicationException("Failed to locate 'PART_SelectionBorder' in 'DesignView'");
             }
+        }
+
+        public int GetMaxIndex()
+        {
+            int maxIndex = 0;
+
+            foreach(NodeViewModel node in NodesSource)
+            {
+                if (node.ZIndex > maxIndex)
+                    maxIndex = node.ZIndex;
+            }
+
+            return maxIndex;
         }
 
         #region Selection Actions Methods
