@@ -2,8 +2,53 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:VisualProgrammer"
+        xmlns:vmRoot="clr-namespace:VisualProgrammer.ViewModels"
+        xmlns:commands="clr-namespace:VisualProgrammer.Utilities.Commands"
         Title="MainWindow" Height="920" Width="1400">
-    <Grid>
-        <local:DesignerControl/>
-    </Grid>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.New" Executed="NewAction_Command" />
+        <CommandBinding Command="ApplicationCommands.Open" Executed="OpenAction_Command" />
+        <CommandBinding Command="ApplicationCommands.Save" CanExecute="Command_CanExecute"  Executed="SaveAction_Command" />
+        <CommandBinding Command="ApplicationCommands.SaveAs" CanExecute="Command_CanExecute"  Executed="SaveAsAction_Command" />
+        <CommandBinding Command="commands:CustomCommands.Build" CanExecute="Command_CanExecute"  Executed="BuildAction_Command" />
+    </Window.CommandBindings>
+    
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar Background="Transparent">
+                <Menu Background="Transparent">
+                    <MenuItem Header="File">
+                        <MenuItem Header="New" Command="ApplicationCommands.New"/>
+                        <MenuItem Header="Open" Command="ApplicationCommands.Open"/>
+                        <Separator/>
+                        <MenuItem Header="Save" Command="ApplicationCommands.Save"/>
+                        <MenuItem Header="Save As..." Command="ApplicationCommands.SaveAs"/>
+                    </MenuItem>
+                </Menu>
+                <Menu Background="Transparent">
+                    <MenuItem Header="Edit">
+                    </MenuItem>
+                </Menu>
+                <Menu Background="Transparent">
+                    <MenuItem Header="Build">
+                        <MenuItem Header="Build Solution" Command="commands:CustomCommands.Build"/>
+                    </MenuItem>
+                </Menu>
+            </ToolBar>
+        </ToolBarTray>
+        <Border Background="LightGray">
+            <Grid x:Name="designContent" Margin="5,5" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border HorizontalAlignment="Stretch" Background="White">
+                    <Label x:Name="projectNameLabel" HorizontalAlignment="Center">
+                    </Label>
+                </Border>
+                <local:DesignerControl x:Name="designerControl" Grid.Row="1">
+                </local:DesignerControl>
+            </Grid>
+        </Border>
+    </DockPanel>
 </Window>

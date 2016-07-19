@@ -11,6 +11,7 @@ namespace VisualProgrammer.Views.Designer.Events
     {
         private object draggedItem = null;
         private object returnItem = null;
+        private bool cancel = false;
 
         public DragDropEventArgs(RoutedEvent routedEvent, object source, object draggedItem)
             :base(routedEvent, source)
@@ -32,6 +33,18 @@ namespace VisualProgrammer.Views.Designer.Events
                     return;
 
                 returnItem = value;
+            }
+        }
+
+        public bool Cancel
+        {
+            get { return cancel; }
+            set
+            {
+                if (cancel == value)
+                    return;
+
+                cancel = value;
             }
         }
     }

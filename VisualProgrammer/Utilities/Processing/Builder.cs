@@ -40,7 +40,6 @@ namespace VisualProgrammer.Utilities.Processing
             //Try to generate the needed c-file
             if (parser.GenrateCode(actions, "Testname.c"))
             {
-
                 logger.SetProgress(35);
 
                 Compiler compiler = new Compiler(actions,

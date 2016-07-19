@@ -29,8 +29,7 @@ namespace VisualProgrammer.Views.Designer
             DependencyProperty.Register("ParentNode", typeof(Node), typeof(Connector));
 
         public static readonly DependencyProperty ParentDesignViewProperty =
-            DependencyProperty.Register("ParentDesignView", typeof(DesignView), typeof(Connector),
-                new FrameworkPropertyMetadata());
+            DependencyProperty.Register("ParentDesignView", typeof(DesignView), typeof(Connector), new FrameworkPropertyMetadata(ParentDesignView_PropertyChanged));
 
         public static readonly RoutedEvent ConnectorDragStartedEvent =
             EventManager.RegisterRoutedEvent("ConnectorDragStarted", RoutingStrategy.Bubble, typeof(ConnectorDragStartedEventHandler), typeof(Connector));

@@ -34,17 +34,12 @@ namespace VisualProgrammer.Views.Toolbox
 
         public static readonly RoutedEvent DraggedOverEvent =
             EventManager.RegisterRoutedEvent("DraggedOver", RoutingStrategy.Bubble, typeof(DragDropEventHandler), typeof(ToolboxView));
-
-        public static readonly RoutedEvent ToolboxItemDropCanceledEvent =
-            EventManager.RegisterRoutedEvent("ToolboxItemDropCancel", RoutingStrategy.Bubble, typeof(ToolboxItemDropCanceledEventHandler), typeof(ToolboxView));
        
         #endregion Dependency Property/Event Definitions
 
         public ToolboxView()
         {
             this.Background = Brushes.White;
-
-            AddHandler(ToolboxItem.ToolboxItemDropCanceledEvent, new ToolboxItemDropCanceledEventHandler(ToolboxItem_DropCanceled));
         }
 
         /// <summary>
@@ -113,15 +108,14 @@ namespace VisualProgrammer.Views.Toolbox
             remove { RemoveHandler(DraggedOverEvent, value); }
         }
 
-        public event RoutedEventHandler ToolboxItemDropCanceled
-        {
-            add { AddHandler(ToolboxItemDropCanceledEvent, value); }
-            remove { RemoveHandler(ToolboxItemDropCanceledEvent, value); }
-        }
-
         public new void DragOver(IDraggable dragged)
         {
-            RaiseEvent(new DragDropEventArgs(DraggedOverEvent, this, dragged));
+            var eventArgs = new DragDropEventArgs(DraggedOverEvent, this, dragged);
+
+            RaiseEvent(eventArgs);
+
+            if (eventArgs.Cancel)
+                dragged.Drop();
         }
 
         public void Dropped(IDraggable dragged) { }
@@ -131,13 +125,6 @@ namespace VisualProgrammer.Views.Toolbox
         static ToolboxView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolboxView), new FrameworkPropertyMetadata(typeof(ToolboxView)));
-        }
-
-        private void ToolboxItem_DropCanceled(object sender, ToolboxItemEventArgs e)
-        {
-            e.Handled = true;
-
-            RaiseEvent(new ToolboxItemEventArgs(ToolboxItemDropCanceledEvent, this, e.Item));
         }
 
         #endregion Private Methods

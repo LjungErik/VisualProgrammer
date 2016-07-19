@@ -25,6 +25,8 @@ namespace VisualProgrammer.Views.Designer
 
         private ItemsControl connectionControl = null;
 
+        private ItemsControl temperaryConnectionControl = null;
+
         /* Selection */
         private FrameworkElement selectionCanvas = null;
 
@@ -39,6 +41,9 @@ namespace VisualProgrammer.Views.Designer
 
         public static readonly DependencyProperty ConnectionsSourceProperty =
             DependencyProperty.Register("ConnectionsSource", typeof(IEnumerable), typeof(DesignView));
+
+        public static readonly DependencyProperty TemperaryConnectionSourceProperty =
+            DependencyProperty.Register("TemperaryConnectionSource", typeof(IEnumerable), typeof(DesignView));
 
         public static readonly DependencyProperty MouseHandlerProperty =
             DependencyProperty.Register("MouseHandler", typeof(IMouseAction), typeof(DesignView));
@@ -102,6 +107,18 @@ namespace VisualProgrammer.Views.Designer
             set
             {
                 SetValue(ConnectionsSourceProperty, value);
+            }
+        }
+
+        public IEnumerable TemperaryConnectionSource
+        {
+            get
+            {
+                return (IEnumerable)GetValue(TemperaryConnectionSourceProperty);
+            }
+            set
+            {
+                SetValue(TemperaryConnectionSourceProperty, value);
             }
         }
 
@@ -179,6 +196,12 @@ namespace VisualProgrammer.Views.Designer
             if (this.connectionControl == null)
             {
                 throw new ApplicationException("Failed to locate 'PART_ConnectionsControl' in 'DesignView'.");
+            }
+
+            this.temperaryConnectionControl = (ItemsControl)this.Template.FindName("PART_TemperaryConnectionControl", this);
+            if (this.temperaryConnectionControl == null)
+            {
+                throw new ApplicationException("Failed to locate 'PART_TemperaryConnectionControl' in 'DesignView'.");
             }
 
             this.selectionCanvas = (FrameworkElement)this.Template.FindName("PART_SelectionCanvas", this);

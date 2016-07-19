@@ -140,6 +140,8 @@ namespace VisualProgrammer
             Mouse.OverrideCursor = null;
         }
 
+        #region Help functions
+
         private bool HitTest(Point hitPoint, FrameworkElement element)
         {
             if ((element.ActualHeight > hitPoint.Y && hitPoint.Y >= 0) && (element.ActualWidth > hitPoint.X && hitPoint.X >= 0))
@@ -161,9 +163,21 @@ namespace VisualProgrammer
             return !HitTest(mousePosition, this);
         }
 
+        private bool IsInvalidDrag(ToolboxItem toolItem)
+        {
+            return ViewModel.Designer.StartNode != null &&
+                toolItem.DataContext.GetType() == typeof(StartToolboxItemViewModel);
+        }
+
+        #endregion
+
         private void toolboxView_DraggedOver(object sender, DragDropEventArgs e)
         {
             Mouse.OverrideCursor = null;
+
+            var toolItem = e.DraggedItem as ToolboxItem;
+
+            e.Cancel = IsInvalidDrag(toolItem);
         }
 
         private void designerControl_DraggedOver(object sender, DragDropEventArgs e)

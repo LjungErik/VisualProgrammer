@@ -8,9 +8,7 @@ namespace VisualProgrammer.Data
 {
     public class VisualProject
     {
-        public List<Node> Nodes;
-
-        public List<Connection> Connections;
+        public DesignerData Data;
 
         public string ProjectName;
 

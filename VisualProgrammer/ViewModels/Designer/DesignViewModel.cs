@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using System;
 using System.Linq;
-using System.Text;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using VisualProgrammer.Utilities;
+using System.ComponentModel;
 using VisualProgrammer.Data;
 using VisualProgrammer.Data.Actions;
+using VisualProgrammer.Utilities;
 
 namespace VisualProgrammer.ViewModels.Designer
 {
@@ -20,40 +20,42 @@ namespace VisualProgrammer.ViewModels.Designer
         /// <summary>
         /// The collection of nodes in the Designer.
         /// </summary>
-        private ObservableCollection<NodeViewModel> nodes = null;
+        private ChangeableCollection<NodeViewModel> nodes = null;
 
         /// <summary>
         /// The collection of connections in the Designer.
         /// </summary>
-        private ObservableCollection<ConnectionViewModel> connections = null;
+        private ChangeableCollection<ConnectionViewModel> connections = null;
+
+        private ChangeableCollection<ConnectionViewModel> tempconnection = null;
 
         /// <summary>
         /// The start node in the Designer
         /// </summary>
         private StartNodeViewModel startNode = null;
 
-
-
         #endregion Internal Data Members
 
-        public DesignViewModel(IList<Node> nodes, IList<Connection> connections)
+        public event EventHandler<EventArgs> PropertyChanged;
+
+        public DesignViewModel(IList<Node> nodeItems, IList<Connection> connectionItems)
         {
-            this.nodes = GetObservableNodes(nodes);
-            this.connections = GetObservableConnections(connections, this.nodes);
+            SetNodes(nodeItems);
+            SetConnections(connectionItems);
+
+            tempconnection = new ChangeableCollection<ConnectionViewModel>();
+
+            nodes.ContentChanged += new PropertyChangedEventHandler(OnContentChanged);
+            connections.ContentChanged += new PropertyChangedEventHandler(OnContentChanged);
         }
 
         /// <summary>
         /// The collection of nodes in the Designer.
         /// </summary>
-        public ObservableCollection<NodeViewModel> Nodes
+        public ChangeableCollection<NodeViewModel> Nodes
         {
             get
             {
-                if (nodes == null)
-                {
-                    nodes = new ObservableCollection<NodeViewModel>();
-                }
-
                 return nodes;
             }
         }
@@ -61,16 +63,22 @@ namespace VisualProgrammer.ViewModels.Designer
         /// <summary>
         /// The collection of connections in the Designer.
         /// </summary>
-        public ObservableCollection<ConnectionViewModel> Connections
+        public ChangeableCollection<ConnectionViewModel> Connections
         {
             get
             {
-                if (connections == null)
-                {
-                    connections = new ObservableCollection<ConnectionViewModel>();
-                }
-
                 return connections;
+            }
+        }
+
+        /// <summary>
+        /// Holds a connection that is currently being created/dragged on the screen
+        /// </summary>
+        public ObservableCollection<ConnectionViewModel> TemperaryConnection
+        {
+            get
+            {
+                return tempconnection;
             }
         }
 
@@ -91,24 +99,33 @@ namespace VisualProgrammer.ViewModels.Designer
 
         #region Private Methods
 
-        private ObservableCollection<NodeViewModel> GetObservableNodes(IList<Node> nodes)
+        private void SetNodes(IList<Node> nodeItems)
         {
-            var observNodes = new ObservableCollection<NodeViewModel>();
+            nodes = new ChangeableCollection<NodeViewModel>();
 
-            foreach(var node in nodes)
-                observNodes.Add(GetNodeViewModel(node));
+            foreach (var nodeItem in nodeItems)
+            {
+                var node = GetNodeViewModel(nodeItem);
+                nodes.Add(node);
 
-            return observNodes;
+                if (StartNode == null && node.GetType() == typeof(StartNodeViewModel))
+                    StartNode = (StartNodeViewModel)node;
+            }
+
         }
 
-        private ObservableCollection<ConnectionViewModel> GetObservableConnections(IList<Connection> connections, ObservableCollection<NodeViewModel> nodes)
+        private void SetConnections(IList<Connection> connectionItems)
         {
-            var observConnection = new ObservableCollection<ConnectionViewModel>();
+            connections = new ChangeableCollection<ConnectionViewModel>();
 
-            foreach(var connection in connections)
-                observConnection.Add(GetConnectionViewModel(connection, nodes));
+            foreach(var connectionItem in connectionItems)
+            {
+                var connection = GetConnectionViewModel(connectionItem);
 
-            return observConnection;
+                if(connection != null)
+                    connections.Add(connection);
+
+            }
         }
 
         private NodeViewModel GetNodeViewModel(Node node)
@@ -125,8 +142,11 @@ namespace VisualProgrammer.ViewModels.Designer
             return null;
         }
 
-        private ConnectionViewModel GetConnectionViewModel(Connection connection, ObservableCollection<NodeViewModel> nodes)
+        private ConnectionViewModel GetConnectionViewModel(Connection connection)
         {
+            if (nodes == null)
+                return null;
+
             var sourceNode = nodes.Where(x => x.Model.NodeGuid == connection.SourceNodeGuid)
                                   .FirstOrDefault();
             var destNode = nodes.Where(x => x.Model.NodeGuid == connection.DestNodeGuid)
@@ -135,6 +155,12 @@ namespace VisualProgrammer.ViewModels.Designer
             return sourceNode == null || destNode == null ?
                 null :
                 new ConnectionViewModel(connection, sourceNode, destNode);
+        }
+
+        private void OnContentChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, EventArgs.Empty);
         }
 
         #endregion Private Methods

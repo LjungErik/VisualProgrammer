@@ -73,8 +73,6 @@ namespace VisualProgrammer.Controls
 
             if (dropView != null)
                 dropView.Dropped(DraggedItem);
-            else
-                e.Failed = true;
 
             DraggedItem = null;
             Mouse.OverrideCursor = null;

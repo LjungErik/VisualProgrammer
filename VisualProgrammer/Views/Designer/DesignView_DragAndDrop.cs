@@ -14,8 +14,6 @@ namespace VisualProgrammer.Views.Designer
 {
     public partial class DesignView : IDropView
     {
-        private Node tempNode = null;
-
         public new void DragOver(IDraggable dragged)
         {
             RaiseEvent(new DragDropEventArgs(DraggedOverEvent, this, dragged));

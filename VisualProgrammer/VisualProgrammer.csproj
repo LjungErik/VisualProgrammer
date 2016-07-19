@@ -84,6 +84,7 @@
     <Compile Include="Data\Actions\StartAction.cs" />
     <Compile Include="Data\Actions\UARTSendAction.cs" />
     <Compile Include="Data\Connection.cs" />
+    <Compile Include="Data\DesignerData.cs" />
     <Compile Include="Data\Node.cs" />
     <Compile Include="Data\VisualProject.cs" />
     <Compile Include="Enums\MouseAction.cs" />
@@ -94,6 +95,9 @@
     <Compile Include="Factory\MouseActions\IMouseAction.cs" />
     <Compile Include="Factory\MouseActions\MoveMouseAction.cs" />
     <Compile Include="Factory\MouseActions\SelectMouseAction.cs" />
+    <Compile Include="Utilities\ChangeableCollection.cs" />
+    <Compile Include="Utilities\Commands\CustomCommands.cs" />
+    <Compile Include="Utilities\IChangeable.cs" />
     <Compile Include="Utilities\Processing\Builder.cs" />
     <Compile Include="Utilities\AbstractModelBase.cs" />
     <Compile Include="Utilities\Converter\StatusTypeToBooleanConverter.cs" />

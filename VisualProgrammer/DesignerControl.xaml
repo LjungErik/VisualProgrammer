@@ -20,10 +20,15 @@
         <designView:DesignView
             
             x:Name="designerControl"
+            
+            Grid.RowSpan="2"
+            ClipToBounds="True"
+            
             Cursor="{Binding ElementName=mouseSelectorPanel, Path=MouseHandler.MouseCursor, Mode=OneWay}"
                     
             NodesSource="{Binding Designer.Nodes}"
             ConnectionsSource="{Binding Designer.Connections}"
+            TemperaryConnectionSource="{Binding Designer.TemperaryConnection}"
             
             MouseHandler="{Binding ElementName=mouseSelectorPanel, Path=MouseHandler, Mode=TwoWay}"
                    
@@ -36,8 +41,7 @@
             NodeDragCompleted="designerControl_NodeDragCompleted"
             
             DraggedOver="designerControl_DraggedOver"
-            DroppedOver="designerControl_DroppedOver"
-            />
+            DroppedOver="designerControl_DroppedOver"/>
 
         <mouse:MouseSelectorPanel
             x:Name="mouseSelectorPanel"
@@ -46,7 +50,8 @@
 
         <Expander 
             Grid.Row="1"
-            HorizontalAlignment="Stretch">
+            HorizontalAlignment="Stretch"
+            Background="White">
         <viewsToolbox:ToolboxView
             Height="100"
             VerticalAlignment="Stretch"

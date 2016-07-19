@@ -20,7 +20,7 @@ namespace VisualProgrammer.ViewModels
     /// <summary>
     /// The view-model for the main window.
     /// </summary>
-    public class DesignerControlViewModel : AbstractModelBase
+    public class DesignerControlViewModel
     {
         #region Internal Data Members
 
@@ -28,12 +28,16 @@ namespace VisualProgrammer.ViewModels
 
         public ToolboxViewModel toolbox = null;
 
+        public bool isChanged = false;
+
         #endregion Internal Data Members
 
-        public DesignerControlViewModel(VisualProject project)
+        public event EventHandler PropertyChanged;
+
+        public DesignerControlViewModel(DesignerData data)
         {
-            this.Toolbox = new ToolboxViewModel();
-            this.Designer = new DesignViewModel(project.Nodes, project.Connections);
+            Toolbox = new ToolboxViewModel();
+            Designer = new DesignViewModel(data.Nodes, data.Connections);
         }
 
         public DesignViewModel Designer
@@ -44,9 +48,13 @@ namespace VisualProgrammer.ViewModels
             }
             set
             {
-                designer = value;
+                if(designer != null)
+                    designer.PropertyChanged -= new EventHandler<EventArgs>(OnDesignerPropertyChanged);
 
-                OnPropertyChanged("Designer");
+                designer = value;
+                
+                if(designer != null)
+                    designer.PropertyChanged += new EventHandler<EventArgs>(OnDesignerPropertyChanged);
             }
         }
 
@@ -59,8 +67,21 @@ namespace VisualProgrammer.ViewModels
             set
             {
                 toolbox = value;
+            }
+        }
 
-                OnPropertyChanged("Toolbox");
+        public bool IsChanged
+        {
+            get
+            {
+                return isChanged;
+            }
+            set
+            {
+                if (isChanged == value)
+                    return;
+
+                isChanged = value;
             }
         }
 
@@ -70,15 +91,18 @@ namespace VisualProgrammer.ViewModels
         public ConnectionViewModel ConnectionDragStarted(ConnectorViewModel draggedOutConnector, Point curDragPoint)
         {
             var existingConnection = draggedOutConnector.AttachedConnection;
-            if(existingConnection != null)
+            if (existingConnection != null)
+            {
+                existingConnection.DestConnector.AttachedConnection = null;
                 this.Designer.Connections.Remove(existingConnection);
+            }
 
             var connection = new ConnectionViewModel();
 
             connection.SourceConnector = draggedOutConnector;
             connection.DestConnectorHotspot = curDragPoint;
 
-            this.Designer.Connections.Add(connection);
+            this.Designer.TemperaryConnection.Add(connection);
 
             return connection;
         }
@@ -99,10 +123,11 @@ namespace VisualProgrammer.ViewModels
         /// </summary>
         public void ConnectionDragCompleted(ConnectionViewModel newConnection, ConnectorViewModel connectorDraggedOut, NodeViewModel nodeDraggedOver)
         {
+            this.Designer.TemperaryConnection.Remove(newConnection);
+
             if (nodeDraggedOver == null || nodeDraggedOver.InputConnector == null)
             {
                 connectorDraggedOut.AttachedConnection = null;
-                this.Designer.Connections.Remove(newConnection);
                 return;
             }
 
@@ -111,17 +136,18 @@ namespace VisualProgrammer.ViewModels
             if(FindLoop(connectorDraggedOut, inputConnector))
             {
                 connectorDraggedOut.AttachedConnection = null;
-                this.Designer.Connections.Remove(newConnection);
                 return;
             }
 
             var existingConnection = inputConnector.AttachedConnection;
             if (existingConnection != null)
             {
+                existingConnection.SourceConnector.AttachedConnection = null;
                 this.Designer.Connections.Remove(existingConnection);
             }
 
             newConnection.DestConnector = inputConnector;
+            this.Designer.Connections.Add(newConnection);
         }
 
         public void RemoveNode(NodeViewModel node)
@@ -135,6 +161,34 @@ namespace VisualProgrammer.ViewModels
             //Remove as startnode 
             if(node is StartNodeViewModel)
                 this.Designer.StartNode = null;
+        }
+        
+        public DesignerData GetData()
+        {
+            var data = new DesignerData();
+
+            data.Nodes = Designer.Nodes.Select(x => x.Model).ToList();
+            data.Connections = Designer.Connections.Select(x => x.Model).ToList();
+
+            return data;
+        }
+
+        public NodeViewModel DropNode(ToolboxItemViewModel tool, Point mousePosition)
+        {
+            NodeViewModel newNode = tool.GetNode();
+
+            if (newNode is StartNodeViewModel && this.Designer.StartNode != null)
+                return null;
+
+            newNode.X = mousePosition.X - (newNode.Width / 2);
+            newNode.Y = mousePosition.Y - (newNode.Height / 2);
+
+            this.Designer.Nodes.Add(newNode);
+
+            if (newNode is StartNodeViewModel)
+                this.Designer.StartNode = (StartNodeViewModel)newNode;
+
+            return newNode;
         }
 
         #region Private Methods
@@ -163,34 +217,12 @@ namespace VisualProgrammer.ViewModels
             return false;
         }
 
-        private VisualProject GetProject()
+        private void OnDesignerPropertyChanged(object sender, EventArgs e)
         {
-            var project = new VisualProject();
-
-            project.Nodes = Designer.Nodes.Select(x => x.Model).ToList();
-            project.Connections = Designer.Connections.Select(x => x.Model).ToList();
-
-            return project;
+            if (PropertyChanged != null)
+                PropertyChanged(this, EventArgs.Empty);
         }
 
         #endregion Private Methods
-
-        public NodeViewModel DropNode(ToolboxItemViewModel tool, Point mousePosition)
-        {
-            NodeViewModel newNode = tool.GetNode();
-
-            if (newNode is StartNodeViewModel && this.Designer.StartNode != null)
-                return null;
-
-            newNode.X = mousePosition.X - (newNode.Width / 2);
-            newNode.Y = mousePosition.Y - (newNode.Height / 2);
-
-            this.Designer.Nodes.Add(newNode);
-
-            if (newNode is StartNodeViewModel)
-                this.Designer.StartNode = (StartNodeViewModel)newNode;
-
-            return newNode;
-        }
     }
 }

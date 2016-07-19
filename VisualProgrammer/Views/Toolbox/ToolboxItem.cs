@@ -18,14 +18,6 @@ namespace VisualProgrammer.Views.Toolbox
 
         #endregion Private Data Members
 
-        #region Dependency Property/Event Definitions
-
-        public static readonly RoutedEvent ToolboxItemDropCanceledEvent =
-            EventManager.RegisterRoutedEvent("ToolboxItemDropCanceled", RoutingStrategy.Bubble, typeof(ToolboxItemDropCanceledEventHandler), typeof(ToolboxItem));
-
-
-        #endregion Dependency Property/Event Definitions
-
         static ToolboxItem()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ToolboxItem), new FrameworkPropertyMetadata(typeof(ToolboxItem)));
@@ -48,9 +40,6 @@ namespace VisualProgrammer.Views.Toolbox
 
             if (OnDragCompleted != null)
                 OnDragCompleted(this, eventArgs);
-
-            if (eventArgs.Failed)
-                RaiseEvent(new ToolboxItemEventArgs(ToolboxItemDropCanceledEvent, this, this));
         }
 
         #region Mouse Methods
@@ -80,7 +69,7 @@ namespace VisualProgrammer.Views.Toolbox
 
             if (isDragging)
             {
-                EndDragAndDrop();
+                Drop();
             }
         }
 
