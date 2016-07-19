@@ -132,12 +132,12 @@ namespace VisualProgrammer
             return result;
         }
 
-        private bool SaveCurrent()
+        private bool SaveCurrent(bool saveAs = false)
         {
             if (visualProject == null)
                 return true;
 
-            return SaveProject(visualProject);
+            return SaveProject(visualProject, saveAs);
         }
 
         private bool SaveProject(VisualProject project, bool saveAs = false)
